@@ -1,0 +1,32 @@
+.button-custom {
+  text-align: center;
+  align-items: center;
+  border: 2px solid transparent;
+  height: 35px;
+  padding: 0 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #6b6c6f;
+
+  font-family: Inter;
+  text-align: center;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 15.73px;
+  letter-spacing: 0.026px;
+  background-color: white;
+
+  text-transform: uppercase;
+
+  &_outline {
+    border: 2px solid var(--button-color);
+    background: transparent;
+    color: var(--button-color);
+  }
+
+  &.active {
+    background: #e9e9eb;
+    color: #424345;
+  }
+}

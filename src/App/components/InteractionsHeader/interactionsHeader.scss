@@ -1,0 +1,27 @@
+.interaction-header {
+  font-family: Inter;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  &__channel {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  &__label {
+    white-space: nowrap;
+    font-size: 14px;
+    color: #6b6c6f;
+    line-height: 18.2px;
+    font-weight: 400;
+  }
+
+  &__buttons {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+  }
+}

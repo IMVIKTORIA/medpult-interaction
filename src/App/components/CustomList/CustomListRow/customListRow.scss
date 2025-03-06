@@ -1,0 +1,23 @@
+.custom-list-row-approval {
+  display: flex;
+  flex-direction: row;
+
+  //border-bottom: 2px solid var(--medpult-bg-color);
+  border-bottom: 1px solid #d2d3d6;
+  height: 52px;
+  align-items: center;
+  padding: 0px 20px;
+
+  &_openable {
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--medpult-hover-color);
+    }
+  }
+
+  &_open {
+    cursor: pointer;
+    //background-color: var(--medpult-bg-color);
+  }
+}

@@ -1,0 +1,46 @@
+.interactions-email {
+  display: flex;
+  justify-content: space-between;
+
+  &__info {
+    color: #6b6c6f;
+    font-size: 12px;
+    line-height: 15.6px;
+
+    &__from {
+      font-weight: 600;
+      color: #6b6c6f;
+      font-size: 14px;
+      padding-left: 8px;
+    }
+    &__topic {
+      padding-top: 15px;
+      font-weight: 500;
+      color: #2d2e2f;
+      font-size: 16px;
+      line-height: 19.2px;
+    }
+    &__file {
+      display: flex;
+      gap: 10px;
+      padding-top: 15px;
+      font-weight: 400;
+      color: #2d2e2f;
+      font-size: 12px;
+      line-height: 15.6px;
+      align-items: center;
+    }
+  }
+  &__button {
+    display: flex;
+    font-family: Inter;
+    font-weight: 600;
+    color: #6b6c6f;
+    font-size: 13px;
+    line-height: 15.73px;
+    height: 25px;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+  }
+}

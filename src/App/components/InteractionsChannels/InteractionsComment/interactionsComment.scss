@@ -1,0 +1,22 @@
+.interactions-comment {
+  display: flex;
+  justify-content: space-between;
+
+  &__info {
+    color: #6b6c6f;
+    font-size: 12px;
+    line-height: 15.6px;
+
+    &__from {
+      font-weight: 600;
+      color: #6b6c6f;
+      font-size: 14px;
+      padding-left: 8px;
+    }
+  }
+
+  &__button {
+    display: flex;
+    cursor: pointer;
+  }
+}

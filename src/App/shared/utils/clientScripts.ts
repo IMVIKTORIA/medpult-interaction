@@ -1,0 +1,271 @@
+import {
+  InputDataCategory,
+  InteractionsData,
+  GetInteractionsResponse,
+  InteractionsChannel,
+  InteractionsCommentData,
+  InteractionsEmailData,
+  InteractionsCallData,
+} from "../types";
+import { fileSrc } from "./constants";
+
+/** Заглушка ожидания ответа сервера */
+function randomDelay() {
+  const delay = Math.random() * 1000;
+  return new Promise((resolve) => {
+    setTimeout(resolve, delay);
+  });
+}
+
+/** Получение Взаимодействия */
+async function getInteractions(
+  appealId: string
+): Promise<GetInteractionsResponse> {
+  const mockData: InteractionsData = {
+    /** Идентификатор */
+    id: appealId,
+    /** Канал */
+    channel: new InputDataCategory("", InteractionsChannel.outgoingEmail),
+    /** Фио */
+    fio: new InputDataCategory("Оператор 1", "111"),
+    topic: new InputDataCategory("", "111"),
+    /** Комментарий */
+    comment: new InputDataCategory(
+      "Это электронное сообщение и любые документы"
+    ),
+    /** Номер задачи */
+    numberTask: new InputDataCategory("TS000025/24", "forma_code"),
+    /** Дата  */
+    startDate: new InputDataCategory("01.01.2024 17:00"),
+  };
+
+  await randomDelay();
+  return {
+    data: Array(5)
+      .fill(null)
+      .map((data, index) => {
+        return { ...mockData, id: `${appealId}-${index}` };
+      }),
+    hasMore: false,
+  };
+}
+
+/** Получение полных Взаимодействий */
+async function getInteractionsFulldata(
+  interactionId: string
+): Promise<InteractionsData> {
+  const mockData: InteractionsData = {
+    /** Идентификатор */
+    id: interactionId,
+    /** Номер ГП */
+    channel: new InputDataCategory("", InteractionsChannel.outgoingEmail),
+    /** Согласованные услуги */
+    fio: new InputDataCategory("Оператор 1", "111"),
+    topic: new InputDataCategory("", "111"),
+    /** Срок действия */
+    comment: new InputDataCategory(
+      "Это электронное сообщение и любые документы"
+    ),
+    /** Дата отзыва */
+    numberTask: new InputDataCategory("TS000025/24", "forma_code"),
+    /** Задача на отзыв */
+    startDate: new InputDataCategory("01.01.2024 17:00"),
+  };
+
+  await randomDelay();
+  return mockData;
+}
+
+type SetVisibilityCallbackI = (appealId?: string) => void;
+let changeTaskCallbackI: SetVisibilityCallbackI | undefined;
+
+/** Установить функцию обратного вызова для изменения id задачи */
+function setChangeTaskCallbackI(callback?: SetVisibilityCallbackI): void {
+  changeTaskCallbackI = callback;
+}
+
+/** Ожидание */
+function sleep(ms: number) {
+  return new Promise((resolve) => window.setTimeout(resolve, ms));
+}
+
+/** Получение проекта письма */
+async function getInteractionsEmail(
+  appealId: string
+): Promise<InteractionsEmailData> {
+  return {
+    startDate: "06.06.2024 17:00",
+    fioFrom: "Оператор 1",
+    fioWhom: "103@sberins.ru",
+    copy: "103@sberins.ru",
+    topic: "Согласуйте МРТ",
+    fileSrc: "433433",
+    text: "Это электронное сообщение и любые документы, приложенные к нему, содержат конфиденциальную информацию. Настоящим уведомляем Вас о том, что если это сообщение не предназначено Вам, использование, копирование, распространение информации, содержащейся в настоящем сообщении, а также осуществление любых действий на основе этой информации, строго запрещено.",
+  };
+}
+
+/** Получение комментария */
+async function getInteractionsComment(
+  appealId: string
+): Promise<InteractionsCommentData> {
+  return {
+    startDate: "06.06.2024 17:00",
+    fio: "Оператор 1",
+    comment:
+      "Это электронное сообщение и любые документы, приложенные к нему, содержат конфиденциальную информацию. Настоящим уведомляем Вас о том, что если это сообщение не предназначено Вам, использование, копирование, распространение информации, содержащейся в настоящем сообщении, а также осуществление любых действий на основе этой информации, строго запрещено.",
+  };
+}
+
+/** Получение звонка */
+async function getInteractionsCall(
+  appealId: string
+): Promise<InteractionsCallData> {
+  return {
+    startDate: "06.06.2024 17:00",
+    fioFrom: "Оператор 1",
+    fioWhom: "Медси",
+    comment:
+      "Это электронное сообщение и любые документы, приложенные к нему, содержат конфиденциальную информацию. Настоящим уведомляем Вас о том, что если это сообщение не предназначено Вам, использование, копирование, распространение информации, содержащейся в настоящем сообщении, а также осуществление любых действий на основе этой информации, строго запрещено.",
+  };
+}
+/** Получение смс */
+async function getInteractionsSms(
+  appealId: string
+): Promise<InteractionsCallData> {
+  return {
+    startDate: "06.06.2024 17:00",
+    fioFrom: "Оператор 2",
+    fioWhom: "Медси",
+    comment:
+      "Это электронное сообщение и любые документы, приложенные к нему, содержат конфиденциальную информацию. Настоящим уведомляем Вас о том, что если это сообщение не предназначено Вам, использование, копирование, распространение информации, содержащейся в настоящем сообщении, а также осуществление любых действий на основе этой информации, строго запрещено.",
+  };
+}
+
+/** Добавить Взаимодейсвтие "комментарий" */
+async function addCommentChannel(
+  interactionId: string | undefined,
+  text: string
+): Promise<void> {
+  // TODO
+  await sleep(1000);
+}
+
+/** Удалить Взаимодейтсвие */
+async function removeCommentChannel(interactionId: string): Promise<void> {
+  // TODO
+}
+
+/** Функция обратного вызова для обновления списка обращений */
+let reloadInteractionsCallback: () => void = () => {};
+/** Обновить списка обращений */
+async function reloadInteractionsList() {
+  reloadInteractionsCallback();
+}
+
+/** Установить функцию обратного вызова для обновления списка обращений */
+function setReloadInteractionsCallback(callback: () => void): void {
+  reloadInteractionsCallback = callback;
+}
+
+type OpenInteractionsCallback = (id: string) => void;
+/** Функция обратного вызова для открытия согласования */
+let setOpenInteractions: OpenInteractionsCallback | undefined;
+/** Установить функцию обратного вызова для открытия согласования */
+async function setOpenInteractionsCallback(
+  callback: OpenInteractionsCallback
+): Promise<void> {
+  setOpenInteractions = callback;
+}
+
+/** Получение id обращения по id задачи */
+async function getRequestIdByTaskId(appealId: string): Promise<string> {
+  return "test";
+}
+
+/** Получение ссылки для перехода на страницу обращения */
+async function getRequestLink(): Promise<string> {
+  return "#test";
+}
+
+/** Получение списка каналов */
+async function getChannel() {
+  const data = [
+    {
+      value: "Все",
+      data: {
+        code: InteractionsChannel.allChannel,
+      },
+    },
+    {
+      value: "Комментарий",
+      data: {
+        code: InteractionsChannel.comment,
+      },
+    },
+    {
+      value: "Звонок входящий",
+      data: {
+        code: InteractionsChannel.incomingCall,
+      },
+    },
+    {
+      value: "Звонок исходящий",
+      data: {
+        code: InteractionsChannel.outgoingCall,
+      },
+    },
+    {
+      value: "Email входящий",
+      data: {
+        code: InteractionsChannel.incomingEmail,
+      },
+    },
+    {
+      value: "Email исходящий",
+      data: {
+        code: InteractionsChannel.outgoingEmail,
+      },
+    },
+    {
+      value: "СМС входящее",
+      data: {
+        code: InteractionsChannel.incomingSms,
+      },
+    },
+    {
+      value: "СМС исходящее",
+      data: {
+        code: InteractionsChannel.outgoingSms,
+      },
+    },
+  ];
+
+  await randomDelay();
+  return data;
+}
+
+/** Получить количество взаимодействий */
+async function getInteractionsCount(): Promise<number> {
+  return 5;
+}
+
+export default {
+  getInteractions,
+  getInteractionsFulldata,
+  setChangeTaskCallbackI,
+  setReloadInteractionsCallback,
+  setOpenInteractionsCallback,
+  getRequestIdByTaskId,
+  getRequestLink,
+
+  getChannel,
+  getInteractionsComment,
+  getInteractionsEmail,
+  getInteractionsCall,
+  getInteractionsSms,
+
+  addCommentChannel,
+  removeCommentChannel,
+
+  getInteractionsCount,
+};
