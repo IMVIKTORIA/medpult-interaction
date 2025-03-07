@@ -404,6 +404,15 @@ async function toggleSendEmailForward(interactionId: string) {
   }
 }
 
+/** Открыть модальное окно для отправки ответа на SMS */
+async function toggleSendSmsAnswer(interactionId: string) {
+  try {
+    alert("Send Sms Amswer on: " + interactionId);
+  } catch (e) {
+    throw new Error("Ошибка в функции toggleSendSmsAnswer: " + e);
+  }
+}
+
 export default {
   getInteractions,
   getInteractionsFulldata,
@@ -428,4 +437,5 @@ export default {
   getInteractionsCount,
   toggleSendEmailAnswer,
   toggleSendEmailForward,
+  toggleSendSmsAnswer,
 };

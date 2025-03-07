@@ -8,7 +8,7 @@ export default function InteractionsForm() {
   const [isViewMode, setIsViewMode] = useState<boolean>(true);
 
   // Идентификатор текущего обращения
-  const [appealId, setAppealId] = useState<string>("test");
+  const [appealId, setAppealId] = useState<string>(/* "test" */);
   // Данные выбранного гарантийного письма
   const [selectedForma, setSelectedForma] = useState<InputDataCategory | null>(
     null
@@ -33,6 +33,7 @@ export default function InteractionsForm() {
 
   // Интервал для проверки количества взаимодействий
   useEffect(() => {
+    if(appealId == "test") alert("режим разработки")
     if (!appealId) return;
 
     const interval = setInterval(async () => {

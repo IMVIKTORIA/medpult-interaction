@@ -4,8 +4,11 @@ import {
   InteractionsChannel,
 } from "../../../shared/types";
 import icons from "../../../shared/icons";
+import Scripts from "../../../shared/utils/clientScripts";
 
 class InteractionsSmsProps {
+  /** id Взаимодействия */
+  interactionId: string;
   /** Данные комментария */
   interactionsSmsData: InteractionsCallData;
   handleRemoveClick: () => Promise<void>;
@@ -16,6 +19,7 @@ class InteractionsSmsProps {
 
 /** Проект комментария */
 function InteractionsSms({
+  interactionId,
   interactionsSmsData,
   handleRemoveClick,
   channelCode,
@@ -27,6 +31,12 @@ function InteractionsSms({
       setIsShowSmsInModal(true);
     } else setIsShowSmsOutModal(true);
   };
+
+  /** Обработка нажатия на кнопку ответить */
+  const handleReplyClick = async() => {
+    await Scripts.toggleSendSmsAnswer(interactionId)
+  }
+
   return (
     <div className="interactions-details_panel">
       <div className="interactions-details_panel__content">
@@ -47,6 +57,13 @@ function InteractionsSms({
             </div>
           </div>
           <div className="interactions-comment__button">
+            {
+              (channelCode === InteractionsChannel.incomingSms) && 
+              <div onClick={handleReplyClick} className="interactions-email__button">
+                {icons.reply}ОТВЕТИТЬ
+              </div>
+            }
+            
             <div
               style={{ paddingRight: "15px" }}
               onClick={handleSwowClick}

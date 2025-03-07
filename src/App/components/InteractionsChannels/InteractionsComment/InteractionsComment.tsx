@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { InteractionsCommentData } from "../../../shared/types";
 import icons from "../../../shared/icons";
-import Scripts from "../../../shared/utils/clientScripts";
 
 class InteractionsCommentProps {
   /** Данные комментария */
