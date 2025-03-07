@@ -56,22 +56,23 @@ function InteractionsSms({
               </span>
             </div>
           </div>
-          <div className="interactions-comment__button">
+          <div className="interactions-email__button_wrapper">
             {
-              (channelCode === InteractionsChannel.incomingSms) && 
+              (channelCode == InteractionsChannel.incomingSms) && 
               <div onClick={handleReplyClick} className="interactions-email__button">
                 {icons.reply}ОТВЕТИТЬ
               </div>
             }
             
             <div
+              className="interactions-email__button"
               style={{ paddingRight: "15px" }}
               onClick={handleSwowClick}
               title="Редактировать"
             >
               {icons.edit}
             </div>
-            <div onClick={handleRemoveClick} title="Удалить">
+            <div className="interactions-email__button" onClick={handleRemoveClick} title="Удалить">
               {icons.wasteBasket}
             </div>
           </div>

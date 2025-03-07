@@ -115,7 +115,7 @@ async function getInteractions(
     /** Идентификатор */
     id: "11111111111115",
     /** Канал */
-    channel: new InputDataCategory("", InteractionsChannel.outgoingSms),
+    channel: new InputDataCategory("", InteractionsChannel.incomingSms),
     /** Фио */
     fio: new InputDataCategory("Оператор 1", "111"),
     topic: new InputDataCategory("", "111"),

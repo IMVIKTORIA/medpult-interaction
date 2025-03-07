@@ -202,6 +202,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                 data.channel.data.code === InteractionsChannel.outgoingSms) &&
               interactionsSmsData && (
                 <InteractionsSms
+                  interactionId={data.id}
                   interactionsSmsData={interactionsSmsData}
                   handleRemoveClick={handleRemoveClick}
                   channelCode={data.channel.data.code}
