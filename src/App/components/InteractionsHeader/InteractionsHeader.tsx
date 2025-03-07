@@ -42,6 +42,7 @@ function InteractionsHeader({ modalStates }: InteractionsHeaderProps) {
     isShowEmailOutModal,
     setIsShowEmailOutModal,
   } = modalStates;
+
   const [formValues, setFormValues] = useState<{ channel?: string[] }>({
     channel: [InteractionsChannel.allChannel], // Дефолтное значение "Все"
   });
@@ -83,9 +84,9 @@ function InteractionsHeader({ modalStates }: InteractionsHeaderProps) {
       setIsShowEmailOutModal(true);
     }
   };
-
-  // Логика для закрытия модального окна
-  const handleAddClick = (text: string) => {
+  
+  /** Закрыть модальное окно */
+  const closeModal = () => {
     setIsShowCommentModal(false);
     setIsShowCallInModal(false);
     setIsShowCallOutModal(false);
@@ -93,16 +94,7 @@ function InteractionsHeader({ modalStates }: InteractionsHeaderProps) {
     setIsShowSmsOutModal(false);
     setIsShowEmailInModal(false);
     setIsShowEmailOutModal(false);
-  };
-  const handleCancelClick = () => {
-    setIsShowCommentModal(false);
-    setIsShowCallInModal(false);
-    setIsShowCallOutModal(false);
-    setIsShowSmsInModal(false);
-    setIsShowSmsOutModal(false);
-    setIsShowEmailInModal(false);
-    setIsShowEmailOutModal(false);
-  };
+  }
 
   return (
     <>
@@ -150,8 +142,7 @@ function InteractionsHeader({ modalStates }: InteractionsHeaderProps) {
         isShowSmsOutModal={isShowSmsOutModal}
         isShowEmailInModal={isShowEmailInModal}
         isShowEmailOutModal={isShowEmailOutModal}
-        handleAddClick={handleAddClick}
-        handleCancelClick={handleCancelClick}
+        closeModal={closeModal}
       />
     </>
   );
