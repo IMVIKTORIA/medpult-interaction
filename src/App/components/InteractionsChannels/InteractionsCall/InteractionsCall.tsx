@@ -9,7 +9,7 @@ class InteractionsCallProps {
   /** Данные комментария */
   interactionsCallData: InteractionsCallData;
   handleRemoveClick: () => Promise<void>;
-  values: string;
+  channelCode: string;
   setIsShowCallInModal: (value: boolean) => void;
   setIsShowCallOutModal: (value: boolean) => void;
 }
@@ -18,12 +18,12 @@ class InteractionsCallProps {
 function InteractionsCall({
   interactionsCallData,
   handleRemoveClick,
-  values,
+  channelCode,
   setIsShowCallInModal,
   setIsShowCallOutModal,
 }: InteractionsCallProps) {
   const handleSwowClick = () => {
-    if (values === InteractionsChannel.incomingCall) {
+    if (channelCode === InteractionsChannel.incomingCall) {
       setIsShowCallInModal(true);
     } else setIsShowCallOutModal(true);
   };

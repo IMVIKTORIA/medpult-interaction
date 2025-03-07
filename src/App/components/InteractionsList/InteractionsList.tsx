@@ -16,7 +16,6 @@ import Button from "../CustomButton/CustomButton";
 type InteractionsListProps = {
   /** id задачи */
   appealId: string;
-  handler: any;
   isViewMode: any;
   saveStateHandler: any;
   setSelectedForma: any;
@@ -26,7 +25,6 @@ type InteractionsListProps = {
 /** Список согласований */
 function InteractionsList({
   appealId,
-  handler,
   isViewMode,
   saveStateHandler,
   setSelectedForma,

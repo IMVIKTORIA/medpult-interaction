@@ -12,6 +12,8 @@ import {
   SortData,
   getDetailsLayoutAttributes,
   InteractionsData,
+  GetInteractionsResponse,
+  InteractionsChannel,
 } from "../../shared/types";
 import icons from "../../shared/icons";
 import CustomListColumn from "./CustomListHeaderColumn/CustomListHeaderColumn";
@@ -25,7 +27,7 @@ type ListProps = {
   /** Настройки отображения колонок */
   columnsSettings: ListColumnData[];
   /** Получение данных */
-  getDataHandler: any;
+  getDataHandler: () => Promise<GetInteractionsResponse>;
   /** Есть прокрутка? */
   isScrollable?: boolean;
 
@@ -52,6 +54,7 @@ type ListProps = {
   closeCreateMode?: () => any;
   /** Открытая строка по-умолчанию */
   defaultOpenRowId?: any;
+  /** Состояния модалки */
   modalStates: {
     isShowCommentModal: boolean;
     setIsShowCommentModal: (value: boolean) => void;
@@ -89,8 +92,11 @@ function CustomList(props: ListProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [sortData, setSortData] = useState<SortData>();
-  const [items, setItems] = useState<any[]>([]);
+  const [items, setItems] = useState<InteractionsData[]>([]);
   const [openRowIndex, setOpenRowIndex] = useState<string>();
+  /** Выбранные каналы */
+  const [selectedChannels, setSelectedChannels] = useState<InteractionsChannel[]>([InteractionsChannel.allChannel]);
+
   const bodyRef = useRef<HTMLDivElement>(null);
 
   const [columnWidth, setColumnWidth] = useState(columnsSettings[0].fr); // начальная ширина
@@ -107,7 +113,7 @@ function CustomList(props: ListProps) {
   };
 
   const loadData = async (
-    items: any[] = [],
+    items: InteractionsData[] = [],
     page: number = 0,
     hasMore: boolean = true
   ) => {
@@ -116,7 +122,7 @@ function CustomList(props: ListProps) {
 
     setIsLoading(true);
 
-    const fetchData = await getDataHandler(page, sortData, searchData);
+    const fetchData = await getDataHandler();
     setHasMore(fetchData.hasMore);
 
     setItems([...items, ...fetchData.data]);
@@ -176,7 +182,7 @@ function CustomList(props: ListProps) {
           isScrollable ? " custom-list-interaction__header_scrollable" : ""
         }`}
       >
-        <InteractionsHeader modalStates={modalStates} />
+        <InteractionsHeader setSelectedChannels={setSelectedChannels} modalStates={modalStates} />
       </div>
       {/* Тело */}
       <div
@@ -193,8 +199,16 @@ function CustomList(props: ListProps) {
             reloadData: reloadData,
             onClickRowHandler: () => {},
           })}
+
         {/* Данные */}
         {items.map((data) => {
+          console.log(data.channel)
+          /** Фильтрация по каналам */
+          if(
+            !selectedChannels.includes(InteractionsChannel.allChannel) // Если не выбраны все каналы
+            && !selectedChannels.includes(data.channel.data.code as unknown as InteractionsChannel) // Если канал текущего элемента не находится в выбранных
+          ) return;
+
           /** Обработчик нажатия на строку */
           const toggleShowDetails = () => {
             if (data.id === undefined) return;
@@ -211,7 +225,7 @@ function CustomList(props: ListProps) {
           return (
             <CustomListRow
               key={data.id}
-              data={data}
+              data={data as any}
               columnsSettings={columnsSettings}
               getDetailsLayout={getDetailsLayout}
               isShowDetails={
@@ -222,6 +236,7 @@ function CustomList(props: ListProps) {
             />
           );
         })}
+
         {isLoading && <Loader />}
       </div>
     </div>

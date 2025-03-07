@@ -9,7 +9,7 @@ class InteractionsSmsProps {
   /** Данные комментария */
   interactionsSmsData: InteractionsCallData;
   handleRemoveClick: () => Promise<void>;
-  values: string;
+  channelCode: string;
   setIsShowSmsInModal: (value: boolean) => void;
   setIsShowSmsOutModal: (value: boolean) => void;
 }
@@ -18,12 +18,12 @@ class InteractionsSmsProps {
 function InteractionsSms({
   interactionsSmsData,
   handleRemoveClick,
-  values,
+  channelCode,
   setIsShowSmsInModal,
   setIsShowSmsOutModal,
 }: InteractionsSmsProps) {
   const handleSwowClick = () => {
-    if (values === InteractionsChannel.incomingSms) {
+    if (channelCode === InteractionsChannel.incomingSms) {
       setIsShowSmsInModal(true);
     } else setIsShowSmsOutModal(true);
   };

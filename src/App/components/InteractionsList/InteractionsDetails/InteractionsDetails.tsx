@@ -176,9 +176,10 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                   InteractionsChannel.outgoingEmail) &&
               interactionsEmailData && (
                 <InteractionsEmail
+                  interactionId={data.id}
                   interactionsEmailData={interactionsEmailData}
                   handleRemoveClick={handleRemoveClick}
-                  values={data.channel.data.code}
+                  channelCode={data.channel.data.code}
                   setIsShowEmailInModal={setIsShowEmailInModal}
                   setIsShowEmailOutModal={setIsShowEmailOutModal}
                 />
@@ -191,7 +192,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                 <InteractionsCall
                   interactionsCallData={interactionsCallData}
                   handleRemoveClick={handleRemoveClick}
-                  values={data.channel.data.code}
+                  channelCode={data.channel.data.code}
                   setIsShowCallInModal={setIsShowCallInModal}
                   setIsShowCallOutModal={setIsShowCallOutModal}
                 />
@@ -203,7 +204,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                 <InteractionsSms
                   interactionsSmsData={interactionsSmsData}
                   handleRemoveClick={handleRemoveClick}
-                  values={data.channel.data.code}
+                  channelCode={data.channel.data.code}
                   setIsShowSmsInModal={setIsShowSmsInModal}
                   setIsShowSmsOutModal={setIsShowSmsOutModal}
                 />

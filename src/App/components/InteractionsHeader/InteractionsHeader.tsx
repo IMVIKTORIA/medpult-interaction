@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomSelect from "../CustomSelect/CustomSelect";
 import Scripts from "../../shared/utils/clientScripts";
 import CustomButton from "../CustomButton/CustomButton";
@@ -23,9 +23,11 @@ interface InteractionsHeaderProps {
     setIsShowEmailInModal: (value: boolean) => void;
     isShowEmailOutModal: boolean;
     setIsShowEmailOutModal: (value: boolean) => void;
-  };
+  },
+  /** Изменить выбранные каналы */
+  setSelectedChannels: React.Dispatch<React.SetStateAction<InteractionsChannel[]>>
 }
-function InteractionsHeader({ modalStates }: InteractionsHeaderProps) {
+function InteractionsHeader({ modalStates, setSelectedChannels }: InteractionsHeaderProps) {
   const {
     isShowCommentModal,
     setIsShowCommentModal,
@@ -43,9 +45,14 @@ function InteractionsHeader({ modalStates }: InteractionsHeaderProps) {
     setIsShowEmailOutModal,
   } = modalStates;
 
-  const [formValues, setFormValues] = useState<{ channel?: string[] }>({
+  const [formValues, setFormValues] = useState<{ channel?: InteractionsChannel[] }>({
     channel: [InteractionsChannel.allChannel], // Дефолтное значение "Все"
   });
+
+  useEffect(() => {
+    console.log(setSelectedChannels)
+    setSelectedChannels(formValues.channel ?? [])
+  }, [formValues])
 
   const handleInputChange = (name: string, value: string[]) => {
     setFormValues((prevValues) => ({
@@ -84,7 +91,7 @@ function InteractionsHeader({ modalStates }: InteractionsHeaderProps) {
       setIsShowEmailOutModal(true);
     }
   };
-  
+
   /** Закрыть модальное окно */
   const closeModal = () => {
     setIsShowCommentModal(false);

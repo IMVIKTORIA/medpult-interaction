@@ -131,14 +131,7 @@ async function getInteractions(
 
   await randomDelay();
   return {
-    data: [
-      mockData,
-      mockData1,
-      mockData2,
-      mockData3,
-      mockData4,
-      mockData5
-    ],
+    data: [mockData, mockData1, mockData2, mockData3, mockData4, mockData5],
     hasMore: false,
   };
 }
@@ -251,13 +244,13 @@ async function deleteInteraction(interactionId: string): Promise<void> {
 /** Добавить Взаимодейсвтие "Звонок" */
 async function addCallInteraction(
   /** Текст сообщения */
-  text: string, 
+  text: string,
   /** Номер телефона */
-  number: string, 
+  number: string,
   /** Контактное лицо (Кому/От кого) */
-  contractor: string, 
+  contractor: string,
   /** Является входящим */
-  isIncoming: boolean, 
+  isIncoming: boolean,
   /** Идентификатор взаимодействия */
   interactionId?: string
 ): Promise<void> {
@@ -268,13 +261,13 @@ async function addCallInteraction(
 /** Добавить Взаимодейсвтие "СМС" */
 async function addSmsInteraction(
   /** Текст сообщения */
-  text: string, 
+  text: string,
   /** Номер телефона */
-  number: string, 
+  number: string,
   /** Контактное лицо (Кому/От кого) */
-  contractor: string, 
+  contractor: string,
   /** Является входящим */
-  isIncoming: boolean, 
+  isIncoming: boolean,
   /** Идентификатор взаимодействия */
   interactionId?: string
 ): Promise<void> {
@@ -285,13 +278,13 @@ async function addSmsInteraction(
 /** Добавить Взаимодейсвтие "Email" */
 async function addEmail(
   /** Текст сообщения */
-  text: string, 
+  text: string,
   /** От кого */
-  from: string, 
+  from: string,
   /** Кому */
-  to: string, 
+  to: string,
   /** Является входящим */
-  isIncoming: boolean, 
+  isIncoming: boolean,
   /** Идентификатор взаимодействия */
   interactionId?: string
 ): Promise<void> {
@@ -393,6 +386,24 @@ async function getInteractionsCount(): Promise<number> {
   return 5;
 }
 
+/** Открыть модальное окно для отправки ответа на email */
+async function toggleSendEmailAnswer(interactionId: string) {
+  try {
+    alert("Send Answer on: " + interactionId);
+  } catch (e) {
+    throw new Error("Ошибка в функции toggleSendEmailAnswer: " + e);
+  }
+}
+
+/** Открыть модальное окно для отправки ответа на email */
+async function toggleSendEmailForward(interactionId: string) {
+  try {
+    alert("Forward on: " + interactionId);
+  } catch (e) {
+    throw new Error("Ошибка в функции toggleSendEmailForward: " + e);
+  }
+}
+
 export default {
   getInteractions,
   getInteractionsFulldata,
@@ -415,4 +426,6 @@ export default {
   deleteInteraction,
 
   getInteractionsCount,
+  toggleSendEmailAnswer,
+  toggleSendEmailForward,
 };

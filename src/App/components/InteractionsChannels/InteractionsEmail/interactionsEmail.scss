@@ -32,15 +32,21 @@
     }
   }
   &__button {
+    &_wrapper {
+      display: flex;
+      font-family: Inter;
+      font-weight: 600;
+      color: #6b6c6f;
+      font-size: 13px;
+      line-height: 15.73px;
+      height: 25px;
+      align-items: center;
+      gap: 15px;
+      cursor: pointer;
+    }
+    
     display: flex;
-    font-family: Inter;
-    font-weight: 600;
-    color: #6b6c6f;
-    font-size: 13px;
-    line-height: 15.73px;
-    height: 25px;
     align-items: center;
     gap: 15px;
-    cursor: pointer;
   }
 }

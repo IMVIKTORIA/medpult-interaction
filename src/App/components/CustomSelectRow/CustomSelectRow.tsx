@@ -14,10 +14,15 @@ function CustomSelectRow({
   isSelected: boolean;
   toggleChecked: () => void;
 }) {
+  const clickHandler = (ev: any) => {
+    ev.stopPropagation()
+    toggleChecked();
+  }
+
   return (
     <div className="custom-select__row1">
       <CustomListSelector
-        onClickSelector={toggleChecked}
+        onClickSelector={clickHandler}
         isChecked={isSelected}
       />
       {value}

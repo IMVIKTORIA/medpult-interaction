@@ -4,29 +4,45 @@ import {
   InteractionsChannel,
 } from "../../../shared/types";
 import icons from "../../../shared/icons";
+import Scripts from "../../../shared/utils/clientScripts";
 
 class InteractionsEmailProps {
+  /** id Взаимодействия */
+  interactionId: string;
   /** Данные проекта письма */
   interactionsEmailData: InteractionsEmailData;
   handleRemoveClick: () => Promise<void>;
-  values: string;
+  /** Код канала */
+  channelCode: string;
   setIsShowEmailInModal: (value: boolean) => void;
   setIsShowEmailOutModal: (value: boolean) => void;
 }
 
 /** Проект письма */
 function InteractionsEmail({
+  interactionId,
   interactionsEmailData,
   handleRemoveClick,
-  values,
+  channelCode,
   setIsShowEmailInModal,
   setIsShowEmailOutModal,
 }: InteractionsEmailProps) {
   const handleSwowClick = () => {
-    if (values === InteractionsChannel.incomingEmail) {
+    if (channelCode === InteractionsChannel.incomingEmail) {
       setIsShowEmailInModal(true);
     } else setIsShowEmailOutModal(true);
   };
+
+  /** Обработка нажатия на кнопку ответить */
+  const handleReplyClick = async() => {
+    await Scripts.toggleSendEmailAnswer(interactionId)
+  }
+  
+  /** Обработка нажатия на кнопку переслать */
+  const handleForwardClick = async() => {
+    await Scripts.toggleSendEmailForward(interactionId)
+  }
+
   return (
     <div className="interactions-details_panel">
       <div className="interactions-details_panel__content">
@@ -63,13 +79,17 @@ function InteractionsEmail({
             </div>
           </div>
 
-          <div className="interactions-email__button">
-            {icons.reply}ОТВЕТИТЬ
-            {icons.forward}ПЕРЕСЛАТЬ
-            <div onClick={handleSwowClick} title="Редактировать">
+          <div className="interactions-email__button_wrapper">
+            <div onClick={handleReplyClick} className="interactions-email__button">
+              {icons.reply}ОТВЕТИТЬ
+            </div>
+            <div onClick={handleForwardClick} className="interactions-email__button">
+              {icons.forward}ПЕРЕСЛАТЬ
+            </div>
+            <div onClick={handleSwowClick} title="Редактировать" className="interactions-email__button">
               {icons.edit}
             </div>
-            <div onClick={handleRemoveClick} title="Удалить">
+            <div onClick={handleRemoveClick} title="Удалить" className="interactions-email__button">
               {icons.wasteBasket}
             </div>
           </div>

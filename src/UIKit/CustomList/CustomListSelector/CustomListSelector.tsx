@@ -3,7 +3,7 @@ import Icons from "../../shared/icons";
 
 interface CustomListSelectorProps {
   /** Обработчик нажатия на selector */
-  onClickSelector: () => void;
+  onClickSelector: (ev: any) => void;
   /** Селектор активен */
   isChecked: boolean;
   /** Выбор нескольких */
