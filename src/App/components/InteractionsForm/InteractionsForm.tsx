@@ -33,7 +33,7 @@ export default function InteractionsForm() {
 
   // Интервал для проверки количества взаимодействий
   useEffect(() => {
-    if(!appealId) return;
+    if (!appealId) return;
 
     const interval = setInterval(async () => {
       const newCount = await Scripts.getInteractionsCount();
@@ -42,7 +42,7 @@ export default function InteractionsForm() {
         fetchInteractionsData(); // Обновляем список взаимодействий, если количество изменилось
       }
     }, 3000);
-    
+
     return () => clearInterval(interval);
   }, [appealId]);
 

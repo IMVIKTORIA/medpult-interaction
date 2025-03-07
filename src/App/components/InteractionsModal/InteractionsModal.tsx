@@ -55,6 +55,7 @@ export default function InteractionsModal({
                     setValue={field.setValue}
                     placeholder={field.placeholder}
                     style={field.style}
+                    maskFunction={field.maskFunction}
                   />
                 </div>
               ) : (

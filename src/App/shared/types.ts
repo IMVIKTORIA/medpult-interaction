@@ -10,6 +10,7 @@ export interface FieldConfig {
   setValue: (value: string) => void;
   placeholder?: string;
   style?: React.CSSProperties;
+  maskFunction?: (value: string) => string;
 }
 /** Данные столбца таблицы */
 export class ListColumnData {

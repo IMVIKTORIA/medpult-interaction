@@ -58,7 +58,7 @@ function InteractionsEmail({
               </span>
             </div>
             <div className="interactions-email__info__file">
-              {icons.pdf}
+              {/* {icons.pdf} */}
               <span>{interactionsEmailData?.fileSrc}</span>
             </div>
           </div>
@@ -66,8 +66,12 @@ function InteractionsEmail({
           <div className="interactions-email__button">
             {icons.reply}ОТВЕТИТЬ
             {icons.forward}ПЕРЕСЛАТЬ
-            <div onClick={handleSwowClick}>{icons.edit}</div>
-            <div onClick={handleRemoveClick}>{icons.wasteBasket}</div>
+            <div onClick={handleSwowClick} title="Редактировать">
+              {icons.edit}
+            </div>
+            <div onClick={handleRemoveClick} title="Удалить">
+              {icons.wasteBasket}
+            </div>
           </div>
         </div>
         <span style={{ paddingRight: "20px" }}>

@@ -34,10 +34,16 @@ function InteractionsComment({
             </div>
           </div>
           <div className="interactions-comment__button">
-            <div style={{ paddingRight: "15px" }} onClick={handleSwowClick}>
+            <div
+              style={{ paddingRight: "15px" }}
+              onClick={handleSwowClick}
+              title="Редактировать"
+            >
               {icons.edit}
             </div>
-            <div onClick={handleRemoveClick}>{icons.wasteBasket}</div>
+            <div onClick={handleRemoveClick} title="Удалить">
+              {icons.wasteBasket}
+            </div>
           </div>
         </div>
         <span style={{ paddingRight: "20px" }}>

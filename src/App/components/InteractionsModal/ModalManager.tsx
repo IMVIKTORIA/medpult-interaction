@@ -21,6 +21,19 @@ interface ModalManagerProps {
   initialText?: string;
 }
 
+const applyMaskPhone = (value: string): string => {
+  if (value === undefined) return "";
+  const match = value.match(
+    /(\+?7|8)\D*(\d{1,3})?\D*(\d{1,3})?\D*(\d{1,2})?\D*(\d{1,2})?/
+  );
+  if (!match) return "";
+  return match
+    .slice(1)
+    .filter((val) => val)
+    .join(" ")
+    .replace(/^(7|8)/, "+7");
+};
+
 const ModalManager: React.FC<ModalManagerProps> = ({
   isShowCommentModal,
   isShowCallInModal,
@@ -56,6 +69,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
             closeModal={closeModal}
             text={text}
             setText={setText}
+            maskFunction={applyMaskPhone}
           />
         </ModalWrapper>
       )}
@@ -66,6 +80,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
             closeModal={closeModal}
             text={text}
             setText={setText}
+            maskFunction={applyMaskPhone}
           />
         </ModalWrapper>
       )}
@@ -76,6 +91,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
             closeModal={closeModal}
             text={text}
             setText={setText}
+            maskFunction={applyMaskPhone}
           />
         </ModalWrapper>
       )}
@@ -86,6 +102,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
             closeModal={closeModal}
             text={text}
             setText={setText}
+            maskFunction={applyMaskPhone}
           />
         </ModalWrapper>
       )}

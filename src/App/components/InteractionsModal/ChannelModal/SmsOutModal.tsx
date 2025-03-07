@@ -10,6 +10,7 @@ interface SmsOutModalProps {
   interactionId?: string;
   text: string;
   setText: (value: string) => void;
+  maskFunction?: (value: string) => string;
 }
 
 /** Модальное окно звонка */
@@ -18,6 +19,7 @@ export default function SmsOutModal({
   interactionId,
   text,
   setText,
+  maskFunction,
 }: SmsOutModalProps) {
   // кому
   const [to, setTo] = useState<string>("");
@@ -39,6 +41,7 @@ export default function SmsOutModal({
       setValue: setNumber,
       style: { width: "232px" },
       placeholder: "+7 000 000 00 00",
+      maskFunction: maskFunction,
     },
     {
       type: "textarea",
@@ -48,11 +51,17 @@ export default function SmsOutModal({
       style: { height: "158px" },
     },
   ];
-  
+
   /** Сохранить смс исходящее */
   const saveSmsHandler = async () => {
     const isIncoming = false;
-    await Scripts.addSmsInteraction(text, number, to, isIncoming, interactionId);
+    await Scripts.addSmsInteraction(
+      text,
+      number,
+      to,
+      isIncoming,
+      interactionId
+    );
   };
 
   return (

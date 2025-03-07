@@ -10,6 +10,7 @@ interface CallOutModalProps {
   interactionId?: string;
   text: string;
   setText: (value: string) => void;
+  maskFunction?: (value: string) => string;
 }
 
 /** Модальное окно звонка */
@@ -18,6 +19,7 @@ export default function CallOutModal({
   interactionId,
   text,
   setText,
+  maskFunction,
 }: CallOutModalProps) {
   // кому
   const [to, setTo] = useState<string>("");
@@ -39,6 +41,7 @@ export default function CallOutModal({
       setValue: setNumber,
       style: { width: "232px" },
       placeholder: "+7 000 000 00 00",
+      maskFunction: maskFunction,
     },
     {
       type: "textarea",
@@ -48,13 +51,19 @@ export default function CallOutModal({
       style: { height: "158px" },
     },
   ];
-      
+
   /** Сохранить звонок исходящий */
   const saveCallHandler = async () => {
     const isIncoming = false;
-    await Scripts.addCallInteraction(text, number, to, isIncoming, interactionId);
+    await Scripts.addCallInteraction(
+      text,
+      number,
+      to,
+      isIncoming,
+      interactionId
+    );
   };
-  
+
   return (
     <InteractionsModal
       title="Звонок исходящий"
