@@ -12,13 +12,9 @@ interface InteractionsModalProps {
   /** Конфигурация полей ввода */
   fields: FieldConfig[];
   /** Функция для сохранения данных */
-  saveHandler?: (text: string) => Promise<void>;
-  /** Добавить */
-  handleAddClick: (text: string) => void;
+  saveHandler?: () => Promise<void>;
   /** Отменить */
-  handleCancelClick: () => void;
-  //Поле комментарий
-  text: string;
+  closeModal: () => void;
 }
 
 /** Универсальное модальное окно */
@@ -26,19 +22,17 @@ export default function InteractionsModal({
   title,
   fields,
   saveHandler,
-  handleAddClick,
-  handleCancelClick,
-  text,
+  closeModal,
 }: InteractionsModalProps) {
   const onClickAdd = async () => {
     if (saveHandler) {
-      await saveHandler(text);
+      await saveHandler();
     }
-    handleAddClick(text);
+    closeModal();
   };
 
   const onClickCancel = () => {
-    handleCancelClick();
+    closeModal();
   };
 
   return (

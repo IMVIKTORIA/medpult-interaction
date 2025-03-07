@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { FieldConfig } from "../../../shared/types";
 import InteractionsModal from "../InteractionsModal";
+import Scripts from "../../../shared/utils/clientScripts";
 
 interface SmsInModalProps {
-  /** Добавить */
-  handleAddClick: (text: string) => void;
-  /** Отменить */
-  handleCancelClick: () => void;
+  /** Закрыть модалку */
+  closeModal: () => void;
   /** Идентификатор */
   interactionId?: string;
   text: string;
@@ -15,8 +14,7 @@ interface SmsInModalProps {
 
 /** Модальное окно звонка */
 export default function SmsInModal({
-  handleAddClick,
-  handleCancelClick,
+  closeModal,
   interactionId,
   text,
   setText,
@@ -50,14 +48,19 @@ export default function SmsInModal({
       style: { height: "158px" },
     },
   ];
+    
+  /** Сохранить смс входящее */
+  const saveSmsHandler = async () => {
+    const isIncoming = true;
+    await Scripts.addSmsInteraction(text, number, from, isIncoming, interactionId);
+  };
 
   return (
     <InteractionsModal
       title="СМС входящее"
+      saveHandler={saveSmsHandler}
       fields={fields}
-      handleAddClick={handleAddClick}
-      handleCancelClick={handleCancelClick}
-      text={text}
+      closeModal={closeModal}
     />
   );
 }

@@ -39,13 +39,106 @@ async function getInteractions(
     startDate: new InputDataCategory("01.01.2024 17:00"),
   };
 
+  const mockData1: InteractionsData = {
+    /** Идентификатор */
+    id: "1111111111111",
+    /** Канал */
+    channel: new InputDataCategory("", InteractionsChannel.incomingEmail),
+    /** Фио */
+    fio: new InputDataCategory("Оператор 1", "111"),
+    topic: new InputDataCategory("", "111"),
+    /** Комментарий */
+    comment: new InputDataCategory(
+      "Это электронное сообщение и любые документы"
+    ),
+    /** Номер задачи */
+    numberTask: new InputDataCategory("TS000025/24", "forma_code"),
+    /** Дата  */
+    startDate: new InputDataCategory("01.01.2024 17:00"),
+  };
+
+  const mockData2: InteractionsData = {
+    /** Идентификатор */
+    id: "11111111111112",
+    /** Канал */
+    channel: new InputDataCategory("", InteractionsChannel.comment),
+    /** Фио */
+    fio: new InputDataCategory("Оператор 1", "111"),
+    topic: new InputDataCategory("", "111"),
+    /** Комментарий */
+    comment: new InputDataCategory(
+      "Это электронное сообщение и любые документы"
+    ),
+    /** Номер задачи */
+    numberTask: new InputDataCategory("TS000025/24", "forma_code"),
+    /** Дата  */
+    startDate: new InputDataCategory("01.01.2024 17:00"),
+  };
+
+  const mockData3: InteractionsData = {
+    /** Идентификатор */
+    id: "11111111111113",
+    /** Канал */
+    channel: new InputDataCategory("", InteractionsChannel.outgoingCall),
+    /** Фио */
+    fio: new InputDataCategory("Оператор 1", "111"),
+    topic: new InputDataCategory("", "111"),
+    /** Комментарий */
+    comment: new InputDataCategory(
+      "Это электронное сообщение и любые документы"
+    ),
+    /** Номер задачи */
+    numberTask: new InputDataCategory("TS000025/24", "forma_code"),
+    /** Дата  */
+    startDate: new InputDataCategory("01.01.2024 17:00"),
+  };
+
+  const mockData4: InteractionsData = {
+    /** Идентификатор */
+    id: "11111111111114",
+    /** Канал */
+    channel: new InputDataCategory("", InteractionsChannel.outgoingEmail),
+    /** Фио */
+    fio: new InputDataCategory("Оператор 1", "111"),
+    topic: new InputDataCategory("", "111"),
+    /** Комментарий */
+    comment: new InputDataCategory(
+      "Это электронное сообщение и любые документы"
+    ),
+    /** Номер задачи */
+    numberTask: new InputDataCategory("TS000025/24", "forma_code"),
+    /** Дата  */
+    startDate: new InputDataCategory("01.01.2024 17:00"),
+  };
+
+  const mockData5: InteractionsData = {
+    /** Идентификатор */
+    id: "11111111111115",
+    /** Канал */
+    channel: new InputDataCategory("", InteractionsChannel.outgoingSms),
+    /** Фио */
+    fio: new InputDataCategory("Оператор 1", "111"),
+    topic: new InputDataCategory("", "111"),
+    /** Комментарий */
+    comment: new InputDataCategory(
+      "Это электронное сообщение и любые документы"
+    ),
+    /** Номер задачи */
+    numberTask: new InputDataCategory("TS000025/24", "forma_code"),
+    /** Дата  */
+    startDate: new InputDataCategory("01.01.2024 17:00"),
+  };
+
   await randomDelay();
   return {
-    data: Array(5)
-      .fill(null)
-      .map((data, index) => {
-        return { ...mockData, id: `${appealId}-${index}` };
-      }),
+    data: [
+      mockData,
+      mockData1,
+      mockData2,
+      mockData3,
+      mockData4,
+      mockData5
+    ],
     hasMore: false,
   };
 }
@@ -151,8 +244,59 @@ async function addCommentChannel(
 }
 
 /** Удалить Взаимодейтсвие */
-async function removeCommentChannel(interactionId: string): Promise<void> {
+async function deleteInteraction(interactionId: string): Promise<void> {
   // TODO
+}
+
+/** Добавить Взаимодейсвтие "Звонок" */
+async function addCallInteraction(
+  /** Текст сообщения */
+  text: string, 
+  /** Номер телефона */
+  number: string, 
+  /** Контактное лицо (Кому/От кого) */
+  contractor: string, 
+  /** Является входящим */
+  isIncoming: boolean, 
+  /** Идентификатор взаимодействия */
+  interactionId?: string
+): Promise<void> {
+  // TODO
+  await sleep(1000);
+}
+
+/** Добавить Взаимодейсвтие "СМС" */
+async function addSmsInteraction(
+  /** Текст сообщения */
+  text: string, 
+  /** Номер телефона */
+  number: string, 
+  /** Контактное лицо (Кому/От кого) */
+  contractor: string, 
+  /** Является входящим */
+  isIncoming: boolean, 
+  /** Идентификатор взаимодействия */
+  interactionId?: string
+): Promise<void> {
+  // TODO
+  await sleep(1000);
+}
+
+/** Добавить Взаимодейсвтие "Email" */
+async function addEmail(
+  /** Текст сообщения */
+  text: string, 
+  /** От кого */
+  from: string, 
+  /** Кому */
+  to: string, 
+  /** Является входящим */
+  isIncoming: boolean, 
+  /** Идентификатор взаимодействия */
+  interactionId?: string
+): Promise<void> {
+  // TODO
+  await sleep(1000);
 }
 
 /** Функция обратного вызова для обновления списка обращений */
@@ -265,7 +409,10 @@ export default {
   getInteractionsSms,
 
   addCommentChannel,
-  removeCommentChannel,
+  addCallInteraction,
+  addSmsInteraction,
+  addEmail,
+  deleteInteraction,
 
   getInteractionsCount,
 };

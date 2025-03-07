@@ -4,10 +4,8 @@ import InteractionsModal from "../InteractionsModal";
 import Scripts from "../../../shared/utils/clientScripts";
 
 interface CommentModalProps {
-  /** Добавить */
-  handleAddClick: (text: string) => void;
-  /** Отменить */
-  handleCancelClick: () => void;
+  /** Закрыть модалку */
+  closeModal: () => void;
   /** Идентификатор */
   interactionId?: string;
   text: string;
@@ -16,8 +14,7 @@ interface CommentModalProps {
 
 /** Модальное окно комментария */
 export default function CommentModal({
-  handleAddClick,
-  handleCancelClick,
+  closeModal,
   interactionId,
   text,
   setText,
@@ -34,7 +31,7 @@ export default function CommentModal({
     },
   ];
 
-  const saveCommentHandler = async (text: string) => {
+  const saveCommentHandler = async () => {
     await Scripts.addCommentChannel(interactionId, text);
   };
 
@@ -43,9 +40,7 @@ export default function CommentModal({
       title="Комментарий"
       fields={fields}
       saveHandler={saveCommentHandler}
-      handleAddClick={handleAddClick}
-      handleCancelClick={handleCancelClick}
-      text={text}
+      closeModal={closeModal}
     />
   );
 }

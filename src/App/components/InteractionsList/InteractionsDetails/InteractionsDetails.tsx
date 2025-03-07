@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   InteractionsData,
   InteractionsRowData,
@@ -27,103 +27,83 @@ class InteractionsDetailsProps implements DetailsProps {
   reloadData: () => void;
   setSelectedForma: (forma: any) => void;
   onRowClick: () => void;
-  modalStates: {
-    isShowCommentModal: boolean;
-    setIsShowCommentModal: (value: boolean) => void;
-    isShowCallInModal: boolean;
-    setIsShowCallInModal: (value: boolean) => void;
-    isShowCallOutModal: boolean;
-    setIsShowCallOutModal: (value: boolean) => void;
-    isShowSmsInModal: boolean;
-    setIsShowSmsInModal: (value: boolean) => void;
-    isShowSmsOutModal: boolean;
-    setIsShowSmsOutModal: (value: boolean) => void;
-    isShowEmailInModal: boolean;
-    setIsShowEmailInModal: (value: boolean) => void;
-    isShowEmailOutModal: boolean;
-    setIsShowEmailOutModal: (value: boolean) => void;
-  };
 }
 
 /** Детальная форма согласования */
 function InteractionsDetails(props: InteractionsDetailsProps) {
   const {
     data,
-    values,
-    setValue,
-    setValues,
     columnsSettings,
     onClickRowHandler,
-    setSelectedForma,
-    onRowClick,
-    modalStates,
     reloadData,
   } = props;
 
-  const {
-    isShowCommentModal,
-    setIsShowCommentModal,
-    isShowCallInModal,
-    setIsShowCallInModal,
-    isShowCallOutModal,
-    setIsShowCallOutModal,
-    isShowSmsInModal,
-    setIsShowSmsInModal,
-    isShowSmsOutModal,
-    setIsShowSmsOutModal,
-    isShowEmailInModal,
-    setIsShowEmailInModal,
-    isShowEmailOutModal,
-    setIsShowEmailOutModal,
-  } = modalStates;
+  const [isShowCommentModal, setIsShowCommentModal] = useState<boolean>(false);
+  const [isShowCallInModal, setIsShowCallInModal] = useState<boolean>(false);
+  const [isShowCallOutModal, setIsShowCallOutModal] = useState<boolean>(false);
+  const [isShowSmsInModal, setIsShowSmsInModal] = useState<boolean>(false);
+  const [isShowSmsOutModal, setIsShowSmsOutModal] = useState<boolean>(false);
+  const [isShowEmailInModal, setIsShowEmailInModal] = useState<boolean>(false);
+  const [isShowEmailOutModal, setIsShowEmailOutModal] = useState<boolean>(false);
 
   // Флаг загрузки
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  // Данные
-  const [labels, setLabels] = useState({});
+
   // Данные комментария
-  const [interactionsCommentData, setInteractionsCommentData] =
-    useState<InteractionsCommentData>();
+  const [interactionsCommentData, setInteractionsCommentData] = useState<InteractionsCommentData>();
   // Получить данные комментария
   const fetchInteractionsComment = async () => {
+    if (data?.channel?.data?.code !== InteractionsChannel.comment) return;
+
     const commentData = await Scripts.getInteractionsComment(data.id);
     setInteractionsCommentData(commentData);
   };
+
   // Данные  письма
-  const [interactionsEmailData, setInteractionsEmailData] =
-    useState<InteractionsEmailData>();
+  const [interactionsEmailData, setInteractionsEmailData] = useState<InteractionsEmailData>();
   // Получить данные письма
   const fetchInteractionsEmail = async () => {
+    if (
+      data?.channel?.data?.code !== InteractionsChannel.incomingEmail &&
+      data?.channel?.data?.code !== InteractionsChannel.outgoingEmail
+    )
+      return;
+
     const emailData = await Scripts.getInteractionsEmail(data.id);
     setInteractionsEmailData(emailData);
   };
+
   // Данные звонка
-  const [interactionsCallData, setinteractionsCallData] =
-    useState<InteractionsCallData>();
+  const [interactionsCallData, setinteractionsCallData] = useState<InteractionsCallData>();
   // Получить данные звока
   const fetchInteractionsCall = async () => {
+    if (
+      data?.channel?.data?.code !== InteractionsChannel.incomingCall &&
+      data?.channel?.data?.code !== InteractionsChannel.outgoingCall
+    )
+      return;
+
     const callData = await Scripts.getInteractionsCall(data.id);
     setinteractionsCallData(callData);
   };
+
   // Данные смс
   const [interactionsSmsData, setinteractionsSmsData] =
     useState<InteractionsCallData>();
   // Получить данные смс
   const fetchInteractionsSms = async () => {
+    if (
+      data?.channel?.data?.code !== InteractionsChannel.incomingSms &&
+      data?.channel?.data?.code !== InteractionsChannel.outgoingSms
+    )
+      return;
+
     const smsData = await Scripts.getInteractionsSms(data.id);
     setinteractionsSmsData(smsData);
   };
 
   // Перезагрузить данные формы
   const reloadFulldata = () => {
-    setIsLoading(true);
-    // Получить полные данные по data.id
-    Scripts.getInteractionsFulldata(data.id).then((fullData) => {
-      setIsLoading(false);
-      // Присвоить полные данные в состояние
-      setValues(fullData);
-    });
-
     fetchInteractionsComment();
     fetchInteractionsEmail();
     fetchInteractionsCall();
@@ -136,11 +116,11 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
   }, []);
 
   const handleRemoveClick = async () => {
-    await Scripts.removeCommentChannel(data.id);
+    await Scripts.deleteInteraction(data.id);
     reloadData();
   };
 
-  const handleAddClick = (text: string) => {
+  const closeModal = () => {
     setIsShowCommentModal(false);
     setIsShowCallInModal(false);
     setIsShowCallOutModal(false);
@@ -148,16 +128,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
     setIsShowSmsOutModal(false);
     setIsShowEmailInModal(false);
     setIsShowEmailOutModal(false);
-  };
-  const handleCancelClick = () => {
-    setIsShowCommentModal(false);
-    setIsShowCallInModal(false);
-    setIsShowCallOutModal(false);
-    setIsShowSmsInModal(false);
-    setIsShowSmsOutModal(false);
-    setIsShowEmailInModal(false);
-    setIsShowEmailOutModal(false);
-  };
+  }
 
   return (
     <>
@@ -176,8 +147,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
             isShowSmsOutModal={isShowSmsOutModal}
             isShowEmailInModal={isShowEmailInModal}
             isShowEmailOutModal={isShowEmailOutModal}
-            handleAddClick={handleAddClick}
-            handleCancelClick={handleCancelClick}
+            closeModal={closeModal}
             interactionId={data.id}
             initialText={data.comment.value}
           />
@@ -185,15 +155,14 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
           <CustomListRow
             data={data as any}
             columnsSettings={columnsSettings}
-            // isShowDetails={false}
             setOpenRowIndex={onClickRowHandler}
             reloadData={function () {}}
             isOpen
             isClickable
           />
           <div className="interactions-details__content">
-            {values.channel &&
-              values.channel.data.code === InteractionsChannel.comment &&
+            {data.channel &&
+              data.channel.data.code === InteractionsChannel.comment &&
               interactionsCommentData && (
                 <InteractionsComment
                   interactionsCommentData={interactionsCommentData}
@@ -201,40 +170,40 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                   handleRemoveClick={handleRemoveClick}
                 />
               )}
-            {values.channel &&
-              (values.channel.data.code === InteractionsChannel.incomingEmail ||
-                values.channel.data.code ===
+            {data.channel &&
+              (data.channel.data.code === InteractionsChannel.incomingEmail ||
+                data.channel.data.code ===
                   InteractionsChannel.outgoingEmail) &&
               interactionsEmailData && (
                 <InteractionsEmail
                   interactionsEmailData={interactionsEmailData}
                   handleRemoveClick={handleRemoveClick}
-                  values={values.channel.data.code}
+                  values={data.channel.data.code}
                   setIsShowEmailInModal={setIsShowEmailInModal}
                   setIsShowEmailOutModal={setIsShowEmailOutModal}
                 />
               )}
-            {values.channel &&
-              (values.channel.data.code === InteractionsChannel.incomingCall ||
-                values.channel.data.code ===
+            {data.channel &&
+              (data.channel.data.code === InteractionsChannel.incomingCall ||
+                data.channel.data.code ===
                   InteractionsChannel.outgoingCall) &&
               interactionsCallData && (
                 <InteractionsCall
                   interactionsCallData={interactionsCallData}
                   handleRemoveClick={handleRemoveClick}
-                  values={values.channel.data.code}
+                  values={data.channel.data.code}
                   setIsShowCallInModal={setIsShowCallInModal}
                   setIsShowCallOutModal={setIsShowCallOutModal}
                 />
               )}
-            {values.channel &&
-              (values.channel.data.code === InteractionsChannel.incomingSms ||
-                values.channel.data.code === InteractionsChannel.outgoingSms) &&
+            {data.channel &&
+              (data.channel.data.code === InteractionsChannel.incomingSms ||
+                data.channel.data.code === InteractionsChannel.outgoingSms) &&
               interactionsSmsData && (
                 <InteractionsSms
                   interactionsSmsData={interactionsSmsData}
                   handleRemoveClick={handleRemoveClick}
-                  values={values.channel.data.code}
+                  values={data.channel.data.code}
                   setIsShowSmsInModal={setIsShowSmsInModal}
                   setIsShowSmsOutModal={setIsShowSmsOutModal}
                 />

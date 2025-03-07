@@ -16,8 +16,7 @@ interface ModalManagerProps {
   isShowSmsOutModal: boolean;
   isShowEmailInModal: boolean;
   isShowEmailOutModal: boolean;
-  handleAddClick: (text: string) => void;
-  handleCancelClick: () => void;
+  closeModal: () => void;
   interactionId?: string;
   initialText?: string;
 }
@@ -30,9 +29,8 @@ const ModalManager: React.FC<ModalManagerProps> = ({
   isShowSmsOutModal,
   isShowEmailInModal,
   isShowEmailOutModal,
-  handleAddClick,
-  handleCancelClick,
   interactionId,
+  closeModal,
   initialText = "",
 }) => {
   const [text, setText] = useState<string>(initialText);
@@ -45,8 +43,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
         <ModalWrapper>
           <CommentModal
             interactionId={interactionId}
-            handleAddClick={handleAddClick}
-            handleCancelClick={handleCancelClick}
+            closeModal={closeModal}
             text={text}
             setText={setText}
           />
@@ -56,8 +53,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
         <ModalWrapper>
           <CallInModal
             interactionId={interactionId}
-            handleAddClick={handleAddClick}
-            handleCancelClick={handleCancelClick}
+            closeModal={closeModal}
             text={text}
             setText={setText}
           />
@@ -67,8 +63,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
         <ModalWrapper>
           <CallOutModal
             interactionId={interactionId}
-            handleAddClick={handleAddClick}
-            handleCancelClick={handleCancelClick}
+            closeModal={closeModal}
             text={text}
             setText={setText}
           />
@@ -78,8 +73,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
         <ModalWrapper>
           <SmsInModal
             interactionId={interactionId}
-            handleAddClick={handleAddClick}
-            handleCancelClick={handleCancelClick}
+            closeModal={closeModal}
             text={text}
             setText={setText}
           />
@@ -89,8 +83,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
         <ModalWrapper>
           <SmsOutModal
             interactionId={interactionId}
-            handleAddClick={handleAddClick}
-            handleCancelClick={handleCancelClick}
+            closeModal={closeModal}
             text={text}
             setText={setText}
           />
@@ -100,8 +93,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
         <ModalWrapper>
           <EmailInModal
             interactionId={interactionId}
-            handleAddClick={handleAddClick}
-            handleCancelClick={handleCancelClick}
+            closeModal={closeModal}
             text={text}
             setText={setText}
           />
@@ -111,8 +103,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
         <ModalWrapper>
           <EmailOutModal
             interactionId={interactionId}
-            handleAddClick={handleAddClick}
-            handleCancelClick={handleCancelClick}
+            closeModal={closeModal}
             text={text}
             setText={setText}
           />

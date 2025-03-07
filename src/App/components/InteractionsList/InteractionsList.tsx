@@ -99,8 +99,7 @@ function InteractionsList({
   const [isShowSmsInModal, setIsShowSmsInModal] = useState<boolean>(false);
   const [isShowSmsOutModal, setIsShowSmsOutModal] = useState<boolean>(false);
   const [isShowEmailInModal, setIsShowEmailInModal] = useState<boolean>(false);
-  const [isShowEmailOutModal, setIsShowEmailOutModal] =
-    useState<boolean>(false);
+  const [isShowEmailOutModal, setIsShowEmailOutModal] = useState<boolean>(false);
 
   const modalStates = {
     isShowCommentModal,
@@ -136,10 +135,35 @@ function InteractionsList({
         onClickRowHandler={onClickRowHandler}
         setSelectedForma={setSelectedForma}
         onRowClick={onRowClick}
-        modalStates={modalStates}
+        // modalStates={modalStates}
       />
     );
   };
+
+  // Количество взаимодействий
+  const [elementsCount, setElementsCount] = useState<number>(0);
+  const [reloadCallback, setReloadCallback] = useState<any>();
+
+  // Интервал для проверки количества взаимодействий
+  useEffect(() => {
+    if(!appealId) return;
+    if(!reloadCallback) return;
+
+    const interval = setInterval(async () => {
+      const newCount = await Scripts.getInteractionsCount();
+      if (newCount !== elementsCount) {
+        setElementsCount(newCount);
+        reloadCallback(); // Обновляем список взаимодействий, если количество изменилось
+      }
+    }, 3000);
+    
+    return () => clearInterval(interval);
+  }, [appealId, reloadCallback]);
+
+  const setSearchHandler = (callback: any) => {
+    Scripts.setReloadInteractionsCallback(callback);
+    setReloadCallback(callback)
+  }
 
   return (
     <div className="amendment-tab">

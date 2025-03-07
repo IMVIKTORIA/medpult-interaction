@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { FieldConfig } from "../../../shared/types";
 import InteractionsModal from "../InteractionsModal";
+import Scripts from "../../../shared/utils/clientScripts";
 
 interface CallInModalProps {
-  /** Добавить */
-  handleAddClick: (text: string) => void;
-  /** Отменить */
-  handleCancelClick: () => void;
+  /** Закрыть модалку */
+  closeModal: () => void;
   /** Идентификатор */
   interactionId?: string;
   text: string;
@@ -15,8 +14,7 @@ interface CallInModalProps {
 
 /** Модальное окно звонка */
 export default function CallInModal({
-  handleAddClick,
-  handleCancelClick,
+  closeModal,
   interactionId,
   text,
   setText,
@@ -50,14 +48,19 @@ export default function CallInModal({
       style: { height: "158px" },
     },
   ];
+        
+  /** Сохранить звонок входящий */
+  const saveCallHandler = async () => {
+    const isIncoming = true;
+    await Scripts.addCallInteraction(text, number, from, isIncoming, interactionId);
+  };
 
   return (
     <InteractionsModal
       title="Звонок входящий"
       fields={fields}
-      handleAddClick={handleAddClick}
-      handleCancelClick={handleCancelClick}
-      text={text}
+      closeModal={closeModal}
+      saveHandler={saveCallHandler}
     />
   );
 }

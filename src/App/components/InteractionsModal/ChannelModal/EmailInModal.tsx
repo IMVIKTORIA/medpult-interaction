@@ -4,10 +4,8 @@ import InteractionsModal from "../InteractionsModal";
 import Scripts from "../../../shared/utils/clientScripts";
 
 interface EmailInModalProps {
-  /** Добавить */
-  handleAddClick: (text: string) => void;
-  /** Отменить */
-  handleCancelClick: () => void;
+  /** Закрыть модалку */
+  closeModal: () => void;
   /** Идентификатор */
   interactionId?: string;
   text: string;
@@ -16,8 +14,7 @@ interface EmailInModalProps {
 
 /** Модальное окно звонка */
 export default function EmailInModal({
-  handleAddClick,
-  handleCancelClick,
+  closeModal,
   interactionId,
   text,
   setText,
@@ -50,17 +47,19 @@ export default function EmailInModal({
       style: { height: "158px" },
     },
   ];
-
-  const saveEmailHandler = async (text: string) => {};
+      
+  /** Сохранить email входящее */
+  const saveEmailHandler = async () => {
+    const isIncoming = true;
+    await Scripts.addEmail(text, from, to, isIncoming, interactionId);
+  };
 
   return (
     <InteractionsModal
       title="Email входящий"
       fields={fields}
       saveHandler={saveEmailHandler}
-      handleAddClick={handleAddClick}
-      handleCancelClick={handleCancelClick}
-      text={text}
+      closeModal={closeModal}
     />
   );
 }

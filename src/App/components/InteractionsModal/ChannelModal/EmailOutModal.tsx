@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { FieldConfig } from "../../../shared/types";
 import InteractionsModal from "../InteractionsModal";
+import Scripts from "../../../shared/utils/clientScripts";
 
 interface EmailOutModalProps {
-  /** Добавить */
-  handleAddClick: (text: string) => void;
-  /** Отменить */
-  handleCancelClick: () => void;
+  /** Закрыть модалку */
+  closeModal: () => void;
   /** Идентификатор */
   interactionId?: string;
   text: string;
@@ -15,8 +14,7 @@ interface EmailOutModalProps {
 
 /** Модальное окно звонка */
 export default function EmailOutModal({
-  handleAddClick,
-  handleCancelClick,
+  closeModal,
   interactionId,
   text,
   setText,
@@ -49,14 +47,19 @@ export default function EmailOutModal({
       style: { height: "158px" },
     },
   ];
+    
+  /** Сохранить email исходящее */
+  const saveEmailHandler = async () => {
+    const isIncoming = false;
+    await Scripts.addEmail(text, from, to, isIncoming, interactionId);
+  };
 
   return (
     <InteractionsModal
       title="Email исходящий"
       fields={fields}
-      handleAddClick={handleAddClick}
-      handleCancelClick={handleCancelClick}
-      text={text}
+      closeModal={closeModal}
+      saveHandler={saveEmailHandler}
     />
   );
 }
