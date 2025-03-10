@@ -4,6 +4,7 @@ import InteractionsList from "../InteractionsList/InteractionsList";
 
 /** Форма вкладки Взаимодействия в обращении */
 export default function InteractionsForm() {
+  // TODO: Id задачи
   // Идентификатор текущего обращения
   const [appealId, setAppealId] = useState<string>(/* "test" */);
 
