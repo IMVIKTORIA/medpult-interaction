@@ -177,10 +177,8 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
     // Если просмотрено, выйти
     if(data.isViewed) return;
 
-    // TODO: Обновить в системе
-    const isUpdated = true
-
-    if(!isUpdated) throw new Error("Ошибка при обновлении флажка просмотрено");
+    // Обновить в системе
+    Scripts.updateIsInteractionViewed(data.id);
 
     const newItems = items;
     const currentItemIndex = newItems.findIndex(item => item.id == data.id);
@@ -188,6 +186,12 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
     if(currentItemIndex < 0) return
 
     newItems[currentItemIndex].isViewed = true;
+
+    // Обновить счетчик
+    const unviewedItems = newItems.filter(item => !item.isViewed);
+    Scripts.setNewInteractionsCountRequest(unviewedItems.length);
+
+    // Обновить значение просмотрено на форме
     setItems(newItems)
   }, [])
 
