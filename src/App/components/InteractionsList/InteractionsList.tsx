@@ -106,6 +106,9 @@ function InteractionsList({appealId}: InteractionsListProps) {
     setIsShowEmailOutModal,
   };
 
+  
+  const [items, setItems] = useState<InteractionsData[]>([]);
+
   /** Получение формы детальной информации*/
   const getDetailsLayout = ({
     rowData,
@@ -121,6 +124,8 @@ function InteractionsList({appealId}: InteractionsListProps) {
         setValue={setAmendmentValue}
         setValues={setAmendmentValues}
         onClickRowHandler={onClickRowHandler}
+        items={items}
+        setItems={setItems}
       />
     );
   };
@@ -134,6 +139,8 @@ function InteractionsList({appealId}: InteractionsListProps) {
         isScrollable={false}
         setSearchHandler={Scripts.setReloadInteractionsCallback}
         modalStates={modalStates}
+        items={items}
+        setItems={setItems}
       />
     </div>
   );

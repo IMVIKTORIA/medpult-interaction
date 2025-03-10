@@ -426,6 +426,11 @@ async function toggleSendSmsAnswer(interactionId: string) {
     console.log("setNewInteractionsCountRequest: ", count)
   }
 
+  /** Обновить флажок Просмотрено у взаимодействия */
+  async function updateIsInteractionViewed(interactionId: string): Promise<void> {
+    // TODO
+  }
+
 export default {
   getInteractions,
   getInteractionsFulldata,
@@ -453,4 +458,5 @@ export default {
   toggleSendSmsAnswer,
 
   setNewInteractionsCountRequest,
+  updateIsInteractionViewed
 };

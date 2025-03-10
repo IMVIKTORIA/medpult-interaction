@@ -26,6 +26,10 @@ class InteractionsDetailsProps implements DetailsProps {
   columnsSettings: ListColumnData[];
   onClickRowHandler: () => any;
   reloadData: () => void;
+  /** Список взаимодействий */
+  items: InteractionsData[];
+  /** Установить список взаимодействий */
+  setItems: React.Dispatch<React.SetStateAction<InteractionsData[]>>;
 }
 
 /** Детальная форма согласования */
@@ -35,6 +39,8 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
     columnsSettings,
     onClickRowHandler,
     reloadData,
+    items,
+    setItems,
   } = props;
 
   const [isShowCommentModal, setIsShowCommentModal] = useState<boolean>(false);
@@ -164,6 +170,25 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
 
     // Удалить таймер при закрытии
     return () => clearTimeout(timeout)
+  }, [])
+
+  /** Изменить флажок просмотренности */
+  useEffect(() => {
+    // Если просмотрено, выйти
+    if(data.isViewed) return;
+
+    // TODO: Обновить в системе
+    const isUpdated = true
+
+    if(!isUpdated) throw new Error("Ошибка при обновлении флажка просмотрено");
+
+    const newItems = items;
+    const currentItemIndex = newItems.findIndex(item => item.id == data.id);
+    // Если не найдено
+    if(currentItemIndex < 0) return
+
+    newItems[currentItemIndex].isViewed = true;
+    setItems(newItems)
   }, [])
 
   return (

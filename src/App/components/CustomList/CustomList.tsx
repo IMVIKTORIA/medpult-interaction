@@ -66,6 +66,10 @@ type ListProps = {
     isShowEmailOutModal: boolean;
     setIsShowEmailOutModal: (value: boolean) => void;
   };
+  /** Список взаимодействий */
+  items: InteractionsData[];
+  /** Установить список взаимодействий */
+  setItems: React.Dispatch<React.SetStateAction<InteractionsData[]>>;
 };
 
 function CustomList(props: ListProps) {
@@ -80,13 +84,14 @@ function CustomList(props: ListProps) {
     closeCreateMode,
     defaultOpenRowId,
     modalStates,
+    items,
+    setItems,
   } = props;
 
   const [page, setPage] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [sortData, setSortData] = useState<SortData>();
-  const [items, setItems] = useState<InteractionsData[]>([]);
   const [openRowIndex, setOpenRowIndex] = useState<string>();
   /** Выбранные каналы */
   const [selectedChannels, setSelectedChannels] = useState<InteractionsChannel[]>([InteractionsChannel.allChannel]);
@@ -216,7 +221,7 @@ function CustomList(props: ListProps) {
               }
               setOpenRowIndex={toggleShowDetails}
               reloadData={reloadData}
-              isViewed={data.}
+              isViewed={data.isViewed}
             />
           );
         })}

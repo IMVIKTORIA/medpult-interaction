@@ -113,7 +113,7 @@ export interface AdditionalInfo {
 /** Атрибуты функции получения разметки деталей строки динамического списка */
 export interface getDetailsLayoutAttributes {
   /** Сокращенные данные строки */
-  rowData?: any;
+  rowData: InteractionsData;
   /** Обработчик нажатия на строку */
   onClickRowHandler?: any;
   /** Перезагрузка списка */
