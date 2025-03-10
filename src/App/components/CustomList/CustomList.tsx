@@ -132,21 +132,6 @@ function CustomList(props: ListProps) {
     if (defaultOpenRowId != undefined) setOpenRowIndex(defaultOpenRowId);
   }, []);
 
-  // /** Установить обработчик нажатия на кнопку поиск */
-  // useEffect(() => {
-  //   Scripts.setOpenInteractionsCallback((id: string) => setOpenRowIndex(id));
-  //   if (!setSearchHandler) return;
-
-  //   setSearchHandler(() => () => {
-  //     reloadData();
-  //   });
-  // }, [searchData]);
-
-  // /** Обновление оглавления при изменении сортировки */
-  // useEffect(() => {
-  //   reloadData();
-  // }, [sortData]);
-
   /** Обновление оглавления при изменении сортировки */
   useEffect(() => {
     if (isCreateMode) setOpenRowIndex(undefined);
@@ -173,6 +158,13 @@ function CustomList(props: ListProps) {
     if(!elementsCount) return;
     reloadData();
   }, [elementsCount])
+
+  // Запись количества непросмотренных 
+  useEffect(() => {
+    const unviewedItems = items.filter(item => !item.isViewed);
+
+    Scripts.setNewInteractionsCountRequest(unviewedItems.length);
+  }, [items])
 
   return (
     <div className="custom-list-interaction">
@@ -224,6 +216,7 @@ function CustomList(props: ListProps) {
               }
               setOpenRowIndex={toggleShowDetails}
               reloadData={reloadData}
+              isViewed={data.}
             />
           );
         })}

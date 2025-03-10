@@ -122,13 +122,22 @@ export interface getDetailsLayoutAttributes {
 
 /** Детальные данные Взаимодействия */
 export class InteractionsData {
+  /** Идентификатор */
   id: string;
+  /** Канал поступления */
   channel: InputDataCategory;
+  /** ФИО */
   fio: InputDataCategory;
+  /** Тема */
   topic: InputDataCategory;
+  /** Комментарий */
   comment: InputDataCategory;
+  /** Номер задачи */
   numberTask: InputDataCategory;
+  /** Дата создания */
   startDate: InputDataCategory;
+  /** Просмотрено? */
+  isViewed: boolean
 
   constructor() {
     this.channel = new InputDataCategory();
@@ -137,6 +146,7 @@ export class InteractionsData {
     this.comment = new InputDataCategory();
     this.numberTask = new InputDataCategory();
     this.startDate = new InputDataCategory();
+    this.isViewed = false;
   }
 }
 

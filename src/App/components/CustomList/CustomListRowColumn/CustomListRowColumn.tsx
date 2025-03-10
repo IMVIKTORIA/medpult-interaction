@@ -15,8 +15,8 @@ import {
 import icons from "../../../shared/icons";
 
 interface ListColumnProps extends ListColumnData {
-  data: InputDataCategory;
-  isClicked?: boolean;
+  data: IInputData;
+  isViewed?: boolean;
 }
 const channelIcons = {
   [InteractionsChannel.comment]: icons.imgComment,
@@ -29,7 +29,7 @@ const channelIcons = {
 };
 
 function CustomListRowColumn(props: ListColumnProps) {
-  const { fr, data, isLink, onClick, isIcon, isClicked = false } = props;
+  const { fr, data, isLink, onClick, isIcon, isViewed } = props;
 
   const onClickColumn =
     isLink && onClick
@@ -39,7 +39,7 @@ function CustomListRowColumn(props: ListColumnProps) {
       : () => {};
 
   const iconToShow = channelIcons[data.data.code];
-  const iconToShowRead = !isClicked ? icons.circleRead : icons.circleNoRead;
+  const iconToShowRead = !isViewed ? icons.circleRead : icons.circleNoRead;
 
   return (
     <div
@@ -60,8 +60,8 @@ function CustomListRowColumn(props: ListColumnProps) {
         }}
       >
         {isIcon && (
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <span style={{ marginRight: "20px" }}>{iconToShowRead}</span>
+          <div style={{ display: "flex", alignItems: "center", gap:"20px" }}>
+            {iconToShowRead}
             {iconToShow}
           </div>
         )}

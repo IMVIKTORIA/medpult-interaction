@@ -106,8 +106,8 @@ function InteractionsList({appealId}: InteractionsListProps) {
     setIsShowEmailOutModal,
   };
 
-  /** Получение формы детальной информации по строке списка ДС */
-  const getAmendmentDetailsLayout = ({
+  /** Получение формы детальной информации*/
+  const getDetailsLayout = ({
     rowData,
     reloadData,
     onClickRowHandler,
@@ -125,38 +125,10 @@ function InteractionsList({appealId}: InteractionsListProps) {
     );
   };
 
-  // // Количество взаимодействий
-  // const [reloadCallback, setReloadCallback] = useState<any>();
-  
-  // const [elementsCount, setElementsCount] = useState<number>(0);
-  // // Интервал для проверки количества взаимодействий
-  // useEffect(() => {
-  //   if(!appealId) return;
-  //   if(!reloadCallback) return;
-
-  //   const interval = setInterval(async () => {
-  //     const newCount = await Scripts.getInteractionsCount();
-  //     if (newCount !== elementsCount) {
-  //       setElementsCount(newCount);
-  //     }
-  //   }, 3000);
-    
-  //   return () => clearInterval(interval);
-  // }, [appealId]);
-
-  // useEffect(() => {
-  //   if(reloadCallback) reloadCallback();
-  // }, [elementsCount])
-
-  // const setSearchHandler = (callback: any) => {
-  //   Scripts.setReloadInteractionsCallback(callback);
-  //   setReloadCallback(callback)
-  // }
-
   return (
     <div className="amendment-tab">
       <CustomList
-        getDetailsLayout={getAmendmentDetailsLayout}
+        getDetailsLayout={getDetailsLayout}
         columnsSettings={columns}
         getDataHandler={() => Scripts.getInteractions(appealId)}
         isScrollable={false}

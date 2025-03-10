@@ -32,6 +32,8 @@ interface ListRowProps {
   isClickable?: boolean;
 
   reloadData: () => void;
+  /** Просмотрено? */
+  isViewed: boolean
 }
 
 /** Строка динамического списка */
@@ -45,6 +47,7 @@ function CustomListRow(props: ListRowProps) {
     isOpen,
     isClickable,
     reloadData,
+    isViewed,
   } = props;
 
   /** Получение значения класса строки */
@@ -70,7 +73,7 @@ function CustomListRow(props: ListRowProps) {
             }
             const columnData = data[settings.code];
 
-            return <CustomListRowColumn data={columnData} {...settings} />;
+            return <CustomListRowColumn data={columnData} isViewed={isViewed} {...settings} />;
           })}
         </div>
       )}

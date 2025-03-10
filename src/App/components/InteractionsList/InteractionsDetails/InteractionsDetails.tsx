@@ -19,7 +19,7 @@ import CustomListRow from "../../CustomList/CustomListRow/CustomListRow";
 import ModalManager from "../../InteractionsModal/ModalManager";
 import moment from "moment";
 class InteractionsDetailsProps implements DetailsProps {
-  data: InteractionsRowData;
+  data: InteractionsData;
   values: InteractionsData;
   setValue: (name: string, value: any) => void;
   setValues: (values: InteractionsData) => void;
@@ -141,6 +141,9 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
     return currentDate.isSameOrBefore(createDate.add(60, "minute"));
   }
 
+  /** Показывать кнопки изменения и удаления? */
+  const [isShowEditButtons, setIsShowEditButtons] = useState<boolean>(checkCanShowEditButton)
+
   /** При отрисовке поставить таймер чтобы скрыть кнопки динамически */
   useEffect(() => {
     // Если кнопки не показаны, то не весить таймер
@@ -162,8 +165,6 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
     // Удалить таймер при закрытии
     return () => clearTimeout(timeout)
   }, [])
-
-  const [isShowEditButtons, setIsShowEditButtons] = useState<boolean>(checkCanShowEditButton)
 
   return (
     <>
@@ -192,6 +193,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
             columnsSettings={columnsSettings}
             setOpenRowIndex={onClickRowHandler}
             reloadData={function () {}}
+            isViewed={data.isViewed}
             isOpen
             isClickable
           />

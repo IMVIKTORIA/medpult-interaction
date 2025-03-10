@@ -28,7 +28,7 @@ async function getInteractions(
     channel: new InputDataCategory("", InteractionsChannel.outgoingEmail),
     /** Фио */
     fio: new InputDataCategory("Оператор 1", "111"),
-    topic: new InputDataCategory("", "111"),
+    topic: new InputDataCategory("Fuuuuuu", "111"),
     /** Комментарий */
     comment: new InputDataCategory(
       "Это электронное сообщение и любые документы"
@@ -37,6 +37,7 @@ async function getInteractions(
     numberTask: new InputDataCategory("TS000025/24", "forma_code"),
     /** Дата  */
     startDate: new InputDataCategory("10.03.2025 8:41"),
+    isViewed: true
   };
 
   const mockData1: InteractionsData = {
@@ -55,6 +56,7 @@ async function getInteractions(
     numberTask: new InputDataCategory("TS000025/24", "forma_code"),
     /** Дата  */
     startDate: new InputDataCategory("01.01.2024 17:00"),
+    isViewed: false
   };
 
   const mockData2: InteractionsData = {
@@ -73,6 +75,7 @@ async function getInteractions(
     numberTask: new InputDataCategory("TS000025/24", "forma_code"),
     /** Дата  */
     startDate: new InputDataCategory("01.01.2024 17:00"),
+    isViewed: false
   };
 
   const mockData3: InteractionsData = {
@@ -91,6 +94,7 @@ async function getInteractions(
     numberTask: new InputDataCategory("TS000025/24", "forma_code"),
     /** Дата  */
     startDate: new InputDataCategory("01.01.2024 17:00"),
+    isViewed: false
   };
 
   const mockData4: InteractionsData = {
@@ -109,6 +113,7 @@ async function getInteractions(
     numberTask: new InputDataCategory("TS000025/24", "forma_code"),
     /** Дата  */
     startDate: new InputDataCategory("01.01.2024 17:00"),
+    isViewed: false
   };
 
   const mockData5: InteractionsData = {
@@ -127,6 +132,7 @@ async function getInteractions(
     numberTask: new InputDataCategory("TS000025/24", "forma_code"),
     /** Дата  */
     startDate: new InputDataCategory("01.01.2024 17:00"),
+    isViewed: false
   };
 
   await randomDelay();
@@ -147,7 +153,7 @@ async function getInteractionsFulldata(
     channel: new InputDataCategory("", InteractionsChannel.outgoingEmail),
     /** Согласованные услуги */
     fio: new InputDataCategory("Оператор 1", "111"),
-    topic: new InputDataCategory("", "111"),
+    topic: new InputDataCategory("Fuuuuuu", "111"),
     /** Срок действия */
     comment: new InputDataCategory(
       "Это электронное сообщение и любые документы"
@@ -156,6 +162,7 @@ async function getInteractionsFulldata(
     numberTask: new InputDataCategory("TS000025/24", "forma_code"),
     /** Задача на отзыв */
     startDate: new InputDataCategory("01.01.2024 17:00"),
+    isViewed: false
   };
 
   await randomDelay();
@@ -413,6 +420,12 @@ async function toggleSendSmsAnswer(interactionId: string) {
   }
 }
 
+  /** Установить количество непросмотренных взаимодействий в обращении */
+  function setNewInteractionsCountRequest(count: number) {
+    // TODO
+    console.log("setNewInteractionsCountRequest: ", count)
+  }
+
 export default {
   getInteractions,
   getInteractionsFulldata,
@@ -438,4 +451,6 @@ export default {
   toggleSendEmailAnswer,
   toggleSendEmailForward,
   toggleSendSmsAnswer,
+
+  setNewInteractionsCountRequest,
 };
