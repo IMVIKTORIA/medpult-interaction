@@ -12,6 +12,8 @@ class InteractionsCallProps {
   channelCode: string;
   setIsShowCallInModal: (value: boolean) => void;
   setIsShowCallOutModal: (value: boolean) => void;
+  /** Показывать кнопки удалить и редактировать */
+  isShowEditButtons: boolean;
 }
 
 /** Проект комментария */
@@ -21,6 +23,7 @@ function InteractionsCall({
   channelCode,
   setIsShowCallInModal,
   setIsShowCallOutModal,
+  isShowEditButtons,
 }: InteractionsCallProps) {
   const handleSwowClick = () => {
     if (channelCode === InteractionsChannel.incomingCall) {
@@ -47,16 +50,20 @@ function InteractionsCall({
             </div>
           </div>
           <div className="interactions-comment__button">
-            <div
-              style={{ paddingRight: "15px" }}
-              onClick={handleSwowClick}
-              title="Редактировать"
-            >
-              {icons.edit}
-            </div>
-            <div onClick={handleRemoveClick} title="Удалить">
-              {icons.wasteBasket}
-            </div>
+            {isShowEditButtons && (
+              <>
+                <div
+                  style={{ paddingRight: "15px" }}
+                  onClick={handleSwowClick}
+                  title="Редактировать"
+                >
+                  {icons.edit}
+                </div>
+                <div onClick={handleRemoveClick} title="Удалить">
+                  {icons.wasteBasket}
+                </div>
+              </>
+            )}
           </div>
         </div>
         <span style={{ paddingRight: "20px" }}>

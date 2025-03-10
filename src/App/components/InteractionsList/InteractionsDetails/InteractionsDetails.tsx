@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   InteractionsData,
   InteractionsRowData,
@@ -17,6 +17,7 @@ import InteractionsCall from "../../InteractionsChannels/InteractionsCall/Intera
 import InteractionsSms from "../../InteractionsChannels/InteractionsSms/InteractionsSms";
 import CustomListRow from "../../CustomList/CustomListRow/CustomListRow";
 import ModalManager from "../../InteractionsModal/ModalManager";
+import moment from "moment";
 class InteractionsDetailsProps implements DetailsProps {
   data: InteractionsRowData;
   values: InteractionsData;
@@ -128,6 +129,42 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
     setIsShowEmailOutModal(false);
   }
 
+  /** Показывать кнопки удаления и редактирования? */
+  const checkCanShowEditButton = (): boolean => { 
+    // Дата создания
+    const createDateStr = data.startDate.value;
+    const createDate = moment(createDateStr, "DD.MM.YYYY HH:mm");
+    // Текущая дата
+    const currentDate = moment();
+
+    // Если текущая дата меньше или равна 60 минут после даты создания, то показать кнопки
+    return currentDate.isSameOrBefore(createDate.add(60, "minute"));
+  }
+
+  /** При отрисовке поставить таймер чтобы скрыть кнопки динамически */
+  useEffect(() => {
+    // Если кнопки не показаны, то не весить таймер
+    if(!checkCanShowEditButton()) return;
+
+    // Дата создания
+    const createDateStr = data.startDate.value;
+    const createDate = moment(createDateStr, "DD.MM.YYYY HH:mm");
+    // Текущая дата
+    const currentDate = moment();
+    // Разница между текущей датой и 60 минут после создания
+    const duration = createDate.add(60, "minute").diff(currentDate);
+
+    // Таймер для обновления отображения кнопок
+    const timeout = setTimeout(() => {
+      setIsShowEditButtons(checkCanShowEditButton())
+    }, duration)
+
+    // Удалить таймер при закрытии
+    return () => clearTimeout(timeout)
+  }, [])
+
+  const [isShowEditButtons, setIsShowEditButtons] = useState<boolean>(checkCanShowEditButton)
+
   return (
     <>
       {isLoading ? (
@@ -166,6 +203,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                   interactionsCommentData={interactionsCommentData}
                   setIsShowCommentModal={setIsShowCommentModal}
                   handleRemoveClick={handleRemoveClick}
+                  isShowEditButtons={isShowEditButtons}
                 />
               )}
             {data.channel &&
@@ -180,6 +218,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                   channelCode={data.channel.data.code}
                   setIsShowEmailInModal={setIsShowEmailInModal}
                   setIsShowEmailOutModal={setIsShowEmailOutModal}
+                  isShowEditButtons={isShowEditButtons}
                 />
               )}
             {data.channel &&
@@ -193,6 +232,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                   channelCode={data.channel.data.code}
                   setIsShowCallInModal={setIsShowCallInModal}
                   setIsShowCallOutModal={setIsShowCallOutModal}
+                  isShowEditButtons={isShowEditButtons}
                 />
               )}
             {data.channel &&
@@ -206,6 +246,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                   channelCode={data.channel.data.code}
                   setIsShowSmsInModal={setIsShowSmsInModal}
                   setIsShowSmsOutModal={setIsShowSmsOutModal}
+                  isShowEditButtons={isShowEditButtons}
                 />
               )}
           </div>

@@ -16,6 +16,8 @@ class InteractionsEmailProps {
   channelCode: string;
   setIsShowEmailInModal: (value: boolean) => void;
   setIsShowEmailOutModal: (value: boolean) => void;
+  /** Показывать кнопки удалить и редактировать */
+  isShowEditButtons: boolean;
 }
 
 /** Проект письма */
@@ -26,6 +28,7 @@ function InteractionsEmail({
   channelCode,
   setIsShowEmailInModal,
   setIsShowEmailOutModal,
+  isShowEditButtons,
 }: InteractionsEmailProps) {
   const handleSwowClick = () => {
     if (channelCode === InteractionsChannel.incomingEmail) {
@@ -86,12 +89,16 @@ function InteractionsEmail({
             <div onClick={handleForwardClick} className="interactions-email__button">
               {icons.forward}ПЕРЕСЛАТЬ
             </div>
-            <div onClick={handleSwowClick} title="Редактировать" className="interactions-email__button">
-              {icons.edit}
-            </div>
-            <div onClick={handleRemoveClick} title="Удалить" className="interactions-email__button">
-              {icons.wasteBasket}
-            </div>
+            {isShowEditButtons && (
+              <>
+                <div onClick={handleSwowClick} title="Редактировать" className="interactions-email__button">
+                  {icons.edit}
+                </div>
+                <div onClick={handleRemoveClick} title="Удалить" className="interactions-email__button">
+                  {icons.wasteBasket}
+                </div>
+              </>
+            )}
           </div>
         </div>
         <span style={{ paddingRight: "20px" }}>

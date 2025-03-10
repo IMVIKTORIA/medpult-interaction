@@ -15,6 +15,8 @@ class InteractionsSmsProps {
   channelCode: string;
   setIsShowSmsInModal: (value: boolean) => void;
   setIsShowSmsOutModal: (value: boolean) => void;
+  /** Показывать кнопки удалить и редактировать */
+  isShowEditButtons: boolean;
 }
 
 /** Проект комментария */
@@ -25,6 +27,7 @@ function InteractionsSms({
   channelCode,
   setIsShowSmsInModal,
   setIsShowSmsOutModal,
+  isShowEditButtons,
 }: InteractionsSmsProps) {
   const handleSwowClick = () => {
     if (channelCode === InteractionsChannel.incomingSms) {
@@ -63,18 +66,21 @@ function InteractionsSms({
                 {icons.reply}ОТВЕТИТЬ
               </div>
             }
-            
-            <div
-              className="interactions-email__button"
-              style={{ paddingRight: "15px" }}
-              onClick={handleSwowClick}
-              title="Редактировать"
-            >
-              {icons.edit}
-            </div>
-            <div className="interactions-email__button" onClick={handleRemoveClick} title="Удалить">
-              {icons.wasteBasket}
-            </div>
+            {isShowEditButtons && (
+              <>
+                <div
+                  className="interactions-email__button"
+                  style={{ paddingRight: "15px" }}
+                  onClick={handleSwowClick}
+                  title="Редактировать"
+                >
+                  {icons.edit}
+                </div>
+                <div className="interactions-email__button" onClick={handleRemoveClick} title="Удалить">
+                  {icons.wasteBasket}
+                </div>
+              </>
+            )}
           </div>
         </div>
         <span style={{ paddingRight: "20px" }}>

@@ -10,6 +10,7 @@ export default function InteractionsForm() {
 
   // Запись callback изменения задачи
   React.useLayoutEffect(() => {
+    if(appealId == "test") alert("Форма в режиме разработки")
     const changeTaskCallback = (appealId?: string) => setAppealId(appealId);
     Scripts.setChangeTaskCallbackI(changeTaskCallback);
 

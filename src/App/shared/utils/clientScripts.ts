@@ -36,7 +36,7 @@ async function getInteractions(
     /** Номер задачи */
     numberTask: new InputDataCategory("TS000025/24", "forma_code"),
     /** Дата  */
-    startDate: new InputDataCategory("01.01.2024 17:00"),
+    startDate: new InputDataCategory("10.03.2025 8:41"),
   };
 
   const mockData1: InteractionsData = {

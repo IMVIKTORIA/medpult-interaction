@@ -7,6 +7,8 @@ class InteractionsCommentProps {
   interactionsCommentData: InteractionsCommentData;
   setIsShowCommentModal: (value: boolean) => void;
   handleRemoveClick: () => Promise<void>;
+  /** Показывать кнопки удалить и редактировать */
+  isShowEditButtons: boolean;
 }
 
 /** Проект комментария */
@@ -14,6 +16,7 @@ function InteractionsComment({
   interactionsCommentData,
   setIsShowCommentModal,
   handleRemoveClick,
+  isShowEditButtons,
 }: InteractionsCommentProps) {
   const handleSwowClick = () => {
     setIsShowCommentModal(true);
@@ -33,16 +36,20 @@ function InteractionsComment({
             </div>
           </div>
           <div className="interactions-comment__button">
-            <div
-              style={{ paddingRight: "15px" }}
-              onClick={handleSwowClick}
-              title="Редактировать"
-            >
-              {icons.edit}
-            </div>
-            <div onClick={handleRemoveClick} title="Удалить">
-              {icons.wasteBasket}
-            </div>
+            {isShowEditButtons && (
+              <>
+                <div
+                  style={{ paddingRight: "15px" }}
+                  onClick={handleSwowClick}
+                  title="Редактировать"
+                >
+                  {icons.edit}
+                </div>
+                <div onClick={handleRemoveClick} title="Удалить">
+                  {icons.wasteBasket}
+                </div>
+              </>
+            )}
           </div>
         </div>
         <span style={{ paddingRight: "20px" }}>
