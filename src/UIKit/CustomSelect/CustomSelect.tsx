@@ -56,6 +56,7 @@ function CustomSelect(props: CustomSelectProps) {
 		<div className="custom-select" ref={rootRef}>
 			<CustomInput
 				{...props}
+				value={value}
 				clickHandler={clickHandler}
 				wrapperRef={wrapperRef}
 				cursor={isViewMode ? 'text' : 'pointer'}
@@ -74,8 +75,8 @@ function CustomSelect(props: CustomSelectProps) {
 					{listValues.map(value =>
 						<CustomSelectRow
 							value={value.value}
-							code={value.code}
-							clickHandler={handleOptionClick}
+							data={value.code}
+							clickHandler={(value: string, data?: string) => handleOptionClick({value: value, code: data ?? ""})}
 						/>
 					)}
 				</CustomSelectList>

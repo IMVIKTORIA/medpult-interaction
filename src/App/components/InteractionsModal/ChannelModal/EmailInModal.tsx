@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { FieldConfig } from "../../../shared/types";
+import { FieldConfig, FieldType } from "../../../shared/types";
 import InteractionsModal from "../InteractionsModal";
 import Scripts from "../../../shared/utils/clientScripts";
+import ModalInput from "../ModalInput/ModalInput";
+import ModalTextarea from "../ModalTextarea/ModalTextarea";
+import ModalLineSelect from "../ModalLineSelect/ModalLineSelect";
 
 interface EmailInModalProps {
   /** Закрыть модалку */
@@ -26,21 +29,21 @@ export default function EmailInModal({
 
   const fields: FieldConfig[] = [
     {
-      type: "input",
+      type: FieldType.input,
       label: "Кому",
       value: to,
       setValue: setTo,
       style: { width: "232px" },
     },
     {
-      type: "input",
+      type: FieldType.input,
       label: "От кого",
       value: from,
       setValue: setFrom,
       style: { width: "232px" },
     },
     {
-      type: "textarea",
+      type: FieldType.textarea,
       label: "Текст письма",
       value: text,
       setValue: setText,
@@ -57,9 +60,12 @@ export default function EmailInModal({
   return (
     <InteractionsModal
       title="Email входящий"
-      fields={fields}
       saveHandler={saveEmailHandler}
       closeModal={closeModal}
-    />
+    >
+      <ModalLineSelect {...fields[0]}/>
+      <ModalInput {...fields[1]}/>
+      <ModalTextarea {...fields[2]}/>
+    </InteractionsModal>
   );
 }

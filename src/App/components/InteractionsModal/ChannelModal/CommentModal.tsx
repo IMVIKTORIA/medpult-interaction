@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { FieldConfig } from "../../../shared/types";
+import { FieldConfig, FieldType } from "../../../shared/types";
 import InteractionsModal from "../InteractionsModal";
 import Scripts from "../../../shared/utils/clientScripts";
+import ModalTextarea from "../ModalTextarea/ModalTextarea";
 
 interface CommentModalProps {
   /** Закрыть модалку */
@@ -23,7 +24,7 @@ export default function CommentModal({
 
   const fields: FieldConfig[] = [
     {
-      type: "textarea",
+      type: FieldType.textarea,
       label: "Комментарий",
       value: text,
       setValue: setText,
@@ -38,9 +39,10 @@ export default function CommentModal({
   return (
     <InteractionsModal
       title="Комментарий"
-      fields={fields}
       saveHandler={saveCommentHandler}
       closeModal={closeModal}
-    />
+    >
+      <ModalTextarea {...fields[0]}/>
+    </InteractionsModal>
   );
 }

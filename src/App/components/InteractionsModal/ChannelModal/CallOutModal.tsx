@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { FieldConfig } from "../../../shared/types";
+import { FieldConfig, FieldType } from "../../../shared/types";
 import InteractionsModal from "../InteractionsModal";
 import Scripts from "../../../shared/utils/clientScripts";
+import ModalInput from "../ModalInput/ModalInput";
+import ModalTextarea from "../ModalTextarea/ModalTextarea";
 
 interface CallOutModalProps {
   /** Закрыть модалку */
@@ -28,14 +30,14 @@ export default function CallOutModal({
 
   const fields: FieldConfig[] = [
     {
-      type: "input",
+      type: FieldType.input,
       label: "Кому",
       value: to,
       setValue: setTo,
       style: { width: "232px" },
     },
     {
-      type: "input",
+      type: FieldType.input,
       label: "Номер телефона",
       value: number,
       setValue: setNumber,
@@ -44,7 +46,7 @@ export default function CallOutModal({
       maskFunction: maskFunction,
     },
     {
-      type: "textarea",
+      type: FieldType.textarea,
       label: "Комментарий",
       value: text,
       setValue: setText,
@@ -63,13 +65,23 @@ export default function CallOutModal({
       interactionId
     );
   };
+      
+  /** Поля ввода модалки */
+  const ModalContent = (
+    <>
+      <ModalInput {...fields[0]}/>
+      <ModalInput {...fields[1]}/>
+      <ModalTextarea {...fields[2]}/>
+    </>
+  );
 
   return (
     <InteractionsModal
       title="Звонок исходящий"
-      fields={fields}
       closeModal={closeModal}
       saveHandler={saveCallHandler}
-    />
+    >
+      {ModalContent}
+    </InteractionsModal>
   );
 }

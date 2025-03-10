@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { FieldConfig } from "../../../shared/types";
+import { FieldConfig, FieldType } from "../../../shared/types";
 import InteractionsModal from "../InteractionsModal";
 import Scripts from "../../../shared/utils/clientScripts";
+import CustomInput from "../../../../UIKit/CustomInput/CustomInput";
+import ModalInput from "../ModalInput/ModalInput";
+import ModalTextarea from "../ModalTextarea/ModalTextarea";
+import ModalLineSelect from "../ModalLineSelect/ModalLineSelect";
 
 interface EmailOutModalProps {
   /** Закрыть модалку */
@@ -26,21 +30,21 @@ export default function EmailOutModal({
 
   const fields: FieldConfig[] = [
     {
-      type: "input",
+      type: FieldType.input,
       label: "От кого",
       value: from,
       setValue: setFrom,
       style: { width: "232px" },
     },
     {
-      type: "input",
+      type: FieldType.input,
       label: "Кому",
       value: to,
       setValue: setTo,
       style: { width: "232px" },
     },
     {
-      type: "textarea",
+      type: FieldType.textarea,
       label: "Текст письма",
       value: text,
       setValue: setText,
@@ -57,9 +61,12 @@ export default function EmailOutModal({
   return (
     <InteractionsModal
       title="Email исходящий"
-      fields={fields}
       closeModal={closeModal}
       saveHandler={saveEmailHandler}
-    />
+    >
+      <ModalInput {...fields[0]}/>
+      <ModalLineSelect {...fields[1]}/>
+      <ModalTextarea {...fields[2]}/>
+    </InteractionsModal>
   );
 }

@@ -431,6 +431,21 @@ async function toggleSendSmsAnswer(interactionId: string) {
     // TODO
   }
 
+  /** Получение списка Линий */
+  async function getLines(): Promise<{code: string, name: string}[]> {
+    await randomDelay();
+    return [
+      {
+        code: "9f8e6dda-94f3-47f0-b69c-bc514a446b14",
+        name: "103.test",
+      },
+      {
+        code: "b97aa797-55a4-4429-a64d-e7c51910b33c",
+        name: "sa-medpult-mail",
+      },
+    ];
+  }
+
 export default {
   getInteractions,
   getInteractionsFulldata,
@@ -458,5 +473,6 @@ export default {
   toggleSendSmsAnswer,
 
   setNewInteractionsCountRequest,
-  updateIsInteractionViewed
+  updateIsInteractionViewed,
+  getLines
 };

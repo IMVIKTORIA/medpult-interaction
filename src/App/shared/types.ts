@@ -3,8 +3,18 @@ export interface IInputData {
   data?: any;
 }
 
+/** Тип поля */
+export enum FieldType {
+  /** Поле ввода */
+  input = "input",
+  /** Текстовое поле */
+  textarea = "textarea",
+  /** Выпадающий список линий */
+  lineDropdown = "lineDropdown",
+}
+
 export interface FieldConfig {
-  type: "input" | "textarea";
+  type: FieldType;
   label: string;
   value: string;
   setValue: (value: string) => void;
