@@ -25,8 +25,6 @@ class InteractionsDetailsProps implements DetailsProps {
   columnsSettings: ListColumnData[];
   onClickRowHandler: () => any;
   reloadData: () => void;
-  setSelectedForma: (forma: any) => void;
-  onRowClick: () => void;
 }
 
 /** Детальная форма согласования */

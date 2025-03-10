@@ -16,20 +16,10 @@ import Button from "../CustomButton/CustomButton";
 type InteractionsListProps = {
   /** id задачи */
   appealId: string;
-  isViewMode: any;
-  saveStateHandler: any;
-  setSelectedForma: any;
-  onRowClick: any;
 };
 
 /** Список согласований */
-function InteractionsList({
-  appealId,
-  isViewMode,
-  saveStateHandler,
-  setSelectedForma,
-  onRowClick,
-}: InteractionsListProps) {
+function InteractionsList({appealId}: InteractionsListProps) {
   const onClickRevokeTask = async (props: InputDataCategory) => {
     const appealId = props.data.code;
     if (!appealId) return;
@@ -131,37 +121,37 @@ function InteractionsList({
         setValue={setAmendmentValue}
         setValues={setAmendmentValues}
         onClickRowHandler={onClickRowHandler}
-        setSelectedForma={setSelectedForma}
-        onRowClick={onRowClick}
-        // modalStates={modalStates}
       />
     );
   };
 
-  // Количество взаимодействий
-  const [elementsCount, setElementsCount] = useState<number>(0);
-  const [reloadCallback, setReloadCallback] = useState<any>();
+  // // Количество взаимодействий
+  // const [reloadCallback, setReloadCallback] = useState<any>();
+  
+  // const [elementsCount, setElementsCount] = useState<number>(0);
+  // // Интервал для проверки количества взаимодействий
+  // useEffect(() => {
+  //   if(!appealId) return;
+  //   if(!reloadCallback) return;
 
-  // Интервал для проверки количества взаимодействий
-  useEffect(() => {
-    if(!appealId) return;
-    if(!reloadCallback) return;
-
-    const interval = setInterval(async () => {
-      const newCount = await Scripts.getInteractionsCount();
-      if (newCount !== elementsCount) {
-        setElementsCount(newCount);
-        reloadCallback(); // Обновляем список взаимодействий, если количество изменилось
-      }
-    }, 3000);
+  //   const interval = setInterval(async () => {
+  //     const newCount = await Scripts.getInteractionsCount();
+  //     if (newCount !== elementsCount) {
+  //       setElementsCount(newCount);
+  //     }
+  //   }, 3000);
     
-    return () => clearInterval(interval);
-  }, [appealId, reloadCallback]);
+  //   return () => clearInterval(interval);
+  // }, [appealId]);
 
-  const setSearchHandler = (callback: any) => {
-    Scripts.setReloadInteractionsCallback(callback);
-    setReloadCallback(callback)
-  }
+  // useEffect(() => {
+  //   if(reloadCallback) reloadCallback();
+  // }, [elementsCount])
+
+  // const setSearchHandler = (callback: any) => {
+  //   Scripts.setReloadInteractionsCallback(callback);
+  //   setReloadCallback(callback)
+  // }
 
   return (
     <div className="amendment-tab">

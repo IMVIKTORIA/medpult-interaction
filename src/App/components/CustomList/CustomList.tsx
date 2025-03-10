@@ -42,11 +42,6 @@ type ListProps = {
     rowData,
     onClickRowHandler,
   }: getDetailsLayoutAttributes) => any;
-  /** Получение формы создания */
-  getCreateLayout?: ({
-    reloadData,
-    onClickRowHandler,
-  }: getDetailsLayoutAttributes) => any;
 
   /** Режим создания */
   isCreateMode?: boolean;
@@ -81,7 +76,6 @@ function CustomList(props: ListProps) {
     setSearchHandler,
     isScrollable = true,
     getDetailsLayout,
-    getCreateLayout,
     isCreateMode,
     closeCreateMode,
     defaultOpenRowId,
@@ -98,12 +92,6 @@ function CustomList(props: ListProps) {
   const [selectedChannels, setSelectedChannels] = useState<InteractionsChannel[]>([InteractionsChannel.allChannel]);
 
   const bodyRef = useRef<HTMLDivElement>(null);
-
-  const [columnWidth, setColumnWidth] = useState(columnsSettings[0].fr); // начальная ширина
-
-  const handleColumnResize = (newWidth) => {
-    setColumnWidth(newWidth);
-  };
 
   const reloadData = () => {
     setIsLoading(false);
@@ -142,37 +130,49 @@ function CustomList(props: ListProps) {
 
   React.useLayoutEffect(() => {
     if (defaultOpenRowId != undefined) setOpenRowIndex(defaultOpenRowId);
-    console.log("defaultOpenRowId: ", defaultOpenRowId);
   }, []);
 
-  useEffect(() => {
-    console.log("openRowIndex: ", openRowIndex);
-  }, [openRowIndex]);
+  // /** Установить обработчик нажатия на кнопку поиск */
+  // useEffect(() => {
+  //   Scripts.setOpenInteractionsCallback((id: string) => setOpenRowIndex(id));
+  //   if (!setSearchHandler) return;
 
-  /** Установить обработчик нажатия на кнопку поиск */
-  useEffect(() => {
-    Scripts.setOpenInteractionsCallback((id: string) => setOpenRowIndex(id));
-    if (!setSearchHandler) return;
+  //   setSearchHandler(() => () => {
+  //     reloadData();
+  //   });
+  // }, [searchData]);
 
-    setSearchHandler(() => () => {
-      reloadData();
-    });
-  }, [searchData]);
-
-  /** Обновление оглавления при изменении сортировки */
-  useEffect(() => {
-    reloadData();
-  }, [sortData]);
+  // /** Обновление оглавления при изменении сортировки */
+  // useEffect(() => {
+  //   reloadData();
+  // }, [sortData]);
 
   /** Обновление оглавления при изменении сортировки */
   useEffect(() => {
     if (isCreateMode) setOpenRowIndex(undefined);
   }, [isCreateMode]);
 
-  /** Нажатие на сортировку */
-  const handleSortClick = (sortDataNew: SortData | undefined) => {
-    setSortData(sortDataNew);
-  };
+  const [elementsCount, setElementsCount] = useState<number>(items.length);
+  /** Обновить количество элементов */
+  const updateElementsCount = async () => {
+    const newCount = await Scripts.getInteractionsCount();
+    if (newCount !== elementsCount) {
+      setElementsCount(newCount);
+    }
+  }
+
+  // Интервал для проверки количества взаимодействий
+  useEffect(() => {
+    updateElementsCount()
+    const interval = setInterval(updateElementsCount, 3000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if(!elementsCount) return;
+    reloadData();
+  }, [elementsCount])
 
   return (
     <div className="custom-list-interaction">
@@ -192,17 +192,8 @@ function CustomList(props: ListProps) {
         ref={bodyRef}
         onScroll={onScroll}
       >
-        {/* Форма создания */}
-        {isCreateMode &&
-          getCreateLayout &&
-          getCreateLayout({
-            reloadData: reloadData,
-            onClickRowHandler: () => {},
-          })}
-
         {/* Данные */}
         {items.map((data) => {
-          console.log(data.channel)
           /** Фильтрация по каналам */
           if(
             !selectedChannels.includes(InteractionsChannel.allChannel) // Если не выбраны все каналы
