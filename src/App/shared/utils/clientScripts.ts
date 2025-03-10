@@ -36,8 +36,8 @@ async function getInteractions(
     /** Номер задачи */
     numberTask: new InputDataCategory("TS000025/24", "forma_code"),
     /** Дата  */
-    startDate: new InputDataCategory("10.03.2025 8:41"),
-    isViewed: true
+    startDate: new InputDataCategory("10.03.2025 17:41"),
+    isViewed: true,
   };
 
   const mockData1: InteractionsData = {
@@ -55,8 +55,8 @@ async function getInteractions(
     /** Номер задачи */
     numberTask: new InputDataCategory("TS000025/24", "forma_code"),
     /** Дата  */
-    startDate: new InputDataCategory("01.01.2024 17:00"),
-    isViewed: false
+    startDate: new InputDataCategory("10.03.2025 17:41"),
+    isViewed: false,
   };
 
   const mockData2: InteractionsData = {
@@ -74,8 +74,8 @@ async function getInteractions(
     /** Номер задачи */
     numberTask: new InputDataCategory("TS000025/24", "forma_code"),
     /** Дата  */
-    startDate: new InputDataCategory("01.01.2024 17:00"),
-    isViewed: false
+    startDate: new InputDataCategory("10.03.2025 17:41"),
+    isViewed: false,
   };
 
   const mockData3: InteractionsData = {
@@ -93,8 +93,8 @@ async function getInteractions(
     /** Номер задачи */
     numberTask: new InputDataCategory("TS000025/24", "forma_code"),
     /** Дата  */
-    startDate: new InputDataCategory("01.01.2024 17:00"),
-    isViewed: false
+    startDate: new InputDataCategory("10.03.2025 17:41"),
+    isViewed: false,
   };
 
   const mockData4: InteractionsData = {
@@ -112,8 +112,8 @@ async function getInteractions(
     /** Номер задачи */
     numberTask: new InputDataCategory("TS000025/24", "forma_code"),
     /** Дата  */
-    startDate: new InputDataCategory("01.01.2024 17:00"),
-    isViewed: false
+    startDate: new InputDataCategory("10.03.2025 17:41"),
+    isViewed: false,
   };
 
   const mockData5: InteractionsData = {
@@ -131,8 +131,8 @@ async function getInteractions(
     /** Номер задачи */
     numberTask: new InputDataCategory("TS000025/24", "forma_code"),
     /** Дата  */
-    startDate: new InputDataCategory("01.01.2024 17:00"),
-    isViewed: false
+    startDate: new InputDataCategory("10.03.2025 17:41"),
+    isViewed: false,
   };
 
   await randomDelay();
@@ -161,8 +161,8 @@ async function getInteractionsFulldata(
     /** Дата отзыва */
     numberTask: new InputDataCategory("TS000025/24", "forma_code"),
     /** Задача на отзыв */
-    startDate: new InputDataCategory("01.01.2024 17:00"),
-    isViewed: false
+    startDate: new InputDataCategory("10.03.2025 17:41"),
+    isViewed: false,
   };
 
   await randomDelay();
@@ -187,7 +187,7 @@ async function getInteractionsEmail(
   appealId: string
 ): Promise<InteractionsEmailData> {
   return {
-    startDate: "06.06.2024 17:00",
+    startDate: "10.03.2025 17:41",
     fioFrom: "Оператор 1",
     fioWhom: "103@sberins.ru",
     copy: "103@sberins.ru",
@@ -202,7 +202,7 @@ async function getInteractionsComment(
   appealId: string
 ): Promise<InteractionsCommentData> {
   return {
-    startDate: "06.06.2024 17:00",
+    startDate: "10.03.2025 17:41",
     fio: "Оператор 1",
     comment:
       "Это электронное сообщение и любые документы, приложенные к нему, содержат конфиденциальную информацию. Настоящим уведомляем Вас о том, что если это сообщение не предназначено Вам, использование, копирование, распространение информации, содержащейся в настоящем сообщении, а также осуществление любых действий на основе этой информации, строго запрещено.",
@@ -214,7 +214,7 @@ async function getInteractionsCall(
   appealId: string
 ): Promise<InteractionsCallData> {
   return {
-    startDate: "06.06.2024 17:00",
+    startDate: "10.03.2025 17:41",
     fioFrom: "Оператор 1",
     fioWhom: "Медси",
     comment:
@@ -226,7 +226,7 @@ async function getInteractionsSms(
   appealId: string
 ): Promise<InteractionsCallData> {
   return {
-    startDate: "06.06.2024 17:00",
+    startDate: "10.03.2025 17:41",
     fioFrom: "Оператор 2",
     fioWhom: "Медси",
     comment:
@@ -420,31 +420,31 @@ async function toggleSendSmsAnswer(interactionId: string) {
   }
 }
 
-  /** Установить количество непросмотренных взаимодействий в обращении */
-  function setNewInteractionsCountRequest(count: number) {
-    // TODO
-    console.log("setNewInteractionsCountRequest: ", count)
-  }
+/** Установить количество непросмотренных взаимодействий в обращении */
+function setNewInteractionsCountRequest(count: number) {
+  // TODO
+  console.log("setNewInteractionsCountRequest: ", count);
+}
 
-  /** Обновить флажок Просмотрено у взаимодействия */
-  async function updateIsInteractionViewed(interactionId: string): Promise<void> {
-    // TODO
-  }
+/** Обновить флажок Просмотрено у взаимодействия */
+async function updateIsInteractionViewed(interactionId: string): Promise<void> {
+  // TODO
+}
 
-  /** Получение списка Линий */
-  async function getLines(): Promise<{code: string, name: string}[]> {
-    await randomDelay();
-    return [
-      {
-        code: "9f8e6dda-94f3-47f0-b69c-bc514a446b14",
-        name: "103.test",
-      },
-      {
-        code: "b97aa797-55a4-4429-a64d-e7c51910b33c",
-        name: "sa-medpult-mail",
-      },
-    ];
-  }
+/** Получение списка Линий */
+async function getLines(): Promise<{ code: string; name: string }[]> {
+  await randomDelay();
+  return [
+    {
+      code: "9f8e6dda-94f3-47f0-b69c-bc514a446b14",
+      name: "103.test",
+    },
+    {
+      code: "b97aa797-55a4-4429-a64d-e7c51910b33c",
+      name: "sa-medpult-mail",
+    },
+  ];
+}
 
 export default {
   getInteractions,
@@ -474,5 +474,5 @@ export default {
 
   setNewInteractionsCountRequest,
   updateIsInteractionViewed,
-  getLines
+  getLines,
 };

@@ -23,11 +23,16 @@ interface InteractionsHeaderProps {
     setIsShowEmailInModal: (value: boolean) => void;
     isShowEmailOutModal: boolean;
     setIsShowEmailOutModal: (value: boolean) => void;
-  },
+  };
   /** Изменить выбранные каналы */
-  setSelectedChannels: React.Dispatch<React.SetStateAction<InteractionsChannel[]>>
+  setSelectedChannels: React.Dispatch<
+    React.SetStateAction<InteractionsChannel[]>
+  >;
 }
-function InteractionsHeader({ modalStates, setSelectedChannels }: InteractionsHeaderProps) {
+function InteractionsHeader({
+  modalStates,
+  setSelectedChannels,
+}: InteractionsHeaderProps) {
   const {
     isShowCommentModal,
     setIsShowCommentModal,
@@ -45,14 +50,16 @@ function InteractionsHeader({ modalStates, setSelectedChannels }: InteractionsHe
     setIsShowEmailOutModal,
   } = modalStates;
 
-  const [formValues, setFormValues] = useState<{ channel?: InteractionsChannel[] }>({
+  const [formValues, setFormValues] = useState<{
+    channel?: InteractionsChannel[];
+  }>({
     channel: [InteractionsChannel.allChannel], // Дефолтное значение "Все"
   });
 
   useEffect(() => {
-    console.log(setSelectedChannels)
-    setSelectedChannels(formValues.channel ?? [])
-  }, [formValues])
+    console.log(setSelectedChannels);
+    setSelectedChannels(formValues.channel ?? []);
+  }, [formValues]);
 
   const handleInputChange = (name: string, value: string[]) => {
     setFormValues((prevValues) => ({
@@ -101,7 +108,7 @@ function InteractionsHeader({ modalStates, setSelectedChannels }: InteractionsHe
     setIsShowSmsOutModal(false);
     setIsShowEmailInModal(false);
     setIsShowEmailOutModal(false);
-  }
+  };
 
   return (
     <>
