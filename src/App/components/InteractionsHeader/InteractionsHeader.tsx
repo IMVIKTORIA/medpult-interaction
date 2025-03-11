@@ -104,7 +104,7 @@ function InteractionsHeader({ modalStates, setSelectedChannels }: InteractionsHe
   }
 
   return (
-    <>
+    <div className={"custom-list-interaction__header"}>
       <div className="interaction-header">
         <div className="interaction-header__channel">
           <label className="interaction-header__label">Канал поступления</label>
@@ -151,7 +151,7 @@ function InteractionsHeader({ modalStates, setSelectedChannels }: InteractionsHe
         isShowEmailOutModal={isShowEmailOutModal}
         closeModal={closeModal}
       />
-    </>
+    </div>
   );
 }
 

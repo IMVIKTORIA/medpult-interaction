@@ -47,9 +47,23 @@ const ModalManager: React.FC<ModalManagerProps> = ({
   initialText = "",
 }) => {
   const [text, setText] = useState<string>(initialText);
+  const isModalOpen =
+    isShowCommentModal ||
+    isShowCallInModal ||
+    isShowCallOutModal ||
+    isShowSmsInModal ||
+    isShowSmsOutModal ||
+    isShowEmailInModal ||
+    isShowEmailOutModal;
+
   useEffect(() => {
-    setText(initialText);
-  }, [initialText]);
+    if (isModalOpen && !initialText) {
+      setText(""); // Сбрасываем текст если initialText пустой
+    } else {
+      setText(initialText); // Иначе используем initialText
+    }
+  }, [isModalOpen, initialText]);
+
   return (
     <>
       {isShowCommentModal && (

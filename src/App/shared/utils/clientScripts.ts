@@ -1,3 +1,5 @@
+import moment from "moment";
+import { ObjectItem } from "../../../UIKit/Filters/FiltersTypes";
 import {
   InputDataCategory,
   InteractionsData,
@@ -25,18 +27,16 @@ async function getInteractions(
     /** Идентификатор */
     id: appealId,
     /** Канал */
-    channel: new InputDataCategory("", InteractionsChannel.outgoingEmail),
+    channel: InteractionsChannel.outgoingEmail,
     /** Фио */
-    fio: new InputDataCategory("Оператор 1", "111"),
-    topic: new InputDataCategory("Fuuuuuu", "111"),
+    fio: "Оператор 1",
+    topic: "Fuuuuu",
     /** Комментарий */
-    comment: new InputDataCategory(
-      "Это электронное сообщение и любые документы"
-    ),
+    comment: "Это электронное сообщение и любые документы",
     /** Номер задачи */
-    numberTask: new InputDataCategory("TS000025/24", "forma_code"),
+    task: {value: "TS01010201/12", code: "fasfas"},
     /** Дата  */
-    startDate: new InputDataCategory("10.03.2025 8:41"),
+    createdAt: moment("01.01.2024 17:00").toDate(),
     isViewed: true
   };
 
@@ -44,18 +44,16 @@ async function getInteractions(
     /** Идентификатор */
     id: "1111111111111",
     /** Канал */
-    channel: new InputDataCategory("", InteractionsChannel.incomingEmail),
+    channel: InteractionsChannel.incomingEmail,
     /** Фио */
-    fio: new InputDataCategory("Оператор 1", "111"),
-    topic: new InputDataCategory("", "111"),
+    fio: "Оператор 1",
+    topic: "Fuuuuu",
     /** Комментарий */
-    comment: new InputDataCategory(
-      "Это электронное сообщение и любые документы"
-    ),
+    comment: "Это электронное сообщение и любые документы",
     /** Номер задачи */
-    numberTask: new InputDataCategory("TS000025/24", "forma_code"),
+    task: {value: "TS01010201/12", code: "fasfas"},
     /** Дата  */
-    startDate: new InputDataCategory("01.01.2024 17:00"),
+    createdAt: moment("01.01.2024 17:00").toDate(),
     isViewed: false
   };
 
@@ -63,18 +61,16 @@ async function getInteractions(
     /** Идентификатор */
     id: "11111111111112",
     /** Канал */
-    channel: new InputDataCategory("", InteractionsChannel.comment),
+    channel: InteractionsChannel.comment,
     /** Фио */
-    fio: new InputDataCategory("Оператор 1", "111"),
-    topic: new InputDataCategory("", "111"),
+    fio: "Оператор 1",
+    topic: "Fuuuuu",
     /** Комментарий */
-    comment: new InputDataCategory(
-      "Это электронное сообщение и любые документы"
-    ),
+    comment: "Это электронное сообщение и любые документы",
     /** Номер задачи */
-    numberTask: new InputDataCategory("TS000025/24", "forma_code"),
+    task: {value: "TS01010201/12", code: "fasfas"},
     /** Дата  */
-    startDate: new InputDataCategory("01.01.2024 17:00"),
+    createdAt: moment("01.01.2024 17:00").toDate(),
     isViewed: false
   };
 
@@ -82,18 +78,16 @@ async function getInteractions(
     /** Идентификатор */
     id: "11111111111113",
     /** Канал */
-    channel: new InputDataCategory("", InteractionsChannel.outgoingCall),
+    channel: InteractionsChannel.outgoingCall,
     /** Фио */
-    fio: new InputDataCategory("Оператор 1", "111"),
-    topic: new InputDataCategory("", "111"),
+    fio: "Оператор 1",
+    topic: "Fuuuuu",
     /** Комментарий */
-    comment: new InputDataCategory(
-      "Это электронное сообщение и любые документы"
-    ),
+    comment: "Это электронное сообщение и любые документы",
     /** Номер задачи */
-    numberTask: new InputDataCategory("TS000025/24", "forma_code"),
+    task: {value: "TS01010201/12", code: "fasfas"},
     /** Дата  */
-    startDate: new InputDataCategory("01.01.2024 17:00"),
+    createdAt: moment("01.01.2024 17:00").toDate(),
     isViewed: false
   };
 
@@ -101,18 +95,16 @@ async function getInteractions(
     /** Идентификатор */
     id: "11111111111114",
     /** Канал */
-    channel: new InputDataCategory("", InteractionsChannel.outgoingEmail),
+    channel: InteractionsChannel.outgoingEmail,
     /** Фио */
-    fio: new InputDataCategory("Оператор 1", "111"),
-    topic: new InputDataCategory("", "111"),
+    fio: "Оператор 1",
+    topic: "Fuuuuu",
     /** Комментарий */
-    comment: new InputDataCategory(
-      "Это электронное сообщение и любые документы"
-    ),
+    comment: "Это электронное сообщение и любые документы",
     /** Номер задачи */
-    numberTask: new InputDataCategory("TS000025/24", "forma_code"),
+    task: {value: "TS01010201/12", code: "fasfas"},
     /** Дата  */
-    startDate: new InputDataCategory("01.01.2024 17:00"),
+    createdAt: moment("01.01.2024 17:00").toDate(),
     isViewed: false
   };
 
@@ -120,24 +112,22 @@ async function getInteractions(
     /** Идентификатор */
     id: "11111111111115",
     /** Канал */
-    channel: new InputDataCategory("", InteractionsChannel.incomingSms),
+    channel: InteractionsChannel.incomingSms,
     /** Фио */
-    fio: new InputDataCategory("Оператор 1", "111"),
-    topic: new InputDataCategory("", "111"),
+    fio: "Оператор 1",
+    topic: "Fuuuuu",
     /** Комментарий */
-    comment: new InputDataCategory(
-      "Это электронное сообщение и любые документы"
-    ),
+    comment: "Это электронное сообщение и любые документы",
     /** Номер задачи */
-    numberTask: new InputDataCategory("TS000025/24", "forma_code"),
+    task: {value: "TS01010201/12", code: "fasfas"},
     /** Дата  */
-    startDate: new InputDataCategory("01.01.2024 17:00"),
+    createdAt: moment("01.01.2024 17:00").toDate(),
     isViewed: false
   };
 
   await randomDelay();
   return {
-    data: [mockData, mockData1, mockData2, mockData3, mockData4, mockData5],
+    data: [mockData, mockData1, mockData2, mockData3, mockData4, mockData5, mockData, mockData1, mockData2, mockData3, mockData4, mockData5, mockData, mockData1, mockData2, mockData3, mockData4, mockData5],
     hasMore: false,
   };
 }
@@ -150,18 +140,16 @@ async function getInteractionsFulldata(
     /** Идентификатор */
     id: interactionId,
     /** Номер ГП */
-    channel: new InputDataCategory("", InteractionsChannel.outgoingEmail),
+    channel: InteractionsChannel.outgoingEmail,
     /** Согласованные услуги */
-    fio: new InputDataCategory("Оператор 1", "111"),
-    topic: new InputDataCategory("Fuuuuuu", "111"),
+    fio: "Оператор 1",
+    topic: "Fuuuuu",
     /** Срок действия */
-    comment: new InputDataCategory(
-      "Это электронное сообщение и любые документы"
-    ),
+    comment: "Это электронное сообщение и любые документы",
     /** Дата отзыва */
-    numberTask: new InputDataCategory("TS000025/24", "forma_code"),
+    task: {value: "TS01010201/12", code: "fasfas"},
     /** Задача на отзыв */
-    startDate: new InputDataCategory("01.01.2024 17:00"),
+    createdAt: moment("01.01.2024 17:00").toDate(),
     isViewed: false
   };
 
