@@ -132,14 +132,25 @@ export interface getDetailsLayoutAttributes {
   reloadData: () => void;
 }
 
-/** Данные цепочки писем */
-export class SessionData {
+/** Тип сгруппированных данных */
+export enum GroupType {
+  /** Цепочка писем */
+  email = "email",
+  /** По-умолчанию (Одно взаимодействие в группе) */
+  default = "default"
+}
+
+/** Сгруппированные данные по взаимодействиям */
+export class GroupData {
+  /** Взаимодействие (Первое взаимодействие для цепочек писем) */
+  interaction: InteractionsData;
+  /** Тип сгруппированных данных */
+  groupType: GroupType;
   /** Идентификатор сессии */
-  id: string;
+  sessionId?: string
   /** Взаимодействия в цепочке писем */
-  interactions: InteractionsData[];
-  /** Дата создания сессии (Дата создания первого взаимодействия) */
-  createdAt: Date
+  interactions?: InteractionsData[];
+  
 }
 
 // /** Детальные данные Взаимодействия */
@@ -190,6 +201,8 @@ export class InteractionsData {
   isViewed: boolean
   /** Номер задачи */
   task?: ObjectItem;
+  /** Идентификатор сессии */
+  sessionId?: string
 
   constructor() {
     this.channel = InteractionsChannel.comment;

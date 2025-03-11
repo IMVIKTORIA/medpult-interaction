@@ -1,13 +1,17 @@
 @import url("./InteractionsDetails/interactionsDetails.scss");
 @import url("./InteractionRow/interactionRow.scss");
 @import url("./InteractionRow/InteractionListColumn/interactionListColumn.scss");
-// @import url("./InteractionRow/InteractionChannelColumn/");
+@import url("./SessionRow/sessionRow.scss");
 
 .interactions-list {
   padding-bottom: 18px;
 }
 
 .custom-list-interaction {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
   &__header {
     // display: flex;
     //flex-direction: row;
@@ -31,7 +35,8 @@
 
   &__body {
     &_scrollable {
-      height: 500px;
+      // height: 500px;
+      flex: 1;
       overflow-y: scroll;
     }
   }

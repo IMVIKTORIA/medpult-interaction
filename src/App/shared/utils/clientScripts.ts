@@ -41,6 +41,8 @@ async function getInteractions(
   };
 
   const mockData1: InteractionsData = {
+    /** Идентификатор сессии */
+    sessionId: "session",
     /** Идентификатор */
     id: "1111111111111",
     /** Канал */
@@ -92,6 +94,8 @@ async function getInteractions(
   };
 
   const mockData4: InteractionsData = {
+    /** Идентификатор сессии */
+    sessionId: "session",
     /** Идентификатор */
     id: "11111111111114",
     /** Канал */
@@ -125,9 +129,66 @@ async function getInteractions(
     isViewed: false
   };
 
+  const mockData6: InteractionsData = {
+    /** Идентификатор сессии */
+    sessionId: "session",
+    /** Идентификатор */
+    id: "11111111111116",
+    /** Канал */
+    channel: InteractionsChannel.outgoingEmail,
+    /** Фио */
+    fio: "Оператор 1",
+    topic: "Fuuuuu",
+    /** Комментарий */
+    comment: "Это электронное сообщение и любые документы",
+    /** Номер задачи */
+    task: {value: "TS01010201/12", code: "fasfas"},
+    /** Дата  */
+    createdAt: moment("01.01.2024 17:00").toDate(),
+    isViewed: false
+  };
+
+  const mockData7: InteractionsData = {
+    /** Идентификатор сессии */
+    sessionId: "session1",
+    /** Идентификатор */
+    id: "111111111111161",
+    /** Канал */
+    channel: InteractionsChannel.outgoingEmail,
+    /** Фио */
+    fio: "Оператор 1",
+    topic: "Fuuuuu",
+    /** Комментарий */
+    comment: "Это электронное сообщение и любые документы",
+    /** Номер задачи */
+    task: {value: "TS01010201/12", code: "fasfas"},
+    /** Дата  */
+    createdAt: moment("01.01.2024 17:00").toDate(),
+    isViewed: false
+  };
+
+  const mockData8: InteractionsData = {
+    /** Идентификатор сессии */
+    sessionId: "session1",
+    /** Идентификатор */
+    id: "111111111111162",
+    /** Канал */
+    channel: InteractionsChannel.outgoingEmail,
+    /** Фио */
+    fio: "Оператор 1",
+    topic: "Fuuuuu",
+    /** Комментарий */
+    comment: "Это электронное сообщение и любые документы",
+    /** Номер задачи */
+    task: {value: "TS01010201/12", code: "fasfas"},
+    /** Дата  */
+    createdAt: moment("01.01.2024 17:00").toDate(),
+    isViewed: false
+  };
+
   await randomDelay();
   return {
-    data: [mockData, mockData1, mockData2, mockData3, mockData4, mockData5, mockData, mockData1, mockData2, mockData3, mockData4, mockData5, mockData, mockData1, mockData2, mockData3, mockData4, mockData5],
+    data: [mockData, mockData1, mockData2, mockData3, mockData4, mockData5, mockData6, mockData7, mockData8],
     hasMore: false,
   };
 }

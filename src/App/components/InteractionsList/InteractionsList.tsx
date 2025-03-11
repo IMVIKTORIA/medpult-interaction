@@ -1,12 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import {
-  InteractionsData, InteractionsChannel
+  InteractionsData, InteractionsChannel,
+  SessionData,
+  GroupData,
+  GroupType
 } from "../../shared/types";
 import Scripts from "../../shared/utils/clientScripts";
 import InteractionsHeader from "../InteractionsHeader/InteractionsHeader";
 import Loader from "../Loader/Loader";
 import InteractionRow from "./InteractionRow/InteractionRow";
+import SessionRow from "./SessionRow/SessionRow";
 
 /** Пропсы  */
 type InteractionsListProps = {
@@ -66,6 +70,7 @@ function InteractionsList({ appealId }: InteractionsListProps) {
     loadData();
   };
 
+  /** Загрузить взаимодействия */
   const loadData = async (
     items: InteractionsData[] = [],
     page: number = 0,
@@ -123,6 +128,48 @@ function InteractionsList({ appealId }: InteractionsListProps) {
     Scripts.setNewInteractionsCountRequest(unviewedItems.length);
   }, [items]);
 
+  /** Получение сгруппированных взаимодействий */
+  const getGroupedItems = (items: InteractionsData[]) => {
+    const groups: GroupData[] = [];
+
+    // Обработка всех взаимодействий
+    for(const item of items) {
+      // Все кроме email не группируются
+      if(![InteractionsChannel.incomingEmail, InteractionsChannel.outgoingEmail].includes(item.channel)) {
+        // Создание новой группы
+        const group = new GroupData();
+        group.interaction = item;
+        group.groupType = GroupType.default;
+        groups.push(group)
+
+        continue;
+      }
+
+      // Если не указана сессия, то не получится обработать цепочку писем
+      if(!item.sessionId) continue;
+
+      // Найти группу с указанной сессией
+      const findGroup = groups.find(group => group.sessionId == item.sessionId);
+      // Если найдена группа - добавить взаимодействие в цепочку
+      if(findGroup) {
+        if(!findGroup.interactions) findGroup.interactions = [];
+        findGroup.interactions.push(item);
+
+        continue;
+      }
+
+      // Создание новой группы
+      const group = new GroupData();
+      group.interaction = item;
+      group.interactions = [item];
+      group.groupType = GroupType.email;
+      group.sessionId = item.sessionId;
+      groups.push(group)
+    }
+
+    return groups;
+  }
+
   return (
     <div className="custom-list-interaction">
       {/* Заголовок */}
@@ -132,22 +179,42 @@ function InteractionsList({ appealId }: InteractionsListProps) {
       />
       {/* Тело */}
       <div
-        className={`custom-list-interaction__body`}
+        className={`custom-list-interaction__body_scrollable`}
         ref={bodyRef}
         onScroll={onScroll}
       >
         {/* Данные */}
-        {items.map((data) => (
-          <InteractionRow
-            data={data}
-            items={items}
-            setItems={setItems}
-            openRowIndex={openRowIndex}
-            setOpenRowIndex={setOpenRowIndex}
-            reloadData={reloadData}
-            selectedChannels={selectedChannels}
-          />
-        ))}
+        {getGroupedItems(items)
+        .map((data) => {
+          console.log(data);
+          if(data.groupType == GroupType.email) {
+            if(!data.interactions?.length) return;
+
+            return (
+              <SessionRow
+                interactions={data.interactions}
+                items={items}
+                setItems={setItems}
+                openRowIndex={openRowIndex}
+                setOpenRowIndex={setOpenRowIndex}
+                reloadData={reloadData}
+                selectedChannels={selectedChannels}
+              />
+            )
+          }
+          
+          return (
+            <InteractionRow
+              data={data.interaction}
+              items={items}
+              setItems={setItems}
+              openRowIndex={openRowIndex}
+              setOpenRowIndex={setOpenRowIndex}
+              reloadData={reloadData}
+              selectedChannels={selectedChannels}
+            />
+          )
+        })}
 
         {isLoading && <Loader />}
       </div>

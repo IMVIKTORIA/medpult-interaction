@@ -44,48 +44,6 @@ function InteractionRow({
   )
     return;
 
-  /** Колонки списка */
-  const columns = [
-    new ListColumnData({
-      name: "Канал",
-      code: "channel",
-      fr: 0.5,
-      isSortable: false,
-      isIcon: true,
-    }),
-    new ListColumnData({
-      name: "Пользователь",
-      code: "fio",
-      fr: 1,
-      isSortable: false,
-    }),
-    new ListColumnData({
-      name: "Тема",
-      code: "topic",
-      fr: 1,
-      isSortable: false,
-    }),
-    new ListColumnData({
-      name: "Краткое содержание",
-      code: "comment",
-      fr: 3,
-      isSortable: false,
-    }),
-    new ListColumnData({
-      name: "Задача",
-      code: "numberTask",
-      fr: 1,
-      isSortable: false,
-      isLink: true,
-    }),
-    new ListColumnData({
-      name: "Дата и время",
-      code: "startDate",
-      fr: 1,
-      isSortable: false,
-    }),
-  ];
-
   /** Обработчик нажатия на строку */
   const toggleShowDetails = () => {
     if (data.id === undefined) return;
