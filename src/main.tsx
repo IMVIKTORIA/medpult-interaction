@@ -4,5 +4,5 @@ import App from "./App/App";
 
 // Рендер приложений
 ReactDOM.createRoot(
-  document.querySelector("#interaction-root") as HTMLElement
+  document.querySelector("#interaction-task-root") as HTMLElement
 ).render(<App />);

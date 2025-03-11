@@ -70,6 +70,7 @@ type ListProps = {
   items: InteractionsData[];
   /** Установить список взаимодействий */
   setItems: React.Dispatch<React.SetStateAction<InteractionsData[]>>;
+  taskId: string;
 };
 
 function CustomList(props: ListProps) {
@@ -86,6 +87,7 @@ function CustomList(props: ListProps) {
     modalStates,
     items,
     setItems,
+    taskId,
   } = props;
 
   const [page, setPage] = useState<number>(0);
@@ -94,7 +96,9 @@ function CustomList(props: ListProps) {
   const [sortData, setSortData] = useState<SortData>();
   const [openRowIndex, setOpenRowIndex] = useState<string>();
   /** Выбранные каналы */
-  const [selectedChannels, setSelectedChannels] = useState<InteractionsChannel[]>([InteractionsChannel.allChannel]);
+  const [selectedChannels, setSelectedChannels] = useState<
+    InteractionsChannel[]
+  >([InteractionsChannel.allChannel]);
 
   const bodyRef = useRef<HTMLDivElement>(null);
 
@@ -145,31 +149,31 @@ function CustomList(props: ListProps) {
   const [elementsCount, setElementsCount] = useState<number>(items.length);
   /** Обновить количество элементов */
   const updateElementsCount = async () => {
-    const newCount = await Scripts.getInteractionsCount();
+    const newCount = await Scripts.getInteractionsCountTask(taskId);
     if (newCount !== elementsCount) {
       setElementsCount(newCount);
     }
-  }
+  };
 
   // Интервал для проверки количества взаимодействий
   useEffect(() => {
-    updateElementsCount()
+    updateElementsCount();
     const interval = setInterval(updateElementsCount, 3000);
-    
+
     return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
-    if(!elementsCount) return;
+    if (!elementsCount) return;
     reloadData();
-  }, [elementsCount])
+  }, [elementsCount]);
 
-  // Запись количества непросмотренных 
+  // Запись количества непросмотренных
   useEffect(() => {
-    const unviewedItems = items.filter(item => !item.isViewed);
+    const unviewedItems = items.filter((item) => !item.isViewed);
 
-    Scripts.setNewInteractionsCountRequest(unviewedItems.length);
-  }, [items])
+    Scripts.setNewInteractionsCountRequestTask(unviewedItems.length);
+  }, [items]);
 
   return (
     <div className="custom-list-interaction">
@@ -179,7 +183,11 @@ function CustomList(props: ListProps) {
           isScrollable ? " custom-list-interaction__header_scrollable" : ""
         }`}
       >
-        <InteractionsHeader setSelectedChannels={setSelectedChannels} modalStates={modalStates} />
+        <InteractionsHeader
+          setSelectedChannels={setSelectedChannels}
+          modalStates={modalStates}
+          taskId={taskId}
+        />
       </div>
       {/* Тело */}
       <div
@@ -192,10 +200,13 @@ function CustomList(props: ListProps) {
         {/* Данные */}
         {items.map((data) => {
           /** Фильтрация по каналам */
-          if(
-            !selectedChannels.includes(InteractionsChannel.allChannel) // Если не выбраны все каналы
-            && !selectedChannels.includes(data.channel.data.code as unknown as InteractionsChannel) // Если канал текущего элемента не находится в выбранных
-          ) return;
+          if (
+            !selectedChannels.includes(InteractionsChannel.allChannel) && // Если не выбраны все каналы
+            !selectedChannels.includes(
+              data.channel.data.code as unknown as InteractionsChannel
+            ) // Если канал текущего элемента не находится в выбранных
+          )
+            return;
 
           /** Обработчик нажатия на строку */
           const toggleShowDetails = () => {

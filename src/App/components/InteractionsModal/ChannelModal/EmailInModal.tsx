@@ -11,6 +11,7 @@ interface EmailInModalProps {
   closeModal: () => void;
   /** Идентификатор */
   interactionId?: string;
+  taskId?: string;
   text: string;
   setText: (value: string) => void;
 }
@@ -19,6 +20,7 @@ interface EmailInModalProps {
 export default function EmailInModal({
   closeModal,
   interactionId,
+  taskId,
   text,
   setText,
 }: EmailInModalProps) {
@@ -50,11 +52,18 @@ export default function EmailInModal({
       style: { height: "158px" },
     },
   ];
-      
+
   /** Сохранить email входящее */
   const saveEmailHandler = async () => {
     const isIncoming = true;
-    await Scripts.addEmail(text, from, to, isIncoming, interactionId);
+    await Scripts.addEmailTask(
+      text,
+      from,
+      to,
+      isIncoming,
+      interactionId,
+      taskId
+    );
   };
 
   return (
@@ -63,9 +72,9 @@ export default function EmailInModal({
       saveHandler={saveEmailHandler}
       closeModal={closeModal}
     >
-      <ModalLineSelect {...fields[0]}/>
-      <ModalInput {...fields[1]}/>
-      <ModalTextarea {...fields[2]}/>
+      <ModalLineSelect {...fields[0]} />
+      <ModalInput {...fields[1]} />
+      <ModalTextarea {...fields[2]} />
     </InteractionsModal>
   );
 }

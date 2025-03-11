@@ -19,15 +19,14 @@ function randomDelay() {
 
 // TODO: Доработать под задачу
 /** Получение Взаимодействия */
-async function getInteractions(
-  id: string // либо id обращения, либо 
-  /* isFromTask?: boolean */
+async function getInteractionsTask(
+  taskId: string
 ): Promise<GetInteractionsResponse> {
   // В зависимости от isFromTask искать либо из обращения, либо из задачи
-  
+
   const mockData: InteractionsData = {
     /** Идентификатор */
-    id: id,
+    id: taskId,
     /** Канал */
     channel: new InputDataCategory("", InteractionsChannel.outgoingEmail),
     /** Фио */
@@ -40,8 +39,9 @@ async function getInteractions(
     /** Номер задачи */
     numberTask: new InputDataCategory("TS000025/24", "forma_code"),
     /** Дата  */
-    startDate: new InputDataCategory("10.03.2025 8:41"),
-    isViewed: true
+    startDate: new InputDataCategory("11.03.2025 15:09"),
+    isViewed: true,
+    isSystem: false,
   };
 
   const mockData1: InteractionsData = {
@@ -59,8 +59,9 @@ async function getInteractions(
     /** Номер задачи */
     numberTask: new InputDataCategory("TS000025/24", "forma_code"),
     /** Дата  */
-    startDate: new InputDataCategory("01.01.2024 17:00"),
-    isViewed: false
+    startDate: new InputDataCategory("11.03.2025 15:10"),
+    isViewed: false,
+    isSystem: true,
   };
 
   const mockData2: InteractionsData = {
@@ -79,7 +80,8 @@ async function getInteractions(
     numberTask: new InputDataCategory("TS000025/24", "forma_code"),
     /** Дата  */
     startDate: new InputDataCategory("01.01.2024 17:00"),
-    isViewed: false
+    isViewed: false,
+    isSystem: false,
   };
 
   const mockData3: InteractionsData = {
@@ -98,7 +100,8 @@ async function getInteractions(
     numberTask: new InputDataCategory("TS000025/24", "forma_code"),
     /** Дата  */
     startDate: new InputDataCategory("01.01.2024 17:00"),
-    isViewed: false
+    isViewed: false,
+    isSystem: false,
   };
 
   const mockData4: InteractionsData = {
@@ -117,7 +120,8 @@ async function getInteractions(
     numberTask: new InputDataCategory("TS000025/24", "forma_code"),
     /** Дата  */
     startDate: new InputDataCategory("01.01.2024 17:00"),
-    isViewed: false
+    isViewed: false,
+    isSystem: false,
   };
 
   const mockData5: InteractionsData = {
@@ -136,7 +140,8 @@ async function getInteractions(
     numberTask: new InputDataCategory("TS000025/24", "forma_code"),
     /** Дата  */
     startDate: new InputDataCategory("01.01.2024 17:00"),
-    isViewed: false
+    isViewed: false,
+    isSystem: false,
   };
 
   await randomDelay();
@@ -146,42 +151,15 @@ async function getInteractions(
   };
 }
 
-/** Получение полных Взаимодействий */
-async function getInteractionsFulldata(
-  interactionId: string
-): Promise<InteractionsData> {
-  const mockData: InteractionsData = {
-    /** Идентификатор */
-    id: interactionId,
-    /** Номер ГП */
-    channel: new InputDataCategory("", InteractionsChannel.outgoingEmail),
-    /** Согласованные услуги */
-    fio: new InputDataCategory("Оператор 1", "111"),
-    topic: new InputDataCategory("Fuuuuuu", "111"),
-    /** Срок действия */
-    comment: new InputDataCategory(
-      "Это электронное сообщение и любые документы"
-    ),
-    /** Дата отзыва */
-    numberTask: new InputDataCategory("TS000025/24", "forma_code"),
-    /** Задача на отзыв */
-    startDate: new InputDataCategory("01.01.2024 17:00"),
-    isViewed: false
-  };
-
-  await randomDelay();
-  return mockData;
-}
-
 // TODO: дубликат, доработка под задачу
 // TODO: Переделать под задачу
-type SetVisibilityCallbackI = (appealId?: string/* taskId */) => void;
-let changeTaskCallbackI: SetVisibilityCallbackI | undefined;
+type SetVisibilityCallbackT = (taskId?: string) => void;
+let changeTaskCallbackT: SetVisibilityCallbackT | undefined;
 
 // TODO: дубликат, доработка под задачу
 /** Установить функцию обратного вызова для изменения id задачи */
-function setChangeTaskCallbackI(callback?: SetVisibilityCallbackI): void {
-  changeTaskCallbackI = callback;
+function setChangeTaskCallbackT(callback?: SetVisibilityCallbackT): void {
+  changeTaskCallbackT = callback;
 }
 
 /** Ожидание */
@@ -190,8 +168,8 @@ function sleep(ms: number) {
 }
 
 /** Получение проекта письма */
-async function getInteractionsEmail(
-  appealId: string
+async function getInteractionsTaskEmail(
+  interactionId: string
 ): Promise<InteractionsEmailData> {
   return {
     startDate: "06.06.2024 17:00",
@@ -205,8 +183,8 @@ async function getInteractionsEmail(
 }
 
 /** Получение комментария */
-async function getInteractionsComment(
-  appealId: string
+async function getInteractionsTaskComment(
+  interactionId: string
 ): Promise<InteractionsCommentData> {
   return {
     startDate: "06.06.2024 17:00",
@@ -217,8 +195,8 @@ async function getInteractionsComment(
 }
 
 /** Получение звонка */
-async function getInteractionsCall(
-  appealId: string
+async function getInteractionsTaskCall(
+  interactionId: string
 ): Promise<InteractionsCallData> {
   return {
     startDate: "06.06.2024 17:00",
@@ -229,8 +207,8 @@ async function getInteractionsCall(
   };
 }
 /** Получение смс */
-async function getInteractionsSms(
-  appealId: string
+async function getInteractionsTaskSms(
+  interactionId: string
 ): Promise<InteractionsCallData> {
   return {
     startDate: "06.06.2024 17:00",
@@ -243,10 +221,10 @@ async function getInteractionsSms(
 
 // TODO: Доработать под задачу (существующий метод)
 /** Добавить Взаимодейсвтие "комментарий" */
-async function addCommentChannel(
+async function addCommentChannelTask(
   interactionId: string | undefined,
-  text: string,
-  /* taskId?: string */
+  taskId: string | undefined,
+  text: string
 ): Promise<void> {
   // TODO: Если указана задача, то добавить и в обращение и в задачу
   // Добавить в задачу: task.data.interaction.push(interaction)
@@ -255,13 +233,13 @@ async function addCommentChannel(
 }
 
 /** Удалить Взаимодейтсвие */
-async function deleteInteraction(interactionId: string): Promise<void> {
+async function deleteInteractionTask(interactionId: string): Promise<void> {
   // TODO
 }
 
 // TODO: Доработать под задачу (существующий метод)
 /** Добавить Взаимодейсвтие "Звонок" */
-async function addCallInteraction(
+async function addCallInteractionTask(
   /** Текст сообщения */
   text: string,
   /** Номер телефона */
@@ -271,8 +249,8 @@ async function addCallInteraction(
   /** Является входящим */
   isIncoming: boolean,
   /** Идентификатор взаимодействия */
-  interactionId?: string
-  /* taskId?: string */
+  interactionId?: string,
+  taskId?: string
 ): Promise<void> {
   // TODO
   await sleep(1000);
@@ -280,7 +258,7 @@ async function addCallInteraction(
 
 // TODO: Доработать под задачу (существующий метод)
 /** Добавить Взаимодейсвтие "СМС" */
-async function addSmsInteraction(
+async function addSmsInteractionTask(
   /** Текст сообщения */
   text: string,
   /** Номер телефона */
@@ -290,8 +268,8 @@ async function addSmsInteraction(
   /** Является входящим */
   isIncoming: boolean,
   /** Идентификатор взаимодействия */
-  interactionId?: string
-  /* taskId?: string */
+  interactionId?: string,
+  taskId?: string
 ): Promise<void> {
   // TODO
   await sleep(1000);
@@ -299,7 +277,7 @@ async function addSmsInteraction(
 
 // TODO: Доработать под задачу (существующий метод)
 /** Добавить Взаимодейсвтие "Email" */
-async function addEmail(
+async function addEmailTask(
   /** Текст сообщения */
   text: string,
   /** От кого */
@@ -309,8 +287,8 @@ async function addEmail(
   /** Является входящим */
   isIncoming: boolean,
   /** Идентификатор взаимодействия */
-  interactionId?: string
-  /* taskId?: string */
+  interactionId?: string,
+  taskId?: string
 ): Promise<void> {
   // TODO
   await sleep(1000);
@@ -318,25 +296,25 @@ async function addEmail(
 
 // TODO: Сделать дубликат, переработать под задачу
 /** Функция обратного вызова для обновления списка обращений */
-let reloadInteractionsCallback: () => void = () => {};
+let reloadInteractionsTaskCallback: () => void = () => {};
 /** Обновить списка обращений */
-async function reloadInteractionsList() {
-  reloadInteractionsCallback();
+async function reloadInteractionsTaskList() {
+  reloadInteractionsTaskCallback();
 }
 /** Установить функцию обратного вызова для обновления списка обращений */
-function setReloadInteractionsCallback(callback: () => void): void {
-  reloadInteractionsCallback = callback;
+function setReloadInteractionsTaskCallback(callback: () => void): void {
+  reloadInteractionsTaskCallback = callback;
 }
 
 // TODO: Сделать дубликат, переработать под задачу (если используется)
-type OpenInteractionsCallback = (id: string) => void;
+type OpenInteractionsTaskCallback = (id: string) => void;
 /** Функция обратного вызова для открытия согласования */
-let setOpenInteractions: OpenInteractionsCallback | undefined;
+let setOpenInteractionsTask: OpenInteractionsTaskCallback | undefined;
 /** Установить функцию обратного вызова для открытия согласования */
-async function setOpenInteractionsCallback(
-  callback: OpenInteractionsCallback
+async function setOpenInteractionsTaskCallback(
+  callback: OpenInteractionsTaskCallback
 ): Promise<void> {
-  setOpenInteractions = callback;
+  setOpenInteractionsTask = callback;
 }
 
 /** Получение id обращения по id задачи */
@@ -408,13 +386,15 @@ async function getChannel() {
 
 // TODO: Сделать дубликат, переработать под задачу (если используется) getInteractionsCountTask
 /** Получить количество взаимодействий */
-async function getInteractionsCount(/* taskId */): Promise<number> {
+async function getInteractionsCountTask(taskId: string): Promise<number> {
   return 5;
 }
 
 // TODO: Доработать под задачу без дублирования
 /** Открыть модальное окно для отправки ответа на email */
-async function toggleSendEmailAnswer(interactionId: string, /* taskId?:string */) {
+async function toggleSendEmailAnswerTask(
+  interactionId: string /* taskId?:string */
+) {
   try {
     alert("Send Answer on: " + interactionId);
     // window.isFromTask = Boolean(taskId)
@@ -425,7 +405,7 @@ async function toggleSendEmailAnswer(interactionId: string, /* taskId?:string */
 
 // TODO: Доработать под задачу без дублирования
 /** Открыть модальное окно для отправки ответа на email */
-async function toggleSendEmailForward(interactionId: string) {
+async function toggleSendEmailForwardTask(interactionId: string) {
   try {
     alert("Forward on: " + interactionId);
     // window.isFromTask = Boolean(taskId)
@@ -436,7 +416,7 @@ async function toggleSendEmailForward(interactionId: string) {
 
 // TODO: Доработать под задачу без дублирования
 /** Открыть модальное окно для отправки ответа на SMS */
-async function toggleSendSmsAnswer(interactionId: string) {
+async function toggleSendSmsAnswerTask(interactionId: string) {
   try {
     alert("Send Sms Amswer on: " + interactionId);
     // window.isFromTask = Boolean(taskId)
@@ -446,59 +426,60 @@ async function toggleSendSmsAnswer(interactionId: string) {
 }
 
 // TODO: Сделать дубликат. Доработать под задачу setNewInteractionsCountTask
-  /** Установить количество непросмотренных взаимодействий в обращении */
-  function setNewInteractionsCountRequest(count: number) {
-    // TODO
-    console.log("setNewInteractionsCountRequest: ", count)
-  }
+/** Установить количество непросмотренных взаимодействий в обращении */
+function setNewInteractionsCountRequestTask(count: number) {
+  // TODO
+  console.log("setNewInteractionsCountRequestTask: ", count);
+}
 
-  /** Обновить флажок Просмотрено у взаимодействия */
-  async function updateIsInteractionViewed(interactionId: string): Promise<void> {
-    // TODO
-  }
+/** Обновить флажок Просмотрено у взаимодействия */
+async function updateIsInteractionViewedTask(
+  interactionId: string
+): Promise<void> {
+  // TODO
+}
 
-  /** Получение списка Линий */
-  async function getLines(): Promise<{code: string, name: string}[]> {
-    await randomDelay();
-    return [
-      {
-        code: "9f8e6dda-94f3-47f0-b69c-bc514a446b14",
-        name: "103.test",
-      },
-      {
-        code: "b97aa797-55a4-4429-a64d-e7c51910b33c",
-        name: "sa-medpult-mail",
-      },
-    ];
-  }
+/** Получение списка Линий */
+async function getLines(): Promise<{ code: string; name: string }[]> {
+  await randomDelay();
+  return [
+    {
+      code: "9f8e6dda-94f3-47f0-b69c-bc514a446b14",
+      name: "103.test",
+    },
+    {
+      code: "b97aa797-55a4-4429-a64d-e7c51910b33c",
+      name: "sa-medpult-mail",
+    },
+  ];
+}
 
 export default {
-  getInteractions,
-  getInteractionsFulldata,
-  setChangeTaskCallbackI,
-  setReloadInteractionsCallback,
-  setOpenInteractionsCallback,
+  getInteractionsTask,
+  setChangeTaskCallbackT,
+  setReloadInteractionsTaskCallback,
+  setOpenInteractionsTask,
   getRequestIdByTaskId,
   getRequestLink,
 
   getChannel,
-  getInteractionsComment,
-  getInteractionsEmail,
-  getInteractionsCall,
-  getInteractionsSms,
+  getInteractionsTaskComment,
+  getInteractionsTaskEmail,
+  getInteractionsTaskCall,
+  getInteractionsTaskSms,
 
-  addCommentChannel,
-  addCallInteraction,
-  addSmsInteraction,
-  addEmail,
-  deleteInteraction,
+  addCommentChannelTask,
+  addCallInteractionTask,
+  addSmsInteractionTask,
+  addEmailTask,
+  deleteInteractionTask,
 
-  getInteractionsCount,
-  toggleSendEmailAnswer,
-  toggleSendEmailForward,
-  toggleSendSmsAnswer,
+  getInteractionsCountTask,
+  toggleSendEmailAnswerTask,
+  toggleSendEmailForwardTask,
+  toggleSendSmsAnswerTask,
 
-  setNewInteractionsCountRequest,
-  updateIsInteractionViewed,
-  getLines
+  setNewInteractionsCountRequestTask,
+  updateIsInteractionViewedTask,
+  getLines,
 };

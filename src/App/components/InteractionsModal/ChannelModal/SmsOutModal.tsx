@@ -10,6 +10,7 @@ interface SmsOutModalProps {
   closeModal: () => void;
   /** Идентификатор */
   interactionId?: string;
+  taskId?: string;
   text: string;
   setText: (value: string) => void;
   maskFunction?: (value: string) => string;
@@ -19,6 +20,7 @@ interface SmsOutModalProps {
 export default function SmsOutModal({
   closeModal,
   interactionId,
+  taskId,
   text,
   setText,
   maskFunction,
@@ -57,12 +59,13 @@ export default function SmsOutModal({
   /** Сохранить смс исходящее */
   const saveSmsHandler = async () => {
     const isIncoming = false;
-    await Scripts.addSmsInteraction(
+    await Scripts.addSmsInteractionTask(
       text,
       number,
       to,
       isIncoming,
-      interactionId
+      interactionId,
+      taskId
     );
   };
 
@@ -72,9 +75,9 @@ export default function SmsOutModal({
       saveHandler={saveSmsHandler}
       closeModal={closeModal}
     >
-      <ModalInput {...fields[0]}/>
-      <ModalInput {...fields[1]}/>
-      <ModalTextarea {...fields[2]}/>
+      <ModalInput {...fields[0]} />
+      <ModalInput {...fields[1]} />
+      <ModalTextarea {...fields[2]} />
     </InteractionsModal>
   );
 }

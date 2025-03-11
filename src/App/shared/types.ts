@@ -147,7 +147,9 @@ export class InteractionsData {
   /** Дата создания */
   startDate: InputDataCategory;
   /** Просмотрено? */
-  isViewed: boolean
+  isViewed: boolean;
+  /** Автор система? */
+  isSystem: boolean;
 
   constructor() {
     this.channel = new InputDataCategory();
@@ -157,6 +159,7 @@ export class InteractionsData {
     this.numberTask = new InputDataCategory();
     this.startDate = new InputDataCategory();
     this.isViewed = false;
+    this.isSystem = false;
   }
 }
 

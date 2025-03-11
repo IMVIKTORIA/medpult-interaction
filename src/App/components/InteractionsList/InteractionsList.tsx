@@ -15,19 +15,19 @@ import Button from "../CustomButton/CustomButton";
 /** Пропсы  */
 type InteractionsListProps = {
   /** id задачи */
-  appealId: string;
+  taskId: string;
 };
 
 /** Список согласований */
-function InteractionsList({appealId}: InteractionsListProps) {
+function InteractionsList({ taskId }: InteractionsListProps) {
   const onClickRevokeTask = async (props: InputDataCategory) => {
-    const appealId = props.data.code;
-    if (!appealId) return;
+    const taskId = props.data.code;
+    if (!taskId) return;
     // Установка обращения
-    const requestId = await Scripts.getRequestIdByTaskId(appealId);
+    const requestId = await Scripts.getRequestIdByTaskId(taskId);
     utils.setRequest(requestId);
 
-    localStorage.setItem("appealId", appealId);
+    localStorage.setItem("taskId", taskId);
 
     // Переход
     // const link = await Scripts.getRequestLink()
@@ -87,7 +87,8 @@ function InteractionsList({appealId}: InteractionsListProps) {
   const [isShowSmsInModal, setIsShowSmsInModal] = useState<boolean>(false);
   const [isShowSmsOutModal, setIsShowSmsOutModal] = useState<boolean>(false);
   const [isShowEmailInModal, setIsShowEmailInModal] = useState<boolean>(false);
-  const [isShowEmailOutModal, setIsShowEmailOutModal] = useState<boolean>(false);
+  const [isShowEmailOutModal, setIsShowEmailOutModal] =
+    useState<boolean>(false);
 
   const modalStates = {
     isShowCommentModal,
@@ -106,9 +107,7 @@ function InteractionsList({appealId}: InteractionsListProps) {
     setIsShowEmailOutModal,
   };
 
-  
   const [items, setItems] = useState<InteractionsData[]>([]);
-
   /** Получение формы детальной информации*/
   const getDetailsLayout = ({
     rowData,
@@ -135,12 +134,13 @@ function InteractionsList({appealId}: InteractionsListProps) {
       <CustomList
         getDetailsLayout={getDetailsLayout}
         columnsSettings={columns}
-        getDataHandler={() => Scripts.getInteractions(appealId)}
+        getDataHandler={() => Scripts.getInteractionsTask(taskId)}
         isScrollable={false}
-        setSearchHandler={Scripts.setReloadInteractionsCallback}
+        setSearchHandler={Scripts.setReloadInteractionsTaskCallback}
         modalStates={modalStates}
         items={items}
         setItems={setItems}
+        taskId={taskId}
       />
     </div>
   );

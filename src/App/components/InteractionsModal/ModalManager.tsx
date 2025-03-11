@@ -18,6 +18,7 @@ interface ModalManagerProps {
   isShowEmailOutModal: boolean;
   closeModal: () => void;
   interactionId?: string;
+  taskId?: string;
   initialText?: string;
 }
 
@@ -43,19 +44,35 @@ const ModalManager: React.FC<ModalManagerProps> = ({
   isShowEmailInModal,
   isShowEmailOutModal,
   interactionId,
+  taskId,
   closeModal,
   initialText = "",
 }) => {
   const [text, setText] = useState<string>(initialText);
+  const isModalOpen =
+    isShowCommentModal ||
+    isShowCallInModal ||
+    isShowCallOutModal ||
+    isShowSmsInModal ||
+    isShowSmsOutModal ||
+    isShowEmailInModal ||
+    isShowEmailOutModal;
+
   useEffect(() => {
-    setText(initialText);
-  }, [initialText]);
+    if (isModalOpen && !initialText) {
+      setText(""); // Сбрасываем текст если initialText пустой
+    } else {
+      setText(initialText); // Иначе используем initialText
+    }
+  }, [isModalOpen, initialText]);
+
   return (
     <>
       {isShowCommentModal && (
         <ModalWrapper>
           <CommentModal
             interactionId={interactionId}
+            taskId={taskId}
             closeModal={closeModal}
             text={text}
             setText={setText}
@@ -66,6 +83,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
         <ModalWrapper>
           <CallInModal
             interactionId={interactionId}
+            taskId={taskId}
             closeModal={closeModal}
             text={text}
             setText={setText}
@@ -77,6 +95,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
         <ModalWrapper>
           <CallOutModal
             interactionId={interactionId}
+            taskId={taskId}
             closeModal={closeModal}
             text={text}
             setText={setText}
@@ -88,6 +107,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
         <ModalWrapper>
           <SmsInModal
             interactionId={interactionId}
+            taskId={taskId}
             closeModal={closeModal}
             text={text}
             setText={setText}
@@ -99,6 +119,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
         <ModalWrapper>
           <SmsOutModal
             interactionId={interactionId}
+            taskId={taskId}
             closeModal={closeModal}
             text={text}
             setText={setText}
@@ -110,6 +131,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
         <ModalWrapper>
           <EmailInModal
             interactionId={interactionId}
+            taskId={taskId}
             closeModal={closeModal}
             text={text}
             setText={setText}
@@ -120,6 +142,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
         <ModalWrapper>
           <EmailOutModal
             interactionId={interactionId}
+            taskId={taskId}
             closeModal={closeModal}
             text={text}
             setText={setText}

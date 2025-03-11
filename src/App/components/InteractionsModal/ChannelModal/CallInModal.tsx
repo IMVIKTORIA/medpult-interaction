@@ -10,6 +10,7 @@ interface CallInModalProps {
   closeModal: () => void;
   /** Идентификатор */
   interactionId?: string;
+  taskId?: string;
   text: string;
   setText: (value: string) => void;
   maskFunction?: (value: string) => string;
@@ -19,6 +20,7 @@ interface CallInModalProps {
 export default function CallInModal({
   closeModal,
   interactionId,
+  taskId,
   text,
   setText,
   maskFunction,
@@ -57,12 +59,13 @@ export default function CallInModal({
   /** Сохранить звонок входящий */
   const saveCallHandler = async () => {
     const isIncoming = true;
-    await Scripts.addCallInteraction(
+    await Scripts.addCallInteractionTask(
       text,
       number,
       from,
       isIncoming,
-      interactionId
+      interactionId,
+      taskId
     );
   };
 
@@ -72,9 +75,9 @@ export default function CallInModal({
       closeModal={closeModal}
       saveHandler={saveCallHandler}
     >
-      <ModalInput {...fields[0]}/>
-      <ModalInput {...fields[1]}/>
-      <ModalTextarea {...fields[2]}/>
+      <ModalInput {...fields[0]} />
+      <ModalInput {...fields[1]} />
+      <ModalTextarea {...fields[2]} />
     </InteractionsModal>
   );
 }

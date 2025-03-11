@@ -6,23 +6,20 @@ import InteractionsList from "../InteractionsList/InteractionsList";
 export default function InteractionsForm() {
   // TODO: Id задачи
   // Идентификатор текущего обращения
-  const [appealId, setAppealId] = useState<string>(/* "test" */);
+  const [taskId, setTaskId] = useState<string>(/** "test"*/);
 
   // Запись callback изменения задачи
   React.useLayoutEffect(() => {
-    if(appealId == "test") alert("Форма в режиме разработки")
-    const changeTaskCallback = (appealId?: string) => setAppealId(appealId);
-    Scripts.setChangeTaskCallbackI(changeTaskCallback);
+    if (taskId == "test") alert("Форма в режиме разработки");
+    const changeTaskCallback = (taskId?: string) => setTaskId(taskId);
+    Scripts.setChangeTaskCallbackT(changeTaskCallback);
 
-    return () => Scripts.setChangeTaskCallbackI();
+    return () => Scripts.setChangeTaskCallbackT();
   }, []);
-
   return (
-    appealId && (
+    taskId && (
       <div className="interaction-form">
-        <InteractionsList
-          appealId={appealId}
-        />
+        <InteractionsList taskId={taskId} />
       </div>
     )
   );

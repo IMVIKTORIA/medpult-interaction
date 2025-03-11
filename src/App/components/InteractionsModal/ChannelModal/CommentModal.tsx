@@ -9,6 +9,7 @@ interface CommentModalProps {
   closeModal: () => void;
   /** Идентификатор */
   interactionId?: string;
+  taskId?: string;
   text: string;
   setText: (value: string) => void;
 }
@@ -17,6 +18,7 @@ interface CommentModalProps {
 export default function CommentModal({
   closeModal,
   interactionId,
+  taskId,
   text,
   setText,
 }: CommentModalProps) {
@@ -33,7 +35,7 @@ export default function CommentModal({
   ];
 
   const saveCommentHandler = async () => {
-    await Scripts.addCommentChannel(interactionId, text);
+    await Scripts.addCommentChannelTask(interactionId, taskId, text);
   };
 
   return (
@@ -42,7 +44,7 @@ export default function CommentModal({
       saveHandler={saveCommentHandler}
       closeModal={closeModal}
     >
-      <ModalTextarea {...fields[0]}/>
+      <ModalTextarea {...fields[0]} />
     </InteractionsModal>
   );
 }

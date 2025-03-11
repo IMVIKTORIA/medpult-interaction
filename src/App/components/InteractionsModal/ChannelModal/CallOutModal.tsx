@@ -10,6 +10,7 @@ interface CallOutModalProps {
   closeModal: () => void;
   /** Идентификатор */
   interactionId?: string;
+  taskId?: string;
   text: string;
   setText: (value: string) => void;
   maskFunction?: (value: string) => string;
@@ -19,6 +20,7 @@ interface CallOutModalProps {
 export default function CallOutModal({
   closeModal,
   interactionId,
+  taskId,
   text,
   setText,
   maskFunction,
@@ -57,21 +59,22 @@ export default function CallOutModal({
   /** Сохранить звонок исходящий */
   const saveCallHandler = async () => {
     const isIncoming = false;
-    await Scripts.addCallInteraction(
+    await Scripts.addCallInteractionTask(
       text,
       number,
       to,
       isIncoming,
-      interactionId
+      interactionId,
+      taskId
     );
   };
-      
+
   /** Поля ввода модалки */
   const ModalContent = (
     <>
-      <ModalInput {...fields[0]}/>
-      <ModalInput {...fields[1]}/>
-      <ModalTextarea {...fields[2]}/>
+      <ModalInput {...fields[0]} />
+      <ModalInput {...fields[1]} />
+      <ModalTextarea {...fields[2]} />
     </>
   );
 

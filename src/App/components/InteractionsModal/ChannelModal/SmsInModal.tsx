@@ -10,6 +10,7 @@ interface SmsInModalProps {
   closeModal: () => void;
   /** Идентификатор */
   interactionId?: string;
+  taskId?: string;
   text: string;
   setText: (value: string) => void;
   maskFunction?: (value: string) => string;
@@ -19,6 +20,7 @@ interface SmsInModalProps {
 export default function SmsInModal({
   closeModal,
   interactionId,
+  taskId,
   text,
   setText,
   maskFunction,
@@ -57,12 +59,13 @@ export default function SmsInModal({
   /** Сохранить смс входящее */
   const saveSmsHandler = async () => {
     const isIncoming = true;
-    await Scripts.addSmsInteraction(
+    await Scripts.addSmsInteractionTask(
       text,
       number,
       from,
       isIncoming,
-      interactionId
+      interactionId,
+      taskId
     );
   };
 
@@ -72,9 +75,9 @@ export default function SmsInModal({
       saveHandler={saveSmsHandler}
       closeModal={closeModal}
     >
-      <ModalInput {...fields[0]}/>
-      <ModalInput {...fields[1]}/>
-      <ModalTextarea {...fields[2]}/>
+      <ModalInput {...fields[0]} />
+      <ModalInput {...fields[1]} />
+      <ModalTextarea {...fields[2]} />
     </InteractionsModal>
   );
 }

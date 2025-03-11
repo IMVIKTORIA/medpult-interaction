@@ -12,6 +12,7 @@ interface EmailOutModalProps {
   closeModal: () => void;
   /** Идентификатор */
   interactionId?: string;
+  taskId?: string;
   text: string;
   setText: (value: string) => void;
 }
@@ -20,6 +21,7 @@ interface EmailOutModalProps {
 export default function EmailOutModal({
   closeModal,
   interactionId,
+  taskId,
   text,
   setText,
 }: EmailOutModalProps) {
@@ -51,11 +53,18 @@ export default function EmailOutModal({
       style: { height: "158px" },
     },
   ];
-    
+
   /** Сохранить email исходящее */
   const saveEmailHandler = async () => {
     const isIncoming = false;
-    await Scripts.addEmail(text, from, to, isIncoming, interactionId);
+    await Scripts.addEmailTask(
+      text,
+      from,
+      to,
+      isIncoming,
+      interactionId,
+      taskId
+    );
   };
 
   return (
@@ -64,9 +73,9 @@ export default function EmailOutModal({
       closeModal={closeModal}
       saveHandler={saveEmailHandler}
     >
-      <ModalInput {...fields[0]}/>
-      <ModalLineSelect {...fields[1]}/>
-      <ModalTextarea {...fields[2]}/>
+      <ModalInput {...fields[0]} />
+      <ModalLineSelect {...fields[1]} />
+      <ModalTextarea {...fields[2]} />
     </InteractionsModal>
   );
 }
