@@ -69,14 +69,14 @@ function InteractionRow({
 
   /** Разметка шапки строки */
   const HeaderLayout = (
-    <div className="custom-list-row-approval custom-list-row-approval_openable" onClick={toggleShowDetails}>
+    <div className="interaction-row interaction-row_openable" onClick={toggleShowDetails}>
       {/* Канал */}
-      <InteractionChannelColumn fr={0.25} isViewed={isShowDetails || data.isViewed} channel={data.channel}/>
+      <InteractionChannelColumn fr={0.5} isViewed={isShowDetails || data.isViewed} channel={data.channel}/>
       {/* Счетчик писем в цепочке*/}
       <InteractionListColumn fr={0.25}>
         {
           chainLength &&
-          <div className="session-row__counter">
+          <div className="interaction-row__counter">
             {chainLength}
           </div>
         }

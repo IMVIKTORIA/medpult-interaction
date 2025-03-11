@@ -17,19 +17,14 @@ function InteractionListColumn(props: InteractionListColumnProps) {
     <div
       className={
         onClick
-          ? "custom-list-row-column custom-list-row-column__link"
-          : "custom-list-row-column"
+          ? "interaction-column interaction-column__link"
+          : "interaction-column"
       }
       style={{ flex: fr }}
     >
       <span
         title={title}
         onClick={onClick}
-        style={{
-          whiteSpace: "nowrap",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-        }}
       >
         {children}
       </span>

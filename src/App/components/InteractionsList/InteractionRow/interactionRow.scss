@@ -1,4 +1,4 @@
-.custom-list-row-approval {
+.interaction-row {
     display: flex;
     flex-direction: row;
   
@@ -22,6 +22,17 @@
       &:hover {
         background-color: var(--medpult-hover-color);
       }
+    }
+
+    &__counter {
+      background: #e9e9eb;
+      color: #444444;
+      width: 24px;
+      height: 24px;
+      justify-content: center;
+      display: flex;
+      align-items: center;
+      border-radius: 50px;
     }
   }
   

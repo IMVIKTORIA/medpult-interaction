@@ -56,7 +56,7 @@ function SessionRow({
               setOpenRowIndex={setOpenRowIndex}
               reloadData={reloadData}
               selectedChannels={selectedChannels}
-              chainLength={index == 0 ? interactions.length - 1 : undefined}
+              chainLength={index == 0 && interactions.length > 1 ? interactions.length - 1 : undefined}
             />
         )}
     </div>
