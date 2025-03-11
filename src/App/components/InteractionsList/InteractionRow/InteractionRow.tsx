@@ -25,6 +25,8 @@ type InteractionRowProps = {
   reloadData: () => void;
   /** Список выбранных каналов */
   selectedChannels: InteractionsChannel[];
+  /** Счетчик писем в цепочке */
+  chainLength?: number
 };
 
 /** Строка со взаимодействием */
@@ -36,6 +38,7 @@ function InteractionRow({
   setOpenRowIndex,
   reloadData,
   selectedChannels,
+  chainLength,
 }: InteractionRowProps) {
   /** Фильтрация по каналам */
   if (
@@ -68,7 +71,16 @@ function InteractionRow({
   const HeaderLayout = (
     <div className="custom-list-row-approval custom-list-row-approval_openable" onClick={toggleShowDetails}>
       {/* Канал */}
-      <InteractionChannelColumn fr={0.5} isViewed={isShowDetails || data.isViewed} channel={data.channel}/>
+      <InteractionChannelColumn fr={0.25} isViewed={isShowDetails || data.isViewed} channel={data.channel}/>
+      {/* Счетчик писем в цепочке*/}
+      <InteractionListColumn fr={0.25}>
+        {
+          chainLength &&
+          <div className="session-row__counter">
+            {chainLength}
+          </div>
+        }
+      </InteractionListColumn>
       {/* ФИО */}
       <InteractionListColumn fr={1}>{data.fio}</InteractionListColumn>
       {/* Тема */}

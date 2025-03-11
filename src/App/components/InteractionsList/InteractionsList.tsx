@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import {
-  InteractionsData, InteractionsChannel,
-  SessionData,
+  InteractionsData, 
+  InteractionsChannel,
   GroupData,
   GroupType
 } from "../../shared/types";
@@ -135,7 +135,7 @@ function InteractionsList({ appealId }: InteractionsListProps) {
     // Обработка всех взаимодействий
     for(const item of items) {
       // Все кроме email не группируются
-      if(![InteractionsChannel.incomingEmail, InteractionsChannel.outgoingEmail].includes(item.channel)) {
+      if(![InteractionsChannel.incomingEmail, InteractionsChannel.outgoingEmail].includes(item.channel) || !item.sessionId) {
         // Создание новой группы
         const group = new GroupData();
         group.interaction = item;
@@ -144,9 +144,6 @@ function InteractionsList({ appealId }: InteractionsListProps) {
 
         continue;
       }
-
-      // Если не указана сессия, то не получится обработать цепочку писем
-      if(!item.sessionId) continue;
 
       // Найти группу с указанной сессией
       const findGroup = groups.find(group => group.sessionId == item.sessionId);
@@ -186,7 +183,6 @@ function InteractionsList({ appealId }: InteractionsListProps) {
         {/* Данные */}
         {getGroupedItems(items)
         .map((data) => {
-          console.log(data);
           if(data.groupType == GroupType.email) {
             if(!data.interactions?.length) return;
 

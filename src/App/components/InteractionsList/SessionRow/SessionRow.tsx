@@ -47,7 +47,7 @@ function SessionRow({
 
   return (
     <div className="session-row">
-        {interactions.map(data => 
+        {interactions.map((data, index) => 
             <InteractionRow
               data={data}
               items={items}
@@ -56,6 +56,7 @@ function SessionRow({
               setOpenRowIndex={setOpenRowIndex}
               reloadData={reloadData}
               selectedChannels={selectedChannels}
+              chainLength={index == 0 ? interactions.length - 1 : undefined}
             />
         )}
     </div>
