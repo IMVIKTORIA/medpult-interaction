@@ -160,6 +160,7 @@ function InteractionsHeader({
         isShowEmailInModal={isShowEmailInModal}
         isShowEmailOutModal={isShowEmailOutModal}
         closeModal={closeModal}
+        taskId={taskId}
       />
     </div>
   );
