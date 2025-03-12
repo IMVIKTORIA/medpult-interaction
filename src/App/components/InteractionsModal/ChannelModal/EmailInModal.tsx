@@ -13,6 +13,10 @@ interface EmailInModalProps {
   interactionId?: string;
   text: string;
   setText: (value: string) => void;
+  fio: string;
+  setFio: (value: string) => void;
+  logChan: string;
+  setLogChan: (value: string) => void;
   /** Перезагрузить список */
   reloadData?: () => void;
   /** Идентификатор задачи (Для взаимодействий в задаче) */
@@ -25,27 +29,26 @@ export default function EmailInModal({
   interactionId,
   text,
   setText,
+  fio,
+  setFio,
+  logChan,
+  setLogChan,
   reloadData,
   taskId,
 }: EmailInModalProps) {
-  // от кого
-  const [from, setFrom] = useState<string>("");
-  // кому
-  const [to, setTo] = useState<string>("");
-
   const fields: FieldConfig[] = [
     {
       type: FieldType.input,
       label: "Кому",
-      value: to,
-      setValue: setTo,
+      value: logChan,
+      setValue: setLogChan,
       style: { width: "232px" },
     },
     {
       type: FieldType.input,
       label: "От кого",
-      value: from,
-      setValue: setFrom,
+      value: fio,
+      setValue: setFio,
       style: { width: "232px" },
     },
     {

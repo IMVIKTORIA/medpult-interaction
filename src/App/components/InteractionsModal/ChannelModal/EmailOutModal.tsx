@@ -13,6 +13,10 @@ interface EmailOutModalProps {
   /** Идентификатор */
   interactionId?: string;
   text: string;
+  fio: string;
+  setFio: (value: string) => void;
+  logChan: string;
+  setLogChan: (value: string) => void;
   setText: (value: string) => void;
   /** Перезагрузить список */
   reloadData?: () => void;
@@ -26,27 +30,26 @@ export default function EmailOutModal({
   interactionId,
   text,
   setText,
+  fio,
+  setFio,
+  logChan,
+  setLogChan,
   reloadData,
   taskId,
 }: EmailOutModalProps) {
-  // кому
-  const [to, setTo] = useState<string>("");
-  // от кого
-  const [from, setFrom] = useState<string>("");
-
   const fields: FieldConfig[] = [
     {
       type: FieldType.input,
       label: "От кого",
-      value: from,
-      setValue: setFrom,
+      value: logChan,
+      setValue: setLogChan,
       style: { width: "232px" },
     },
     {
       type: FieldType.input,
       label: "Кому",
-      value: to,
-      setValue: setTo,
+      value: fio,
+      setValue: setFio,
       style: { width: "232px" },
     },
     {

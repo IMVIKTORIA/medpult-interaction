@@ -21,6 +21,7 @@ interface ModalManagerProps {
   initialText?: string;
   initialFio?: string;
   initialPhone?: string;
+  initialLogChan?: string;
   /** Перезагрузить список */
   reloadData?: () => void;
   /** Идентификатор задачи (Для взаимодействий в задаче) */
@@ -53,12 +54,14 @@ const ModalManager: React.FC<ModalManagerProps> = ({
   initialText = "",
   initialFio = "",
   initialPhone = "",
+  initialLogChan = "",
   reloadData,
   taskId
 }) => {
   const [text, setText] = useState<string>(initialText);
   const [fio, setFio] = useState<string>(initialFio);
   const [numberPhone, setNumberPhone] = useState<string>(initialPhone);
+  const [logChan, setLogChan] = useState<string>(initialLogChan);
   const isModalOpen =
     isShowCommentModal ||
     isShowCallInModal ||
@@ -98,8 +101,9 @@ const ModalManager: React.FC<ModalManagerProps> = ({
       setText(initialText || "");
       setFio(initialFio || "");
       setNumberPhone(initialPhone || "");
+      setLogChan(initialLogChan || "");
     }
-  }, [isModalOpen, initialText, initialFio, initialPhone]);
+  }, [isModalOpen, initialText, initialFio, initialPhone, initialLogChan]);
   return (
     <>
       {isShowCommentModal && (
@@ -189,6 +193,10 @@ const ModalManager: React.FC<ModalManagerProps> = ({
             closeModal={closeModal}
             text={text}
             setText={setText}
+            fio={fio}
+            setFio={setFio}
+            logChan={logChan}
+            setLogChan={setLogChan}
             reloadData={reloadData}
             taskId={taskId}
           />
@@ -201,6 +209,10 @@ const ModalManager: React.FC<ModalManagerProps> = ({
             closeModal={closeModal}
             text={text}
             setText={setText}
+            fio={fio}
+            setFio={setFio}
+            logChan={logChan}
+            setLogChan={setLogChan}
             reloadData={reloadData}
             taskId={taskId}
           />
