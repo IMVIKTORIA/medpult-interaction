@@ -17,7 +17,6 @@ class InteractionsSmsProps {
   setIsShowSmsOutModal: (value: boolean) => void;
   /** Показывать кнопки удалить и редактировать */
   isShowEditButtons: boolean;
-  isSystem: boolean;
 }
 
 /** Проект комментария */
@@ -29,7 +28,6 @@ function InteractionsSms({
   setIsShowSmsInModal,
   setIsShowSmsOutModal,
   isShowEditButtons,
-  isSystem,
 }: InteractionsSmsProps) {
   const handleSwowClick = () => {
     if (channelCode === InteractionsChannel.incomingSms) {
@@ -70,7 +68,7 @@ function InteractionsSms({
                 {icons.reply}ОТВЕТИТЬ
               </div>
             )}
-            {isShowEditButtons && !isSystem && (
+            {isShowEditButtons && (
               <>
                 <div
                   className="interactions-email__button"

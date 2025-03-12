@@ -136,6 +136,9 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
 
   /** Показывать кнопки удаления и редактирования? */
   const checkCanShowEditButton = (): boolean => {
+    // Не показывать для автоматического
+    if(data.isSystem) return false;
+
     // Дата создания
     const createDateStr = data.createdAt;
     const createDate = moment(createDateStr);
@@ -260,7 +263,6 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                   setIsShowCallInModal={setIsShowCallInModal}
                   setIsShowCallOutModal={setIsShowCallOutModal}
                   isShowEditButtons={isShowEditButtons}
-                  isSystem={data.isSystem}
                 />
               )}
             {data.channel &&
@@ -275,7 +277,6 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                   setIsShowSmsInModal={setIsShowSmsInModal}
                   setIsShowSmsOutModal={setIsShowSmsOutModal}
                   isShowEditButtons={isShowEditButtons}
-                  isSystem={data.isSystem}
                 />
               )}
           </div>

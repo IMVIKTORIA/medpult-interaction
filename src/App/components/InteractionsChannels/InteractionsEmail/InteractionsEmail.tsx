@@ -105,7 +105,7 @@ function InteractionsEmail({
                 </div>
               </>
             )}
-            {isShowEditButtons && !isSystem && (
+            {isShowEditButtons && (
               <>
                 <div
                   onClick={handleSwowClick}
