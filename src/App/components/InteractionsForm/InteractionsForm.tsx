@@ -5,7 +5,7 @@ import InteractionsList from "../InteractionsList/InteractionsList";
 /** Форма вкладки Взаимодействия в обращении */
 export default function InteractionsForm() {
   // Идентификатор текущего обращения
-  const [appealId, setAppealId] = useState<string>(/* "test" */);
+  const [appealId, setAppealId] = useState<string>(/**"test"*/);
 
   // Запись callback изменения задачи
   React.useLayoutEffect(() => {

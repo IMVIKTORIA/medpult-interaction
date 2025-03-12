@@ -11,8 +11,14 @@ interface CallOutModalProps {
   /** Идентификатор */
   interactionId?: string;
   text: string;
+  fio: string;
+  setFio: (value: string) => void;
+  numberPhone: string;
+  setNumberPhone: (value: string) => void;
   setText: (value: string) => void;
   maskFunction?: (value: string) => string;
+  /** Перезагрузить список */
+  reloadData?: () => void;
 }
 
 /** Модальное окно звонка */
@@ -21,26 +27,26 @@ export default function CallOutModal({
   interactionId,
   text,
   setText,
+  fio,
+  setFio,
+  numberPhone,
+  setNumberPhone,
   maskFunction,
+  reloadData,
 }: CallOutModalProps) {
-  // кому
-  const [to, setTo] = useState<string>("");
-  // номер телефона
-  const [number, setNumber] = useState<string>("");
-
   const fields: FieldConfig[] = [
     {
       type: FieldType.input,
       label: "Кому",
-      value: to,
-      setValue: setTo,
+      value: fio,
+      setValue: setFio,
       style: { width: "232px" },
     },
     {
       type: FieldType.input,
       label: "Номер телефона",
-      value: number,
-      setValue: setNumber,
+      value: numberPhone,
+      setValue: setNumberPhone,
       style: { width: "232px" },
       placeholder: "+7 000 000 00 00",
       maskFunction: maskFunction,
@@ -59,19 +65,20 @@ export default function CallOutModal({
     const isIncoming = false;
     await Scripts.addCallInteraction(
       text,
-      number,
-      to,
+      numberPhone,
+      fio,
       isIncoming,
       interactionId
     );
+    if (reloadData) reloadData();
   };
-      
+
   /** Поля ввода модалки */
   const ModalContent = (
     <>
-      <ModalInput {...fields[0]}/>
-      <ModalInput {...fields[1]}/>
-      <ModalTextarea {...fields[2]}/>
+      <ModalInput {...fields[0]} />
+      <ModalInput {...fields[1]} />
+      <ModalTextarea {...fields[2]} />
     </>
   );
 

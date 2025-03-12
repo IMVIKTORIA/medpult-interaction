@@ -1,16 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import {
-  InteractionsData, 
+  InteractionsData,
   InteractionsChannel,
   GroupData,
-  GroupType
+  GroupType,
 } from "../../shared/types";
 import Scripts from "../../shared/utils/clientScripts";
 import InteractionsHeader from "../InteractionsHeader/InteractionsHeader";
 import Loader from "../Loader/Loader";
 import InteractionRow from "./InteractionRow/InteractionRow";
 import SessionRow from "./SessionRow/SessionRow";
+import moment from "moment";
 
 /** Пропсы  */
 type InteractionsListProps = {
@@ -26,7 +27,8 @@ function InteractionsList({ appealId }: InteractionsListProps) {
   const [isShowSmsInModal, setIsShowSmsInModal] = useState<boolean>(false);
   const [isShowSmsOutModal, setIsShowSmsOutModal] = useState<boolean>(false);
   const [isShowEmailInModal, setIsShowEmailInModal] = useState<boolean>(false);
-  const [isShowEmailOutModal, setIsShowEmailOutModal] = useState<boolean>(false);
+  const [isShowEmailOutModal, setIsShowEmailOutModal] =
+    useState<boolean>(false);
 
   /** Состояние модального окна TODO: Опираться на одно булево состояние и передавать канал взаимодействия */
   const modalStates = {
@@ -130,26 +132,40 @@ function InteractionsList({ appealId }: InteractionsListProps) {
 
   /** Получение сгруппированных взаимодействий */
   const getGroupedItems = (items: InteractionsData[]) => {
+    // Сортировка взаимодействий по дате создания (от новых к старым)
+    const sortedItems = [...items].sort((a, b) => {
+      const dateA = moment(a.createdAt);
+      const dateB = moment(b.createdAt);
+      return dateB.diff(dateA);
+    });
     const groups: GroupData[] = [];
 
     // Обработка всех взаимодействий
-    for(const item of items) {
+    for (const item of sortedItems) {
       // Все кроме email не группируются
-      if(![InteractionsChannel.incomingEmail, InteractionsChannel.outgoingEmail].includes(item.channel) || !item.sessionId) {
+      if (
+        ![
+          InteractionsChannel.incomingEmail,
+          InteractionsChannel.outgoingEmail,
+        ].includes(item.channel) ||
+        !item.sessionId
+      ) {
         // Создание новой группы
         const group = new GroupData();
         group.interaction = item;
         group.groupType = GroupType.default;
-        groups.push(group)
+        groups.push(group);
 
         continue;
       }
 
       // Найти группу с указанной сессией
-      const findGroup = groups.find(group => group.sessionId == item.sessionId);
+      const findGroup = groups.find(
+        (group) => group.sessionId == item.sessionId
+      );
       // Если найдена группа - добавить взаимодействие в цепочку
-      if(findGroup) {
-        if(!findGroup.interactions) findGroup.interactions = [];
+      if (findGroup) {
+        if (!findGroup.interactions) findGroup.interactions = [];
         findGroup.interactions.push(item);
 
         continue;
@@ -161,11 +177,11 @@ function InteractionsList({ appealId }: InteractionsListProps) {
       group.interactions = [item];
       group.groupType = GroupType.email;
       group.sessionId = item.sessionId;
-      groups.push(group)
+      groups.push(group);
     }
 
     return groups;
-  }
+  };
 
   return (
     <div className="custom-list-interaction">
@@ -181,10 +197,9 @@ function InteractionsList({ appealId }: InteractionsListProps) {
         onScroll={onScroll}
       >
         {/* Данные */}
-        {getGroupedItems(items)
-        .map((data) => {
-          if(data.groupType == GroupType.email) {
-            if(!data.interactions?.length) return;
+        {getGroupedItems(items).map((data) => {
+          if (data.groupType == GroupType.email) {
+            if (!data.interactions?.length) return;
 
             return (
               <SessionRow
@@ -196,9 +211,9 @@ function InteractionsList({ appealId }: InteractionsListProps) {
                 reloadData={reloadData}
                 selectedChannels={selectedChannels}
               />
-            )
+            );
           }
-          
+
           return (
             <InteractionRow
               data={data.interaction}
@@ -209,7 +224,7 @@ function InteractionsList({ appealId }: InteractionsListProps) {
               reloadData={reloadData}
               selectedChannels={selectedChannels}
             />
-          )
+          );
         })}
 
         {isLoading && <Loader />}

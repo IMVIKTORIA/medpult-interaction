@@ -12,7 +12,13 @@ interface SmsOutModalProps {
   interactionId?: string;
   text: string;
   setText: (value: string) => void;
+  fio: string;
+  setFio: (value: string) => void;
+  numberPhone: string;
+  setNumberPhone: (value: string) => void;
   maskFunction?: (value: string) => string;
+  /** Перезагрузить список */
+  reloadData?: () => void;
 }
 
 /** Модальное окно звонка */
@@ -21,33 +27,33 @@ export default function SmsOutModal({
   interactionId,
   text,
   setText,
+  fio,
+  setFio,
+  numberPhone,
+  setNumberPhone,
   maskFunction,
+  reloadData,
 }: SmsOutModalProps) {
-  // кому
-  const [to, setTo] = useState<string>("");
-  // номер телефона
-  const [number, setNumber] = useState<string>("");
-
   const fields: FieldConfig[] = [
     {
       type: FieldType.input,
       label: "Кому",
-      value: to,
-      setValue: setTo,
+      value: fio,
+      setValue: setFio,
       style: { width: "232px" },
     },
     {
       type: FieldType.input,
       label: "Номер телефона",
-      value: number,
-      setValue: setNumber,
+      value: numberPhone,
+      setValue: setNumberPhone,
       style: { width: "232px" },
       placeholder: "+7 000 000 00 00",
       maskFunction: maskFunction,
     },
     {
       type: FieldType.textarea,
-      label: "Комментарий",
+      label: "Текст сообщения",
       value: text,
       setValue: setText,
       style: { height: "158px" },
@@ -59,11 +65,12 @@ export default function SmsOutModal({
     const isIncoming = false;
     await Scripts.addSmsInteraction(
       text,
-      number,
-      to,
+      numberPhone,
+      fio,
       isIncoming,
       interactionId
     );
+    if (reloadData) reloadData();
   };
 
   return (
@@ -72,9 +79,9 @@ export default function SmsOutModal({
       saveHandler={saveSmsHandler}
       closeModal={closeModal}
     >
-      <ModalInput {...fields[0]}/>
-      <ModalInput {...fields[1]}/>
-      <ModalTextarea {...fields[2]}/>
+      <ModalInput {...fields[0]} />
+      <ModalInput {...fields[1]} />
+      <ModalTextarea {...fields[2]} />
     </InteractionsModal>
   );
 }

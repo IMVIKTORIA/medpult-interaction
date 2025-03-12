@@ -17,6 +17,7 @@ class InteractionsSmsProps {
   setIsShowSmsOutModal: (value: boolean) => void;
   /** Показывать кнопки удалить и редактировать */
   isShowEditButtons: boolean;
+  isSystem: boolean;
 }
 
 /** Проект комментария */
@@ -28,6 +29,7 @@ function InteractionsSms({
   setIsShowSmsInModal,
   setIsShowSmsOutModal,
   isShowEditButtons,
+  isSystem,
 }: InteractionsSmsProps) {
   const handleSwowClick = () => {
     if (channelCode === InteractionsChannel.incomingSms) {
@@ -36,9 +38,9 @@ function InteractionsSms({
   };
 
   /** Обработка нажатия на кнопку ответить */
-  const handleReplyClick = async() => {
-    await Scripts.toggleSendSmsAnswer(interactionId)
-  }
+  const handleReplyClick = async () => {
+    await Scripts.toggleSendSmsAnswer(interactionId);
+  };
 
   return (
     <div className="interactions-details_panel">
@@ -60,13 +62,15 @@ function InteractionsSms({
             </div>
           </div>
           <div className="interactions-email__button_wrapper">
-            {
-              (channelCode == InteractionsChannel.incomingSms) && 
-              <div onClick={handleReplyClick} className="interactions-email__button">
+            {channelCode == InteractionsChannel.incomingSms && (
+              <div
+                onClick={handleReplyClick}
+                className="interactions-email__button"
+              >
                 {icons.reply}ОТВЕТИТЬ
               </div>
-            }
-            {isShowEditButtons && (
+            )}
+            {isShowEditButtons && !isSystem && (
               <>
                 <div
                   className="interactions-email__button"
@@ -76,7 +80,11 @@ function InteractionsSms({
                 >
                   {icons.edit}
                 </div>
-                <div className="interactions-email__button" onClick={handleRemoveClick} title="Удалить">
+                <div
+                  className="interactions-email__button"
+                  onClick={handleRemoveClick}
+                  title="Удалить"
+                >
                   {icons.wasteBasket}
                 </div>
               </>

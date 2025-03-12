@@ -34,10 +34,11 @@ async function getInteractions(
     /** Комментарий */
     comment: "Это электронное сообщение и любые документы",
     /** Номер задачи */
-    task: {value: "TS01010201/12", code: "fasfas"},
+    task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("01.01.2024 17:00").toDate(),
-    isViewed: true
+    createdAt: moment("12.03.2025 8:20").toDate(),
+    isViewed: true,
+    isSystem: true,
   };
 
   const mockData1: InteractionsData = {
@@ -53,10 +54,11 @@ async function getInteractions(
     /** Комментарий */
     comment: "Это электронное сообщение и любые документы",
     /** Номер задачи */
-    task: {value: "TS01010201/12", code: "fasfas"},
+    task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("01.01.2024 17:00").toDate(),
-    isViewed: false
+    createdAt: moment("12.03.2025 8:25").toDate(),
+    isViewed: false,
+    isSystem: false,
   };
 
   const mockData2: InteractionsData = {
@@ -70,27 +72,29 @@ async function getInteractions(
     /** Комментарий */
     comment: "Это электронное сообщение и любые документы",
     /** Номер задачи */
-    task: {value: "TS01010201/12", code: "fasfas"},
+    task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("01.01.2024 17:00").toDate(),
-    isViewed: false
+    createdAt: moment("12.03.2025 8:55").toDate(),
+    isViewed: false,
+    isSystem: false,
   };
 
   const mockData3: InteractionsData = {
     /** Идентификатор */
     id: "11111111111113",
     /** Канал */
-    channel: InteractionsChannel.outgoingCall,
+    channel: InteractionsChannel.incomingCall,
     /** Фио */
-    fio: "Оператор 1",
+    fio: "Оператор 2",
     topic: "Fuuuuu",
     /** Комментарий */
     comment: "Это электронное сообщение и любые документы",
     /** Номер задачи */
-    task: {value: "TS01010201/12", code: "fasfas"},
+    task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("01.01.2024 17:00").toDate(),
-    isViewed: false
+    createdAt: moment("12.03.2025 10:30").toDate(),
+    isViewed: false,
+    isSystem: false,
   };
 
   const mockData4: InteractionsData = {
@@ -106,27 +110,30 @@ async function getInteractions(
     /** Комментарий */
     comment: "Это электронное сообщение и любые документы",
     /** Номер задачи */
-    task: {value: "TS01010201/12", code: "fasfas"},
+    task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("01.01.2024 17:00").toDate(),
-    isViewed: false
+    createdAt: moment("12.03.2025 8:55").toDate(),
+    isViewed: false,
+    isSystem: false,
   };
 
   const mockData5: InteractionsData = {
     /** Идентификатор */
     id: "11111111111115",
     /** Канал */
-    channel: InteractionsChannel.incomingSms,
+    channel: InteractionsChannel.outgoingSms,
     /** Фио */
     fio: "Оператор 1",
     topic: "Fuuuuu",
     /** Комментарий */
     comment: "Это электронное сообщение и любые документы",
     /** Номер задачи */
-    task: {value: "TS01010201/12", code: "fasfas"},
+    task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("01.01.2024 17:00").toDate(),
-    isViewed: false
+    createdAt: moment("12.03.2025 10:30").toDate(),
+    isViewed: false,
+    isSystem: false,
+    numberPhone: "8 999 333 22 11",
   };
 
   const mockData6: InteractionsData = {
@@ -142,10 +149,11 @@ async function getInteractions(
     /** Комментарий */
     comment: "Это электронное сообщение и любые документы",
     /** Номер задачи */
-    task: {value: "TS01010201/12", code: "fasfas"},
+    task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("01.01.2024 17:00").toDate(),
-    isViewed: false
+    createdAt: moment("12.03.2025 8:55").toDate(),
+    isViewed: false,
+    isSystem: false,
   };
 
   const mockData7: InteractionsData = {
@@ -161,10 +169,11 @@ async function getInteractions(
     /** Комментарий */
     comment: "Это электронное сообщение и любые документы",
     /** Номер задачи */
-    task: {value: "TS01010201/12", code: "fasfas"},
+    task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("01.01.2024 17:00").toDate(),
-    isViewed: false
+    createdAt: moment("12.03.2025 8:55").toDate(),
+    isViewed: false,
+    isSystem: false,
   };
 
   const mockData8: InteractionsData = {
@@ -180,15 +189,26 @@ async function getInteractions(
     /** Комментарий */
     comment: "Это электронное сообщение и любые документы",
     /** Номер задачи */
-    task: {value: "TS01010201/12", code: "fasfas"},
+    task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("01.01.2024 17:00").toDate(),
-    isViewed: false
+    createdAt: moment("12.03.2025 8:55").toDate(),
+    isViewed: false,
+    isSystem: false,
   };
 
   await randomDelay();
   return {
-    data: [mockData, mockData1, mockData2, mockData3, mockData4, mockData5, mockData6, mockData7, mockData8],
+    data: [
+      mockData,
+      mockData1,
+      mockData2,
+      mockData3,
+      mockData4,
+      mockData5,
+      mockData6,
+      mockData7,
+      mockData8,
+    ],
     hasMore: false,
   };
 }
@@ -208,10 +228,11 @@ async function getInteractionsFulldata(
     /** Срок действия */
     comment: "Это электронное сообщение и любые документы",
     /** Дата отзыва */
-    task: {value: "TS01010201/12", code: "fasfas"},
+    task: { value: "TS01010201/12", code: "fasfas" },
     /** Задача на отзыв */
     createdAt: moment("01.01.2024 17:00").toDate(),
-    isViewed: false
+    isViewed: false,
+    isSystem: false,
   };
 
   await randomDelay();
@@ -263,8 +284,8 @@ async function getInteractionsCall(
   appealId: string
 ): Promise<InteractionsCallData> {
   return {
-    startDate: "10.03.2025 17:41",
-    fioFrom: "Оператор 1",
+    startDate: "06.06.2024 17:00",
+    fioFrom: "Оператор 2",
     fioWhom: "Медси",
     comment:
       "Это электронное сообщение и любые документы, приложенные к нему, содержат конфиденциальную информацию. Настоящим уведомляем Вас о том, что если это сообщение не предназначено Вам, использование, копирование, распространение информации, содержащейся в настоящем сообщении, а также осуществление любых действий на основе этой информации, строго запрещено.",
@@ -275,9 +296,9 @@ async function getInteractionsSms(
   appealId: string
 ): Promise<InteractionsCallData> {
   return {
-    startDate: "10.03.2025 17:41",
-    fioFrom: "Оператор 2",
-    fioWhom: "Медси",
+    startDate: "06.06.2024 17:00",
+    fioFrom: "Медси",
+    fioWhom: "Оператор 1",
     comment:
       "Это электронное сообщение и любые документы, приложенные к нему, содержат конфиденциальную информацию. Настоящим уведомляем Вас о том, что если это сообщение не предназначено Вам, использование, копирование, распространение информации, содержащейся в настоящем сообщении, а также осуществление любых действий на основе этой информации, строго запрещено.",
   };

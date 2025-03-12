@@ -2,13 +2,13 @@ import React from "react";
 
 /** Пропсы колонки взаимодействия */
 interface InteractionListColumnProps extends React.PropsWithChildren {
-    /** Коэффициент соотношения ширины столбца */
-    fr: number;
-    /** Обработчик нажатия на колонку */
-    onClick?: (ev?: any) => any;
-    /** Текст при наведении */
-    title?: string
-};
+  /** Коэффициент соотношения ширины столбца */
+  fr: number;
+  /** Обработчик нажатия на колонку */
+  onClick?: (ev?: any) => any;
+  /** Текст при наведении */
+  title?: string;
+}
 
 function InteractionListColumn(props: InteractionListColumnProps) {
   const { fr, onClick, children, title } = props;
@@ -22,10 +22,7 @@ function InteractionListColumn(props: InteractionListColumnProps) {
       }
       style={{ flex: fr }}
     >
-      <span
-        title={title}
-        onClick={onClick}
-      >
+      <span title={title} onClick={onClick}>
         {children}
       </span>
     </div>

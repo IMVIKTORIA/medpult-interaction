@@ -14,6 +14,8 @@ interface EmailOutModalProps {
   interactionId?: string;
   text: string;
   setText: (value: string) => void;
+  /** Перезагрузить список */
+  reloadData?: () => void;
 }
 
 /** Модальное окно звонка */
@@ -22,6 +24,7 @@ export default function EmailOutModal({
   interactionId,
   text,
   setText,
+  reloadData,
 }: EmailOutModalProps) {
   // кому
   const [to, setTo] = useState<string>("");
@@ -51,11 +54,12 @@ export default function EmailOutModal({
       style: { height: "158px" },
     },
   ];
-    
+
   /** Сохранить email исходящее */
   const saveEmailHandler = async () => {
     const isIncoming = false;
     await Scripts.addEmail(text, from, to, isIncoming, interactionId);
+    if (reloadData) reloadData();
   };
 
   return (
@@ -64,9 +68,9 @@ export default function EmailOutModal({
       closeModal={closeModal}
       saveHandler={saveEmailHandler}
     >
-      <ModalInput {...fields[0]}/>
-      <ModalLineSelect {...fields[1]}/>
-      <ModalTextarea {...fields[2]}/>
+      <ModalLineSelect {...fields[0]} />
+      <ModalInput {...fields[1]} />
+      <ModalTextarea {...fields[2]} />
     </InteractionsModal>
   );
 }

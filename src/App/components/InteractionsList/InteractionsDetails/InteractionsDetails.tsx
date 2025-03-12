@@ -34,12 +34,7 @@ class InteractionsDetailsProps {
 
 /** Детальная форма согласования */
 function InteractionsDetails(props: InteractionsDetailsProps) {
-  const {
-    data,
-    reloadData,
-    items,
-    setItems,
-  } = props;
+  const { data, reloadData, items, setItems } = props;
 
   const [isShowCommentModal, setIsShowCommentModal] = useState<boolean>(false);
   const [isShowCallInModal, setIsShowCallInModal] = useState<boolean>(false);
@@ -209,18 +204,21 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
         <div className="interactions-details">
           {/* Модальные окна */}
           <ModalManager
-              isShowCommentModal={isShowCommentModal}
-              isShowCallInModal={isShowCallInModal}
-              isShowCallOutModal={isShowCallOutModal}
-              isShowSmsInModal={isShowSmsInModal}
-              isShowSmsOutModal={isShowSmsOutModal}
-              isShowEmailInModal={isShowEmailInModal}
-              isShowEmailOutModal={isShowEmailOutModal}
-              closeModal={closeModal}
-              interactionId={data.id}
-              initialText={data.comment}
-            /> 
-        
+            isShowCommentModal={isShowCommentModal}
+            isShowCallInModal={isShowCallInModal}
+            isShowCallOutModal={isShowCallOutModal}
+            isShowSmsInModal={isShowSmsInModal}
+            isShowSmsOutModal={isShowSmsOutModal}
+            isShowEmailInModal={isShowEmailInModal}
+            isShowEmailOutModal={isShowEmailOutModal}
+            closeModal={closeModal}
+            interactionId={data.id}
+            initialText={data.comment}
+            initialFio={data.fio}
+            initialPhone={data.numberPhone}
+            reloadData={reloadData}
+          />
+
           <div className="interactions-details__content">
             {data.channel &&
               data.channel === InteractionsChannel.comment &&
@@ -233,8 +231,8 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                 />
               )}
             {data.channel &&
-              (data.channel.data.code === InteractionsChannel.incomingEmail ||
-                data.channel.data.code === InteractionsChannel.outgoingEmail) &&
+              (data.channel === InteractionsChannel.incomingEmail ||
+                data.channel === InteractionsChannel.outgoingEmail) &&
               interactionsEmailData && (
                 <InteractionsEmail
                   interactionId={data.id}
@@ -244,11 +242,12 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                   setIsShowEmailInModal={setIsShowEmailInModal}
                   setIsShowEmailOutModal={setIsShowEmailOutModal}
                   isShowEditButtons={isShowEditButtons}
+                  isSystem={data.isSystem}
                 />
               )}
             {data.channel &&
-              (data.channel.data.code === InteractionsChannel.incomingCall ||
-                data.channel.data.code === InteractionsChannel.outgoingCall) &&
+              (data.channel === InteractionsChannel.incomingCall ||
+                data.channel === InteractionsChannel.outgoingCall) &&
               interactionsCallData && (
                 <InteractionsCall
                   interactionsCallData={interactionsCallData}
@@ -257,6 +256,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                   setIsShowCallInModal={setIsShowCallInModal}
                   setIsShowCallOutModal={setIsShowCallOutModal}
                   isShowEditButtons={isShowEditButtons}
+                  isSystem={data.isSystem}
                 />
               )}
             {data.channel &&
@@ -271,6 +271,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                   setIsShowSmsInModal={setIsShowSmsInModal}
                   setIsShowSmsOutModal={setIsShowSmsOutModal}
                   isShowEditButtons={isShowEditButtons}
+                  isSystem={data.isSystem}
                 />
               )}
           </div>

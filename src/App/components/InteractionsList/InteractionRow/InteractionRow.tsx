@@ -2,7 +2,7 @@ import React from "react";
 import {
   InteractionsChannel,
   InteractionsData,
-  ListColumnData
+  ListColumnData,
 } from "../../../shared/types";
 import InteractionsDetails from "../InteractionsDetails/InteractionsDetails";
 import InteractionChannelColumn from "./InteractionChannelColumn/InteractionChannelColumn";
@@ -26,7 +26,7 @@ type InteractionRowProps = {
   /** Список выбранных каналов */
   selectedChannels: InteractionsChannel[];
   /** Счетчик писем в цепочке */
-  chainLength?: number
+  chainLength?: number;
 };
 
 /** Строка со взаимодействием */
@@ -64,39 +64,56 @@ function InteractionRow({
   /** Обработчик нажатия на задачу */
   const handleTaskClick = (ev: any) => {
     ev.stopPropagation();
-    console.log("Click task with id: " + data.task?.code)
-  }
+    console.log("Click task with id: " + data.task?.code);
+  };
 
   /** Разметка шапки строки */
   const HeaderLayout = (
-    <div className="interaction-row interaction-row_openable" onClick={toggleShowDetails}>
+    <div
+      className="interaction-row interaction-row_openable"
+      onClick={toggleShowDetails}
+    >
       {/* Канал */}
-      <InteractionChannelColumn fr={0.5} isViewed={isShowDetails || data.isViewed} channel={data.channel}/>
+      <InteractionChannelColumn
+        fr={0.5}
+        isViewed={isShowDetails || data.isViewed}
+        channel={data.channel}
+      />
       {/* Счетчик писем в цепочке*/}
       <InteractionListColumn fr={0.25}>
-        {
-          chainLength &&
-          <div className="interaction-row__counter">
-            {chainLength}
-          </div>
-        }
+        {chainLength && (
+          <div className="interaction-row__counter">{chainLength}</div>
+        )}
       </InteractionListColumn>
       {/* ФИО */}
-      <InteractionListColumn fr={1}>{data.fio}</InteractionListColumn>
+      <InteractionListColumn fr={1} title={data.fio}>
+        {data.fio}
+      </InteractionListColumn>
       {/* Тема */}
-      <InteractionListColumn fr={1}>{data.topic}</InteractionListColumn>
+      <InteractionListColumn fr={1} title={data.topic}>
+        {data.topic}
+      </InteractionListColumn>
       {/* Краткое содержание */}
-      <InteractionListColumn fr={1}>{data.comment}</InteractionListColumn>
+      <InteractionListColumn fr={1} title={data.comment}>
+        {data.comment}
+      </InteractionListColumn>
       {/* Задача */}
-      <InteractionListColumn fr={1} onClick={handleTaskClick}>
+      <InteractionListColumn
+        fr={1}
+        onClick={handleTaskClick}
+        title={data.task?.value}
+      >
         {data.task?.value ?? ""}
       </InteractionListColumn>
       {/* Дата создания */}
-      <InteractionListColumn fr={1}>
+      <InteractionListColumn
+        fr={1}
+        title={moment(data.createdAt).format("DD.MM.YYYY HH:mm")}
+      >
         {moment(data.createdAt).format("DD.MM.YYYY HH:mm")}
       </InteractionListColumn>
     </div>
-  )
+  );
 
   return (
     <>
