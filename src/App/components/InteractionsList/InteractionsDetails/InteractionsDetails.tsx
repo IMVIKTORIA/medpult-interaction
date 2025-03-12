@@ -216,6 +216,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
             initialText={data.comment}
             initialFio={data.fio}
             initialPhone={data.numberPhone}
+            initialLogChan={data.logChan}
             reloadData={reloadData}
           />
 

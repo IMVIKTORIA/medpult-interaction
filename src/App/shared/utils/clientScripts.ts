@@ -56,9 +56,10 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("12.03.2025 8:25").toDate(),
+    createdAt: moment("12.03.2025 14:25").toDate(),
     isViewed: false,
-    isSystem: false,
+    isSystem: true,
+    logChan: "111",
   };
 
   const mockData2: InteractionsData = {
