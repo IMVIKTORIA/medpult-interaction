@@ -64,7 +64,7 @@ export default function EmailOutModal({
   /** Сохранить email исходящее */
   const saveEmailHandler = async () => {
     const isIncoming = false;
-    await Scripts.addEmail(text, from, to, isIncoming, interactionId, taskId);
+    await Scripts.addEmail(text, logChan, fio, isIncoming, interactionId, taskId);
     if (reloadData) reloadData();
   };
 

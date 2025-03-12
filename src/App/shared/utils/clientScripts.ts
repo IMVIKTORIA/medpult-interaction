@@ -488,7 +488,7 @@ async function getChannel() {
 }
 
 /** Получить количество взаимодействий */
-async function getInteractionsCount(): Promise<number> {
+async function getInteractionsCount(taskId?: string): Promise<number> {
   return 5;
 }
 
@@ -523,6 +523,12 @@ async function toggleSendSmsAnswer(interactionId: string) {
 function setNewInteractionsCountRequest(count: number) {
   // TODO
   console.log("setNewInteractionsCountRequest: ", count);
+}
+
+/** Установить количество непросмотренных взаимодействий в задаче */
+function setNewInteractionsCountTask(count: number) {
+  // TODO
+  console.log("setNewInteractionsCountTask: ", count);
 }
 
 /** Обновить флажок Просмотрено у взаимодействия */
@@ -577,4 +583,5 @@ export default {
 
   setChangeRequestCallbackITask,
   setReloadInteractionsTaskCallback,
+  setNewInteractionsCountTask
 };

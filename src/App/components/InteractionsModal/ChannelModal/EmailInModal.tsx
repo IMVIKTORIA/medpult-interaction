@@ -63,7 +63,7 @@ export default function EmailInModal({
   /** Сохранить email входящее */
   const saveEmailHandler = async () => {
     const isIncoming = true;
-    await Scripts.addEmail(text, from, to, isIncoming, interactionId, taskId);
+    await Scripts.addEmail(text, fio, logChan, isIncoming, interactionId, taskId);
     if (reloadData) reloadData();
   };
 

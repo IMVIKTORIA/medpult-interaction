@@ -1,13 +1,8 @@
 import React from "react";
 import {
   InteractionsChannel,
-  InteractionsData,
-  ListColumnData
+  InteractionsData
 } from "../../../shared/types";
-import InteractionsDetails from "../InteractionsDetails/InteractionsDetails";
-import InteractionChannelColumn from "./InteractionChannelColumn/InteractionChannelColumn";
-import InteractionListColumn from "./InteractionListColumn/InteractionListColumn";
-import moment from "moment";
 import InteractionRow from "../InteractionRow/InteractionRow";
 
 /** Пропсы */
