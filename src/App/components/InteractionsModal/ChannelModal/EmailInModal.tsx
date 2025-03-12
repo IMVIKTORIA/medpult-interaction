@@ -19,6 +19,8 @@ interface EmailInModalProps {
   setLogChan: (value: string) => void;
   /** Перезагрузить список */
   reloadData?: () => void;
+  /** Идентификатор задачи (Для взаимодействий в задаче) */
+  taskId?: string
 }
 
 /** Модальное окно звонка */
@@ -32,6 +34,7 @@ export default function EmailInModal({
   logChan,
   setLogChan,
   reloadData,
+  taskId,
 }: EmailInModalProps) {
   const fields: FieldConfig[] = [
     {
@@ -60,7 +63,7 @@ export default function EmailInModal({
   /** Сохранить email входящее */
   const saveEmailHandler = async () => {
     const isIncoming = true;
-    await Scripts.addEmail(text, fio, logChan, isIncoming, interactionId);
+    await Scripts.addEmail(text, from, to, isIncoming, interactionId, taskId);
     if (reloadData) reloadData();
   };
 

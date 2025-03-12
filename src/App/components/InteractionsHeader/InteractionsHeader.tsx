@@ -26,12 +26,15 @@ interface InteractionsHeaderProps {
   };
   /** Изменить выбранные каналы */
   setSelectedChannels: React.Dispatch<
-    React.SetStateAction<InteractionsChannel[]>
+  React.SetStateAction<InteractionsChannel[]>
   >;
+  /** Идентификатор задачи (Для взаимодействий в задаче) */
+  taskId?: string
 }
 function InteractionsHeader({
   modalStates,
   setSelectedChannels,
+  taskId,
 }: InteractionsHeaderProps) {
   const {
     isShowCommentModal,

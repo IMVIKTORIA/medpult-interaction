@@ -24,6 +24,8 @@ interface ModalManagerProps {
   initialLogChan?: string;
   /** Перезагрузить список */
   reloadData?: () => void;
+  /** Идентификатор задачи (Для взаимодействий в задаче) */
+  taskId?: string
 }
 
 const applyMaskPhone = (value: string): string => {
@@ -54,6 +56,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
   initialPhone = "",
   initialLogChan = "",
   reloadData,
+  taskId
 }) => {
   const [text, setText] = useState<string>(initialText);
   const [fio, setFio] = useState<string>(initialFio);
@@ -111,6 +114,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
             text={text}
             setText={setText}
             reloadData={reloadData}
+            taskId={taskId}
           />
         </ModalWrapper>
       )}
@@ -127,6 +131,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
             setNumberPhone={setNumberPhone}
             maskFunction={applyMaskPhone}
             reloadData={reloadData}
+            taskId={taskId}
           />
         </ModalWrapper>
       )}
@@ -143,6 +148,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
             setNumberPhone={setNumberPhone}
             maskFunction={applyMaskPhone}
             reloadData={reloadData}
+            taskId={taskId}
           />
         </ModalWrapper>
       )}
@@ -159,6 +165,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
             setNumberPhone={setNumberPhone}
             maskFunction={applyMaskPhone}
             reloadData={reloadData}
+            taskId={taskId}
           />
         </ModalWrapper>
       )}
@@ -175,6 +182,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
             setNumberPhone={setNumberPhone}
             maskFunction={applyMaskPhone}
             reloadData={reloadData}
+            taskId={taskId}
           />
         </ModalWrapper>
       )}
@@ -190,6 +198,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
             logChan={logChan}
             setLogChan={setLogChan}
             reloadData={reloadData}
+            taskId={taskId}
           />
         </ModalWrapper>
       )}
@@ -205,6 +214,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
             logChan={logChan}
             setLogChan={setLogChan}
             reloadData={reloadData}
+            taskId={taskId}
           />
         </ModalWrapper>
       )}

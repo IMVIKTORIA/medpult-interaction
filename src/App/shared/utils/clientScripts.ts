@@ -21,7 +21,8 @@ function randomDelay() {
 
 /** Получение Взаимодействия */
 async function getInteractions(
-  appealId: string
+  appealId: string,
+  taskId?: string
 ): Promise<GetInteractionsResponse> {
   const mockData: InteractionsData = {
     /** Идентификатор */
@@ -242,11 +243,20 @@ async function getInteractionsFulldata(
 
 type SetVisibilityCallbackI = (appealId?: string) => void;
 let changeTaskCallbackI: SetVisibilityCallbackI | undefined;
-
-/** Установить функцию обратного вызова для изменения id задачи */
+/** Установить функцию обратного вызова для изменения id обращения */
 function setChangeTaskCallbackI(callback?: SetVisibilityCallbackI): void {
   changeTaskCallbackI = callback;
 }
+
+// 
+// Для задачи
+// 
+  type ChangeRequestCallbackITask = (appealId?: string, taskId?: string) => void;
+  let changeRequestCallbackITask: ChangeRequestCallbackITask | undefined;
+  /** Установить функцию обратного вызова для изменения id обращения (Для взаимодействия с задачей) */
+  function setChangeRequestCallbackITask(callback?: ChangeRequestCallbackITask): void {
+    changeRequestCallbackITask = callback;
+  }
 
 /** Ожидание */
 function sleep(ms: number) {
@@ -308,7 +318,9 @@ async function getInteractionsSms(
 /** Добавить Взаимодейсвтие "комментарий" */
 async function addCommentChannel(
   interactionId: string | undefined,
-  text: string
+  text: string,
+  /** Идентификатор задачи */
+  taskId?: string
 ): Promise<void> {
   // TODO
   await sleep(1000);
@@ -330,7 +342,9 @@ async function addCallInteraction(
   /** Является входящим */
   isIncoming: boolean,
   /** Идентификатор взаимодействия */
-  interactionId?: string
+  interactionId?: string,
+  /** Идентификатор задачи */
+  taskId?: string
 ): Promise<void> {
   // TODO
   await sleep(1000);
@@ -347,7 +361,9 @@ async function addSmsInteraction(
   /** Является входящим */
   isIncoming: boolean,
   /** Идентификатор взаимодействия */
-  interactionId?: string
+  interactionId?: string,
+  /** Идентификатор задачи */
+  taskId?: string
 ): Promise<void> {
   // TODO
   await sleep(1000);
@@ -364,7 +380,9 @@ async function addEmail(
   /** Является входящим */
   isIncoming: boolean,
   /** Идентификатор взаимодействия */
-  interactionId?: string
+  interactionId?: string,
+  /** Идентификатор задачи */
+  taskId?: string
 ): Promise<void> {
   // TODO
   await sleep(1000);
@@ -376,10 +394,20 @@ let reloadInteractionsCallback: () => void = () => {};
 async function reloadInteractionsList() {
   reloadInteractionsCallback();
 }
-
 /** Установить функцию обратного вызова для обновления списка обращений */
 function setReloadInteractionsCallback(callback: () => void): void {
   reloadInteractionsCallback = callback;
+}
+
+/** Функция обратного вызова для обновления списка взаимодействий (в задаче) */
+let reloadInteractionsTaskCallback: () => void = () => {};
+/** Обновить списка взаимодействий (в задаче) */
+async function reloadInteractionsTaskList() {
+  reloadInteractionsTaskCallback();
+}
+/** Установить функцию обратного вызова для обновления списка взаимодействий (в задаче) */
+function setReloadInteractionsTaskCallback(callback: () => void): void {
+  reloadInteractionsTaskCallback = callback;
 }
 
 type OpenInteractionsCallback = (id: string) => void;
@@ -546,4 +574,7 @@ export default {
   setNewInteractionsCountRequest,
   updateIsInteractionViewed,
   getLines,
+
+  setChangeRequestCallbackITask,
+  setReloadInteractionsTaskCallback,
 };

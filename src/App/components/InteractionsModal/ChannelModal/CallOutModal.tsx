@@ -19,6 +19,8 @@ interface CallOutModalProps {
   maskFunction?: (value: string) => string;
   /** Перезагрузить список */
   reloadData?: () => void;
+  /** Идентификатор задачи (Для взаимодействий в задаче) */
+  taskId?: string
 }
 
 /** Модальное окно звонка */
@@ -33,6 +35,7 @@ export default function CallOutModal({
   setNumberPhone,
   maskFunction,
   reloadData,
+  taskId,
 }: CallOutModalProps) {
   const fields: FieldConfig[] = [
     {
@@ -68,7 +71,8 @@ export default function CallOutModal({
       numberPhone,
       fio,
       isIncoming,
-      interactionId
+      interactionId, 
+      taskId
     );
     if (reloadData) reloadData();
   };

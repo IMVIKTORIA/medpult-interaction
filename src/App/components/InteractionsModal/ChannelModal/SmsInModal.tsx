@@ -19,6 +19,8 @@ interface SmsInModalProps {
   maskFunction?: (value: string) => string;
   /** Перезагрузить список */
   reloadData?: () => void;
+  /** Идентификатор задачи (Для взаимодействий в задаче) */
+  taskId?: string
 }
 
 /** Модальное окно звонка */
@@ -33,6 +35,7 @@ export default function SmsInModal({
   setNumberPhone,
   maskFunction,
   reloadData,
+  taskId,
 }: SmsInModalProps) {
   const fields: FieldConfig[] = [
     {
@@ -68,7 +71,8 @@ export default function SmsInModal({
       numberPhone,
       fio,
       isIncoming,
-      interactionId
+      interactionId, 
+      taskId
     );
     if (reloadData) reloadData();
   };
