@@ -13,8 +13,8 @@ export default function InteractionsTaskForm() {
     if (appealId == "test" && taskId == "test") alert("Форма в режиме разработки (задача)");
 
     const changeTaskCallback = (appealId?: string, taskId?: string) => {
-      setAppealId(appealId)
       setTaskId(taskId)
+      setAppealId(appealId)
     }
 
     Scripts.setChangeRequestCallbackITask(changeTaskCallback);
@@ -23,7 +23,7 @@ export default function InteractionsTaskForm() {
   }, []);
 
   return (
-    appealId && taskId && (
+    taskId && appealId && (
       <div className="interaction-form">
         <InteractionsList appealId={appealId} taskId={taskId}/>
       </div>

@@ -121,7 +121,6 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
   }, []);
 
   useEffect(() => {
-    if (!elementsCount) return;
     reloadData();
   }, [elementsCount, appealId, taskId]);
 
