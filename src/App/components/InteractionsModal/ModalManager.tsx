@@ -63,6 +63,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
       setText(initialText); // Иначе используем initialText
     }
   }, [isModalOpen, initialText]);
+  
   return (
     <>
       {isShowCommentModal && (

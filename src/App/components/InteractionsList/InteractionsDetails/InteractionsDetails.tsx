@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   InteractionsData,
-  InteractionsRowData,
-  DetailsProps,
   ListColumnData,
   InteractionsChannel,
   InteractionsCommentData,
@@ -15,16 +13,18 @@ import InteractionsEmail from "../../InteractionsChannels/InteractionsEmail/Inte
 import InteractionsComment from "../../InteractionsChannels/InteractionsComment/InteractionsComment";
 import InteractionsCall from "../../InteractionsChannels/InteractionsCall/InteractionsCall";
 import InteractionsSms from "../../InteractionsChannels/InteractionsSms/InteractionsSms";
-import CustomListRow from "../../CustomList/CustomListRow/CustomListRow";
 import ModalManager from "../../InteractionsModal/ModalManager";
 import moment from "moment";
-class InteractionsDetailsProps implements DetailsProps {
+import InteractionChannelColumn from "../InteractionRow/InteractionChannelColumn/InteractionChannelColumn";
+import InteractionListColumn from "../InteractionRow/InteractionListColumn/InteractionListColumn";
+
+/** Пропсы */
+class InteractionsDetailsProps {
+  /** Данные взаимодействия */
   data: InteractionsData;
-  values: InteractionsData;
-  setValue: (name: string, value: any) => void;
-  setValues: (values: InteractionsData) => void;
-  columnsSettings: ListColumnData[];
+  /** Обработчик нажатия на строку */
   onClickRowHandler: () => any;
+  /** Перезагрузить список */
   reloadData: () => void;
   /** Список взаимодействий */
   items: InteractionsData[];
@@ -36,8 +36,6 @@ class InteractionsDetailsProps implements DetailsProps {
 function InteractionsDetails(props: InteractionsDetailsProps) {
   const {
     data,
-    columnsSettings,
-    onClickRowHandler,
     reloadData,
     items,
     setItems,
@@ -60,7 +58,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
     useState<InteractionsCommentData>();
   // Получить данные комментария
   const fetchInteractionsComment = async () => {
-    if (data?.channel?.data?.code !== InteractionsChannel.comment) return;
+    if (data?.channel !== InteractionsChannel.comment) return;
 
     const commentData = await Scripts.getInteractionsComment(data.id);
     setInteractionsCommentData(commentData);
@@ -72,8 +70,8 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
   // Получить данные письма
   const fetchInteractionsEmail = async () => {
     if (
-      data?.channel?.data?.code !== InteractionsChannel.incomingEmail &&
-      data?.channel?.data?.code !== InteractionsChannel.outgoingEmail
+      data?.channel !== InteractionsChannel.incomingEmail &&
+      data?.channel !== InteractionsChannel.outgoingEmail
     )
       return;
 
@@ -87,8 +85,8 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
   // Получить данные звока
   const fetchInteractionsCall = async () => {
     if (
-      data?.channel?.data?.code !== InteractionsChannel.incomingCall &&
-      data?.channel?.data?.code !== InteractionsChannel.outgoingCall
+      data?.channel !== InteractionsChannel.incomingCall &&
+      data?.channel !== InteractionsChannel.outgoingCall
     )
       return;
 
@@ -102,8 +100,8 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
   // Получить данные смс
   const fetchInteractionsSms = async () => {
     if (
-      data?.channel?.data?.code !== InteractionsChannel.incomingSms &&
-      data?.channel?.data?.code !== InteractionsChannel.outgoingSms
+      data?.channel !== InteractionsChannel.incomingSms &&
+      data?.channel !== InteractionsChannel.outgoingSms
     )
       return;
 
@@ -142,8 +140,8 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
   /** Показывать кнопки удаления и редактирования? */
   const checkCanShowEditButton = (): boolean => {
     // Дата создания
-    const createDateStr = data.startDate.value;
-    const createDate = moment(createDateStr, "DD.MM.YYYY HH:mm");
+    const createDateStr = data.createdAt;
+    const createDate = moment(createDateStr);
     // Текущая дата
     const currentDate = moment();
 
@@ -162,7 +160,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
     if (!checkCanShowEditButton()) return;
 
     // Дата создания
-    const createDateStr = data.startDate.value;
+    const createDateStr = data.createdAt;
     const createDate = moment(createDateStr, "DD.MM.YYYY HH:mm");
     // Текущая дата
     const currentDate = moment();
@@ -211,30 +209,21 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
         <div className="interactions-details">
           {/* Модальные окна */}
           <ModalManager
-            isShowCommentModal={isShowCommentModal}
-            isShowCallInModal={isShowCallInModal}
-            isShowCallOutModal={isShowCallOutModal}
-            isShowSmsInModal={isShowSmsInModal}
-            isShowSmsOutModal={isShowSmsOutModal}
-            isShowEmailInModal={isShowEmailInModal}
-            isShowEmailOutModal={isShowEmailOutModal}
-            closeModal={closeModal}
-            interactionId={data.id}
-            initialText={data.comment.value}
-          />
-          {/* Шапка */}
-          <CustomListRow
-            data={data as any}
-            columnsSettings={columnsSettings}
-            setOpenRowIndex={onClickRowHandler}
-            reloadData={function () {}}
-            isViewed={data.isViewed}
-            isOpen
-            isClickable
-          />
+              isShowCommentModal={isShowCommentModal}
+              isShowCallInModal={isShowCallInModal}
+              isShowCallOutModal={isShowCallOutModal}
+              isShowSmsInModal={isShowSmsInModal}
+              isShowSmsOutModal={isShowSmsOutModal}
+              isShowEmailInModal={isShowEmailInModal}
+              isShowEmailOutModal={isShowEmailOutModal}
+              closeModal={closeModal}
+              interactionId={data.id}
+              initialText={data.comment}
+            /> 
+        
           <div className="interactions-details__content">
             {data.channel &&
-              data.channel.data.code === InteractionsChannel.comment &&
+              data.channel === InteractionsChannel.comment &&
               interactionsCommentData && (
                 <InteractionsComment
                   interactionsCommentData={interactionsCommentData}
@@ -251,7 +240,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                   interactionId={data.id}
                   interactionsEmailData={interactionsEmailData}
                   handleRemoveClick={handleRemoveClick}
-                  channelCode={data.channel.data.code}
+                  channelCode={data.channel}
                   setIsShowEmailInModal={setIsShowEmailInModal}
                   setIsShowEmailOutModal={setIsShowEmailOutModal}
                   isShowEditButtons={isShowEditButtons}
@@ -264,21 +253,21 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                 <InteractionsCall
                   interactionsCallData={interactionsCallData}
                   handleRemoveClick={handleRemoveClick}
-                  channelCode={data.channel.data.code}
+                  channelCode={data.channel}
                   setIsShowCallInModal={setIsShowCallInModal}
                   setIsShowCallOutModal={setIsShowCallOutModal}
                   isShowEditButtons={isShowEditButtons}
                 />
               )}
             {data.channel &&
-              (data.channel.data.code === InteractionsChannel.incomingSms ||
-                data.channel.data.code === InteractionsChannel.outgoingSms) &&
+              (data.channel === InteractionsChannel.incomingSms ||
+                data.channel === InteractionsChannel.outgoingSms) &&
               interactionsSmsData && (
                 <InteractionsSms
                   interactionId={data.id}
                   interactionsSmsData={interactionsSmsData}
                   handleRemoveClick={handleRemoveClick}
-                  channelCode={data.channel.data.code}
+                  channelCode={data.channel}
                   setIsShowSmsInModal={setIsShowSmsInModal}
                   setIsShowSmsOutModal={setIsShowSmsOutModal}
                   isShowEditButtons={isShowEditButtons}

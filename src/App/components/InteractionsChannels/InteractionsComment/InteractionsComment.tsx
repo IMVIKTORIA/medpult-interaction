@@ -52,7 +52,7 @@ function InteractionsComment({
             )}
           </div>
         </div>
-        <span style={{ paddingRight: "20px" }}>
+        <span className="interactions-details_span">
           {interactionsCommentData?.comment}
         </span>
       </div>

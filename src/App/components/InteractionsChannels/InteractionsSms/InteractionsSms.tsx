@@ -83,7 +83,7 @@ function InteractionsSms({
             )}
           </div>
         </div>
-        <span style={{ paddingRight: "20px" }}>
+        <span className="interactions-details_span">
           {interactionsSmsData?.comment}
         </span>
       </div>

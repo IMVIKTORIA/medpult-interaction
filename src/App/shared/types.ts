@@ -1,3 +1,5 @@
+import { ObjectItem } from "../../UIKit/Filters/FiltersTypes";
+
 export interface IInputData {
   value: string;
   data?: any;
@@ -130,32 +132,84 @@ export interface getDetailsLayoutAttributes {
   reloadData: () => void;
 }
 
+/** Тип сгруппированных данных */
+export enum GroupType {
+  /** Цепочка писем */
+  email = "email",
+  /** По-умолчанию (Одно взаимодействие в группе) */
+  default = "default"
+}
+
+/** Сгруппированные данные по взаимодействиям */
+export class GroupData {
+  /** Взаимодействие (Первое взаимодействие для цепочек писем) */
+  interaction: InteractionsData;
+  /** Тип сгруппированных данных */
+  groupType: GroupType;
+  /** Идентификатор сессии */
+  sessionId?: string
+  /** Взаимодействия в цепочке писем */
+  interactions?: InteractionsData[];
+  
+}
+
+// /** Детальные данные Взаимодействия */
+// export class InteractionsData {
+//   /** Идентификатор взаимодействия */
+//   id: string;
+//   /** Канал поступления */
+//   channel: InputDataCategory;
+//   /** ФИО */
+//   fio: InputDataCategory;
+//   /** Тема */
+//   topic: InputDataCategory;
+//   /** Комментарий */
+//   comment: InputDataCategory;
+//   /** Номер задачи */
+//   numberTask: InputDataCategory;
+//   /** Дата создания */
+//   startDate: InputDataCategory;
+//   /** Просмотрено? */
+//   isViewed: boolean
+
+//   constructor() {
+//     this.channel = new InputDataCategory();
+//     this.fio = new InputDataCategory();
+//     this.topic = new InputDataCategory();
+//     this.comment = new InputDataCategory();
+//     this.numberTask = new InputDataCategory();
+//     this.startDate = new InputDataCategory();
+//     this.isViewed = false;
+//   }
+// }
+
 /** Детальные данные Взаимодействия */
 export class InteractionsData {
-  /** Идентификатор */
+  /** Идентификатор взаимодействия */
   id: string;
   /** Канал поступления */
-  channel: InputDataCategory;
+  channel: InteractionsChannel;
   /** ФИО */
-  fio: InputDataCategory;
+  fio: string;
   /** Тема */
-  topic: InputDataCategory;
+  topic: string;
   /** Комментарий */
-  comment: InputDataCategory;
-  /** Номер задачи */
-  numberTask: InputDataCategory;
+  comment: string;
   /** Дата создания */
-  startDate: InputDataCategory;
+  createdAt: Date;
   /** Просмотрено? */
   isViewed: boolean
+  /** Номер задачи */
+  task?: ObjectItem;
+  /** Идентификатор сессии */
+  sessionId?: string
 
   constructor() {
-    this.channel = new InputDataCategory();
-    this.fio = new InputDataCategory();
-    this.topic = new InputDataCategory();
-    this.comment = new InputDataCategory();
-    this.numberTask = new InputDataCategory();
-    this.startDate = new InputDataCategory();
+    this.channel = InteractionsChannel.comment;
+    this.fio = "";
+    this.topic = "";
+    this.comment = "";
+    this.createdAt = new Date();
     this.isViewed = false;
   }
 }

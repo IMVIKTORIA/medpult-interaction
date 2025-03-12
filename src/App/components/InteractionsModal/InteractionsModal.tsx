@@ -1,18 +1,10 @@
-import React, { useState } from "react";
-import Loader from "../Loader/Loader";
-import { ButtonType, FieldType } from "../../shared/types";
+import React from "react";
+import { ButtonType } from "../../shared/types";
 import Button from "../../../UIKit/Button/Button";
-import CustomInput from "../../../UIKit/CustomInput/CustomInput";
-import CustomTextarea from "../CustomTextarea/CustomTextarea";
-import { FieldConfig } from "../../shared/types";
-import ModalInput from "./ModalInput/ModalInput";
-import ModalTextarea from "./ModalTextarea/ModalTextarea";
 
 interface InteractionsModalProps extends React.PropsWithChildren {
   /** Заголовок модального окна */
   title: string;
-  /** Конфигурация полей ввода */
-  fields?: FieldConfig[];
   /** Функция для сохранения данных */
   saveHandler?: () => Promise<void>;
   /** Отменить */
@@ -22,7 +14,6 @@ interface InteractionsModalProps extends React.PropsWithChildren {
 /** Универсальное модальное окно */
 export default function InteractionsModal({
   title,
-  fields,
   saveHandler,
   closeModal,
   children
@@ -45,16 +36,7 @@ export default function InteractionsModal({
       </div>
       <div className="interactions-modal__content" style={{ width: "420px" }}>
         {/* Поля ввода */}
-        <div className="interactions-modal__text">
-          {fields && fields.map((field, index) => (
-            <>
-              {field.type === FieldType.input ? (
-                <ModalInput {...field} />
-              ) : (
-                <ModalTextarea {...field} />
-              )}
-            </>
-          ))}
+        <div className="interactions-modal__fields">
           {children}
         </div>
         {/* Кнопки */}

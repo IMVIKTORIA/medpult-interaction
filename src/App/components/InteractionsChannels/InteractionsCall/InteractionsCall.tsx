@@ -66,7 +66,7 @@ function InteractionsCall({
             )}
           </div>
         </div>
-        <span style={{ paddingRight: "20px" }}>
+        <span className="interactions-details_span">
           {interactionsCallData?.comment}
         </span>
       </div>

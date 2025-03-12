@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import {
-  InteractionsData,
-  InputDataCategory,
-  ListColumnData,
-  getDetailsLayoutAttributes,
+  InteractionsData, 
+  InteractionsChannel,
+  GroupData,
+  GroupType
 } from "../../shared/types";
-import CustomList from "../CustomList/CustomList";
 import Scripts from "../../shared/utils/clientScripts";
-import utils, { useMapState } from "../../shared/utils/utils";
-import InteractionsDetails from "./InteractionsDetails/InteractionsDetails";
-import Button from "../CustomButton/CustomButton";
+import InteractionsHeader from "../InteractionsHeader/InteractionsHeader";
+import Loader from "../Loader/Loader";
+import InteractionRow from "./InteractionRow/InteractionRow";
+import SessionRow from "./SessionRow/SessionRow";
 
 /** Пропсы  */
 type InteractionsListProps = {
@@ -19,68 +19,7 @@ type InteractionsListProps = {
 };
 
 /** Список согласований */
-function InteractionsList({appealId}: InteractionsListProps) {
-  const onClickRevokeTask = async (props: InputDataCategory) => {
-    const appealId = props.data.code;
-    if (!appealId) return;
-    // Установка обращения
-    const requestId = await Scripts.getRequestIdByTaskId(appealId);
-    utils.setRequest(requestId);
-
-    localStorage.setItem("appealId", appealId);
-
-    // Переход
-    // const link = await Scripts.getRequestLink()
-    // utils.redirectSPA(link)
-    window.location.reload();
-  };
-
-  /** Колонки списка */
-  const columns = [
-    new ListColumnData({
-      name: "Канал",
-      code: "channel",
-      fr: 0.5,
-      isSortable: false,
-      isIcon: true,
-    }),
-    new ListColumnData({
-      name: "Пользователь",
-      code: "fio",
-      fr: 1,
-      isSortable: false,
-    }),
-    new ListColumnData({
-      name: "Тема",
-      code: "topic",
-      fr: 1,
-      isSortable: false,
-    }),
-    new ListColumnData({
-      name: "Краткое содержание",
-      code: "comment",
-      fr: 3,
-      isSortable: false,
-    }),
-    new ListColumnData({
-      name: "Задача",
-      code: "numberTask",
-      fr: 1,
-      isSortable: false,
-      isLink: true,
-    }),
-    new ListColumnData({
-      name: "Дата и время",
-      code: "startDate",
-      fr: 1,
-      isSortable: false,
-    }),
-  ];
-
-  // Данные формы деталей ДС
-  const [amendmentValues, setAmendmentValue, setAmendmentValues] =
-    useMapState<InteractionsData>(new InteractionsData());
-
+function InteractionsList({ appealId }: InteractionsListProps) {
   const [isShowCommentModal, setIsShowCommentModal] = useState<boolean>(false);
   const [isShowCallInModal, setIsShowCallInModal] = useState<boolean>(false);
   const [isShowCallOutModal, setIsShowCallOutModal] = useState<boolean>(false);
@@ -89,6 +28,7 @@ function InteractionsList({appealId}: InteractionsListProps) {
   const [isShowEmailInModal, setIsShowEmailInModal] = useState<boolean>(false);
   const [isShowEmailOutModal, setIsShowEmailOutModal] = useState<boolean>(false);
 
+  /** Состояние модального окна TODO: Опираться на одно булево состояние и передавать канал взаимодействия */
   const modalStates = {
     isShowCommentModal,
     setIsShowCommentModal,
@@ -106,42 +46,174 @@ function InteractionsList({appealId}: InteractionsListProps) {
     setIsShowEmailOutModal,
   };
 
-  
+  // TODO: Убрать
+  const [page, setPage] = useState<number>(0);
+  // TODO: Убрать
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  /** Значения списка взаимодействий TODO: Добавить обработку Сессий (цепочек писем) */
   const [items, setItems] = useState<InteractionsData[]>([]);
+  /** Состояние загрузки */
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  /** Индекс раскрытой строки */
+  const [openRowIndex, setOpenRowIndex] = useState<string>();
+  /** Выбранные каналы (Все каналы по-умолчанию)*/
+  const [selectedChannels, setSelectedChannels] = useState<
+    InteractionsChannel[]
+  >([InteractionsChannel.allChannel]);
 
-  /** Получение формы детальной информации*/
-  const getDetailsLayout = ({
-    rowData,
-    reloadData,
-    onClickRowHandler,
-  }: getDetailsLayoutAttributes) => {
-    return (
-      <InteractionsDetails
-        reloadData={reloadData}
-        columnsSettings={columns}
-        data={rowData}
-        values={amendmentValues}
-        setValue={setAmendmentValue}
-        setValues={setAmendmentValues}
-        onClickRowHandler={onClickRowHandler}
-        items={items}
-        setItems={setItems}
-      />
-    );
+  const bodyRef = useRef<HTMLDivElement>(null);
+
+  const reloadData = () => {
+    setIsLoading(false);
+    setItems([]);
+
+    loadData();
   };
 
+  /** Загрузить взаимодействия */
+  const loadData = async (
+    items: InteractionsData[] = [],
+    page: number = 0,
+    hasMore: boolean = true
+  ) => {
+    if (isLoading) return;
+    if (!hasMore) return;
+
+    setIsLoading(true);
+
+    const fetchData = await Scripts.getInteractions(appealId);
+    setHasMore(fetchData.hasMore);
+
+    setItems([...items, ...fetchData.data]);
+    setPage(page + 1);
+    setIsLoading(false);
+  };
+
+  const onScroll = () => {
+    const body = bodyRef.current!;
+    const height = body.scrollHeight - body.offsetHeight;
+    const scrollPosition = body.scrollTop;
+
+    if ((height - scrollPosition) / height < 0.05 && !isLoading) {
+      loadData(items, page, hasMore);
+    }
+  };
+
+  const [elementsCount, setElementsCount] = useState<number>(items.length);
+  /** Обновить количество элементов */
+  const updateElementsCount = async () => {
+    const newCount = await Scripts.getInteractionsCount();
+    if (newCount !== elementsCount) {
+      setElementsCount(newCount);
+    }
+  };
+
+  // Интервал для проверки количества взаимодействий
+  useEffect(() => {
+    updateElementsCount();
+    const interval = setInterval(updateElementsCount, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if (!elementsCount) return;
+    reloadData();
+  }, [elementsCount]);
+
+  // Запись количества непросмотренных
+  useEffect(() => {
+    const unviewedItems = items.filter((item) => !item.isViewed);
+
+    Scripts.setNewInteractionsCountRequest(unviewedItems.length);
+  }, [items]);
+
+  /** Получение сгруппированных взаимодействий */
+  const getGroupedItems = (items: InteractionsData[]) => {
+    const groups: GroupData[] = [];
+
+    // Обработка всех взаимодействий
+    for(const item of items) {
+      // Все кроме email не группируются
+      if(![InteractionsChannel.incomingEmail, InteractionsChannel.outgoingEmail].includes(item.channel) || !item.sessionId) {
+        // Создание новой группы
+        const group = new GroupData();
+        group.interaction = item;
+        group.groupType = GroupType.default;
+        groups.push(group)
+
+        continue;
+      }
+
+      // Найти группу с указанной сессией
+      const findGroup = groups.find(group => group.sessionId == item.sessionId);
+      // Если найдена группа - добавить взаимодействие в цепочку
+      if(findGroup) {
+        if(!findGroup.interactions) findGroup.interactions = [];
+        findGroup.interactions.push(item);
+
+        continue;
+      }
+
+      // Создание новой группы
+      const group = new GroupData();
+      group.interaction = item;
+      group.interactions = [item];
+      group.groupType = GroupType.email;
+      group.sessionId = item.sessionId;
+      groups.push(group)
+    }
+
+    return groups;
+  }
+
   return (
-    <div className="amendment-tab">
-      <CustomList
-        getDetailsLayout={getDetailsLayout}
-        columnsSettings={columns}
-        getDataHandler={() => Scripts.getInteractions(appealId)}
-        isScrollable={false}
-        setSearchHandler={Scripts.setReloadInteractionsCallback}
+    <div className="custom-list-interaction">
+      {/* Заголовок */}
+      <InteractionsHeader
+        setSelectedChannels={setSelectedChannels}
         modalStates={modalStates}
-        items={items}
-        setItems={setItems}
       />
+      {/* Тело */}
+      <div
+        className={`custom-list-interaction__body_scrollable`}
+        ref={bodyRef}
+        onScroll={onScroll}
+      >
+        {/* Данные */}
+        {getGroupedItems(items)
+        .map((data) => {
+          if(data.groupType == GroupType.email) {
+            if(!data.interactions?.length) return;
+
+            return (
+              <SessionRow
+                interactions={data.interactions}
+                items={items}
+                setItems={setItems}
+                openRowIndex={openRowIndex}
+                setOpenRowIndex={setOpenRowIndex}
+                reloadData={reloadData}
+                selectedChannels={selectedChannels}
+              />
+            )
+          }
+          
+          return (
+            <InteractionRow
+              data={data.interaction}
+              items={items}
+              setItems={setItems}
+              openRowIndex={openRowIndex}
+              setOpenRowIndex={setOpenRowIndex}
+              reloadData={reloadData}
+              selectedChannels={selectedChannels}
+            />
+          )
+        })}
+
+        {isLoading && <Loader />}
+      </div>
     </div>
   );
 }
