@@ -206,6 +206,8 @@ export class InteractionsData {
   sessionId?: string;
   /** Номер телефона */
   numberPhone?: string;
+  /** для email */
+  logChan?: string;
 
   constructor() {
     this.channel = InteractionsChannel.comment;
