@@ -123,7 +123,7 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
   useEffect(() => {
     if (!elementsCount) return;
     reloadData();
-  }, [elementsCount]);
+  }, [elementsCount, appealId, taskId]);
 
   // Запись количества непросмотренных
   useEffect(() => {
