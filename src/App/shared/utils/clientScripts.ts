@@ -257,7 +257,7 @@ async function getInteractionsEmail(
   appealId: string
 ): Promise<InteractionsEmailData> {
   return {
-    startDate: "06.06.2024 17:00",
+    startDate: "10.03.2025 17:41",
     fioFrom: "Оператор 1",
     fioWhom: "103@sberins.ru",
     copy: "103@sberins.ru",
@@ -272,7 +272,7 @@ async function getInteractionsComment(
   appealId: string
 ): Promise<InteractionsCommentData> {
   return {
-    startDate: "06.06.2024 17:00",
+    startDate: "10.03.2025 17:41",
     fio: "Оператор 1",
     comment:
       "Это электронное сообщение и любые документы, приложенные к нему, содержат конфиденциальную информацию. Настоящим уведомляем Вас о том, что если это сообщение не предназначено Вам, использование, копирование, распространение информации, содержащейся в настоящем сообщении, а также осуществление любых действий на основе этой информации, строго запрещено.",

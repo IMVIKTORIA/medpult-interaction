@@ -97,7 +97,6 @@ const ModalManager: React.FC<ModalManagerProps> = ({
       setNumberPhone(initialPhone || "");
     }
   }, [isModalOpen, initialText, initialFio, initialPhone]);
-
   return (
     <>
       {isShowCommentModal && (
