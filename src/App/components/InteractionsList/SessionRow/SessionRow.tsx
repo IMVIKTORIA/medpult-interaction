@@ -21,6 +21,8 @@ type SessionRowProps = {
   reloadData: () => void;
   /** Список выбранных каналов */
   selectedChannels: InteractionsChannel[];
+  /** Идентификатор задачи */
+  taskId?: string;
 };
 
 /** Строка с цепочкой писем */
@@ -32,6 +34,7 @@ function SessionRow({
   setOpenRowIndex,
   reloadData,
   selectedChannels,
+  taskId
 }: SessionRowProps) {
   /** Фильтрация по каналам */
   if (
@@ -52,6 +55,7 @@ function SessionRow({
               reloadData={reloadData}
               selectedChannels={selectedChannels}
               chainLength={index == 0 && interactions.length > 1 ? interactions.length - 1 : undefined}
+              taskId={taskId}
             />
         )}
     </div>

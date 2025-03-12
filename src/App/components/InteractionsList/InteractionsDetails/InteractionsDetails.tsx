@@ -30,11 +30,13 @@ class InteractionsDetailsProps {
   items: InteractionsData[];
   /** Установить список взаимодействий */
   setItems: React.Dispatch<React.SetStateAction<InteractionsData[]>>;
+  /** Идентификатор задачи */
+  taskId?: string;
 }
 
 /** Детальная форма согласования */
 function InteractionsDetails(props: InteractionsDetailsProps) {
-  const { data, reloadData, items, setItems } = props;
+  const { data, reloadData, items, setItems, taskId } = props;
 
   const [isShowCommentModal, setIsShowCommentModal] = useState<boolean>(false);
   const [isShowCallInModal, setIsShowCallInModal] = useState<boolean>(false);
@@ -244,6 +246,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                   setIsShowEmailOutModal={setIsShowEmailOutModal}
                   isShowEditButtons={isShowEditButtons}
                   isSystem={data.isSystem}
+                  taskId={taskId}
                 />
               )}
             {data.channel &&

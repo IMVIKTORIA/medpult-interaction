@@ -229,6 +229,7 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
               setOpenRowIndex={setOpenRowIndex}
               reloadData={reloadData}
               selectedChannels={selectedChannels}
+              taskId={taskId}
             />
           );
         })}

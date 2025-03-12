@@ -493,7 +493,7 @@ async function getInteractionsCount(taskId?: string): Promise<number> {
 }
 
 /** Открыть модальное окно для отправки ответа на email */
-async function toggleSendEmailAnswer(interactionId: string) {
+async function toggleSendEmailAnswer(interactionId: string, taskId?: string) {
   try {
     alert("Send Answer on: " + interactionId);
   } catch (e) {
@@ -502,7 +502,7 @@ async function toggleSendEmailAnswer(interactionId: string) {
 }
 
 /** Открыть модальное окно для отправки ответа на email */
-async function toggleSendEmailForward(interactionId: string) {
+async function toggleSendEmailForward(interactionId: string, taskId?: string) {
   try {
     alert("Forward on: " + interactionId);
   } catch (e) {
