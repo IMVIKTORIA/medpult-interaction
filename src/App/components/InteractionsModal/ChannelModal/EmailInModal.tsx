@@ -15,6 +15,8 @@ interface EmailInModalProps {
   setText: (value: string) => void;
   /** Перезагрузить список */
   reloadData?: () => void;
+  /** Идентификатор задачи (Для взаимодействий в задаче) */
+  taskId?: string
 }
 
 /** Модальное окно звонка */
@@ -24,6 +26,7 @@ export default function EmailInModal({
   text,
   setText,
   reloadData,
+  taskId,
 }: EmailInModalProps) {
   // от кого
   const [from, setFrom] = useState<string>("");
@@ -57,7 +60,7 @@ export default function EmailInModal({
   /** Сохранить email входящее */
   const saveEmailHandler = async () => {
     const isIncoming = true;
-    await Scripts.addEmail(text, from, to, isIncoming, interactionId);
+    await Scripts.addEmail(text, from, to, isIncoming, interactionId, taskId);
     if (reloadData) reloadData();
   };
 

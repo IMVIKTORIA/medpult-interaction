@@ -15,12 +15,14 @@ import moment from "moment";
 
 /** Пропсы  */
 type InteractionsListProps = {
-  /** id задачи */
+  /** id обращения */
   appealId: string;
+  /** id задачи */
+  taskId?: string;
 };
 
 /** Список согласований */
-function InteractionsList({ appealId }: InteractionsListProps) {
+function InteractionsList({ appealId, taskId }: InteractionsListProps) {
   const [isShowCommentModal, setIsShowCommentModal] = useState<boolean>(false);
   const [isShowCallInModal, setIsShowCallInModal] = useState<boolean>(false);
   const [isShowCallOutModal, setIsShowCallOutModal] = useState<boolean>(false);
@@ -83,7 +85,7 @@ function InteractionsList({ appealId }: InteractionsListProps) {
 
     setIsLoading(true);
 
-    const fetchData = await Scripts.getInteractions(appealId);
+    const fetchData = await Scripts.getInteractions(appealId, taskId);
     setHasMore(fetchData.hasMore);
 
     setItems([...items, ...fetchData.data]);
@@ -189,6 +191,7 @@ function InteractionsList({ appealId }: InteractionsListProps) {
       <InteractionsHeader
         setSelectedChannels={setSelectedChannels}
         modalStates={modalStates}
+        taskId={taskId}
       />
       {/* Тело */}
       <div

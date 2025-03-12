@@ -13,6 +13,8 @@ interface CommentModalProps {
   setText: (value: string) => void;
   /** Перезагрузить список */
   reloadData?: () => void;
+  /** Идентификатор задачи (Для взаимодействий в задаче) */
+  taskId?: string
 }
 
 /** Модальное окно комментария */
@@ -22,6 +24,7 @@ export default function CommentModal({
   text,
   setText,
   reloadData,
+  taskId,
 }: CommentModalProps) {
   const fields: FieldConfig[] = [
     {
@@ -34,7 +37,7 @@ export default function CommentModal({
   ];
 
   const saveCommentHandler = async () => {
-    await Scripts.addCommentChannel(interactionId, text);
+    await Scripts.addCommentChannel(interactionId, text, taskId);
     if (reloadData) reloadData();
   };
 

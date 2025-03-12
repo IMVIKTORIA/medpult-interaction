@@ -16,6 +16,8 @@ interface EmailOutModalProps {
   setText: (value: string) => void;
   /** Перезагрузить список */
   reloadData?: () => void;
+  /** Идентификатор задачи (Для взаимодействий в задаче) */
+  taskId?: string
 }
 
 /** Модальное окно звонка */
@@ -25,6 +27,7 @@ export default function EmailOutModal({
   text,
   setText,
   reloadData,
+  taskId,
 }: EmailOutModalProps) {
   // кому
   const [to, setTo] = useState<string>("");
@@ -58,7 +61,7 @@ export default function EmailOutModal({
   /** Сохранить email исходящее */
   const saveEmailHandler = async () => {
     const isIncoming = false;
-    await Scripts.addEmail(text, from, to, isIncoming, interactionId);
+    await Scripts.addEmail(text, from, to, isIncoming, interactionId, taskId);
     if (reloadData) reloadData();
   };
 
