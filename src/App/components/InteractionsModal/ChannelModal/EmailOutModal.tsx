@@ -68,8 +68,8 @@ export default function EmailOutModal({
       closeModal={closeModal}
       saveHandler={saveEmailHandler}
     >
-      <ModalInput {...fields[0]} />
-      <ModalLineSelect {...fields[1]} />
+      <ModalLineSelect {...fields[0]} />
+      <ModalInput {...fields[1]} />
       <ModalTextarea {...fields[2]} />
     </InteractionsModal>
   );
