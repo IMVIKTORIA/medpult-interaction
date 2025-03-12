@@ -246,6 +246,7 @@ let changeTaskCallbackI: SetVisibilityCallbackI | undefined;
 /** Установить функцию обратного вызова для изменения id обращения */
 function setChangeTaskCallbackI(callback?: SetVisibilityCallbackI): void {
   changeTaskCallbackI = callback;
+  window["changeTaskCallbackI"] = callback;
 }
 
 // 
@@ -256,6 +257,7 @@ function setChangeTaskCallbackI(callback?: SetVisibilityCallbackI): void {
   /** Установить функцию обратного вызова для изменения id обращения (Для взаимодействия с задачей) */
   function setChangeRequestCallbackITask(callback?: ChangeRequestCallbackITask): void {
     changeRequestCallbackITask = callback;
+    window["changeRequestCallbackITask"] = callback;
   }
 
 /** Ожидание */
