@@ -27,6 +27,8 @@ type InteractionRowProps = {
   selectedChannels: InteractionsChannel[];
   /** Счетчик писем в цепочке */
   chainLength?: number;
+  /** Идентификатор задачи */
+  taskId?: string;
 };
 
 /** Строка со взаимодействием */
@@ -39,6 +41,7 @@ function InteractionRow({
   reloadData,
   selectedChannels,
   chainLength,
+  taskId
 }: InteractionRowProps) {
   /** Фильтрация по каналам */
   if (
@@ -127,6 +130,7 @@ function InteractionRow({
           onClickRowHandler={toggleShowDetails}
           items={items}
           setItems={setItems}
+          taskId={taskId}
         />
       )}
     </>

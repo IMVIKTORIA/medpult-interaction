@@ -106,7 +106,7 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
   const [elementsCount, setElementsCount] = useState<number>(items.length);
   /** Обновить количество элементов */
   const updateElementsCount = async () => {
-    const newCount = await Scripts.getInteractionsCount();
+    const newCount = await Scripts.getInteractionsCount(taskId);
     if (newCount !== elementsCount) {
       setElementsCount(newCount);
     }
@@ -121,15 +121,17 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
   }, []);
 
   useEffect(() => {
-    if (!elementsCount) return;
     reloadData();
-  }, [elementsCount]);
+  }, [elementsCount, appealId, taskId]);
 
   // Запись количества непросмотренных
   useEffect(() => {
     const unviewedItems = items.filter((item) => !item.isViewed);
-
-    Scripts.setNewInteractionsCountRequest(unviewedItems.length);
+    if(taskId) {
+      Scripts.setNewInteractionsCountTask(unviewedItems.length);
+    } else {
+      Scripts.setNewInteractionsCountRequest(unviewedItems.length);
+    }
   }, [items]);
 
   /** Получение сгруппированных взаимодействий */
@@ -226,6 +228,7 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
               setOpenRowIndex={setOpenRowIndex}
               reloadData={reloadData}
               selectedChannels={selectedChannels}
+              taskId={taskId}
             />
           );
         })}

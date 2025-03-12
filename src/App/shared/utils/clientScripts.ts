@@ -246,6 +246,7 @@ let changeTaskCallbackI: SetVisibilityCallbackI | undefined;
 /** Установить функцию обратного вызова для изменения id обращения */
 function setChangeTaskCallbackI(callback?: SetVisibilityCallbackI): void {
   changeTaskCallbackI = callback;
+  window["changeTaskCallbackI"] = callback;
 }
 
 // 
@@ -256,6 +257,7 @@ function setChangeTaskCallbackI(callback?: SetVisibilityCallbackI): void {
   /** Установить функцию обратного вызова для изменения id обращения (Для взаимодействия с задачей) */
   function setChangeRequestCallbackITask(callback?: ChangeRequestCallbackITask): void {
     changeRequestCallbackITask = callback;
+    window["changeRequestCallbackITask"] = callback;
   }
 
 /** Ожидание */
@@ -488,12 +490,12 @@ async function getChannel() {
 }
 
 /** Получить количество взаимодействий */
-async function getInteractionsCount(): Promise<number> {
+async function getInteractionsCount(taskId?: string): Promise<number> {
   return 5;
 }
 
 /** Открыть модальное окно для отправки ответа на email */
-async function toggleSendEmailAnswer(interactionId: string) {
+async function toggleSendEmailAnswer(interactionId: string, taskId?: string) {
   try {
     alert("Send Answer on: " + interactionId);
   } catch (e) {
@@ -502,7 +504,7 @@ async function toggleSendEmailAnswer(interactionId: string) {
 }
 
 /** Открыть модальное окно для отправки ответа на email */
-async function toggleSendEmailForward(interactionId: string) {
+async function toggleSendEmailForward(interactionId: string, taskId?: string) {
   try {
     alert("Forward on: " + interactionId);
   } catch (e) {
@@ -523,6 +525,12 @@ async function toggleSendSmsAnswer(interactionId: string) {
 function setNewInteractionsCountRequest(count: number) {
   // TODO
   console.log("setNewInteractionsCountRequest: ", count);
+}
+
+/** Установить количество непросмотренных взаимодействий в задаче */
+function setNewInteractionsCountTask(count: number) {
+  // TODO
+  console.log("setNewInteractionsCountTask: ", count);
 }
 
 /** Обновить флажок Просмотрено у взаимодействия */
@@ -577,4 +585,5 @@ export default {
 
   setChangeRequestCallbackITask,
   setReloadInteractionsTaskCallback,
+  setNewInteractionsCountTask
 };

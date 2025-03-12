@@ -20,6 +20,8 @@ class InteractionsEmailProps {
   isShowEditButtons: boolean;
   /** Показывать кнопки переслать и ответить */
   isSystem: boolean;
+  /** Идентификатор задачи */
+  taskId?: string;
 }
 
 /** Проект письма */
@@ -32,6 +34,7 @@ function InteractionsEmail({
   setIsShowEmailOutModal,
   isShowEditButtons,
   isSystem,
+  taskId
 }: InteractionsEmailProps) {
   const handleSwowClick = () => {
     if (channelCode === InteractionsChannel.incomingEmail) {
@@ -41,12 +44,12 @@ function InteractionsEmail({
 
   /** Обработка нажатия на кнопку ответить */
   const handleReplyClick = async () => {
-    await Scripts.toggleSendEmailAnswer(interactionId);
+    await Scripts.toggleSendEmailAnswer(interactionId, taskId);
   };
 
   /** Обработка нажатия на кнопку переслать */
   const handleForwardClick = async () => {
-    await Scripts.toggleSendEmailForward(interactionId);
+    await Scripts.toggleSendEmailForward(interactionId, taskId);
   };
 
   return (
