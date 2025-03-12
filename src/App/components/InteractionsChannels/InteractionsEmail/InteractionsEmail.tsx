@@ -18,6 +18,8 @@ class InteractionsEmailProps {
   setIsShowEmailOutModal: (value: boolean) => void;
   /** Показывать кнопки удалить и редактировать */
   isShowEditButtons: boolean;
+  /** Показывать кнопки переслать и ответить */
+  isSystem: boolean;
 }
 
 /** Проект письма */
@@ -29,6 +31,7 @@ function InteractionsEmail({
   setIsShowEmailInModal,
   setIsShowEmailOutModal,
   isShowEditButtons,
+  isSystem,
 }: InteractionsEmailProps) {
   const handleSwowClick = () => {
     if (channelCode === InteractionsChannel.incomingEmail) {
@@ -37,14 +40,14 @@ function InteractionsEmail({
   };
 
   /** Обработка нажатия на кнопку ответить */
-  const handleReplyClick = async() => {
-    await Scripts.toggleSendEmailAnswer(interactionId)
-  }
-  
+  const handleReplyClick = async () => {
+    await Scripts.toggleSendEmailAnswer(interactionId);
+  };
+
   /** Обработка нажатия на кнопку переслать */
-  const handleForwardClick = async() => {
-    await Scripts.toggleSendEmailForward(interactionId)
-  }
+  const handleForwardClick = async () => {
+    await Scripts.toggleSendEmailForward(interactionId);
+  };
 
   return (
     <div className="interactions-details_panel">
@@ -83,18 +86,36 @@ function InteractionsEmail({
           </div>
 
           <div className="interactions-email__button_wrapper">
-            <div onClick={handleReplyClick} className="interactions-email__button">
-              {icons.reply}ОТВЕТИТЬ
-            </div>
-            <div onClick={handleForwardClick} className="interactions-email__button">
-              {icons.forward}ПЕРЕСЛАТЬ
-            </div>
-            {isShowEditButtons && (
+            {isSystem && (
               <>
-                <div onClick={handleSwowClick} title="Редактировать" className="interactions-email__button">
+                <div
+                  onClick={handleReplyClick}
+                  className="interactions-email__button"
+                >
+                  {icons.reply}ОТВЕТИТЬ
+                </div>
+                <div
+                  onClick={handleForwardClick}
+                  className="interactions-email__button"
+                >
+                  {icons.forward}ПЕРЕСЛАТЬ
+                </div>
+              </>
+            )}
+            {isShowEditButtons && !isSystem && (
+              <>
+                <div
+                  onClick={handleSwowClick}
+                  title="Редактировать"
+                  className="interactions-email__button"
+                >
                   {icons.edit}
                 </div>
-                <div onClick={handleRemoveClick} title="Удалить" className="interactions-email__button">
+                <div
+                  onClick={handleRemoveClick}
+                  title="Удалить"
+                  className="interactions-email__button"
+                >
                   {icons.wasteBasket}
                 </div>
               </>

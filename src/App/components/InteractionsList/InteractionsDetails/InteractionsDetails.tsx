@@ -34,12 +34,7 @@ class InteractionsDetailsProps {
 
 /** Детальная форма согласования */
 function InteractionsDetails(props: InteractionsDetailsProps) {
-  const {
-    data,
-    reloadData,
-    items,
-    setItems,
-  } = props;
+  const { data, reloadData, items, setItems } = props;
 
   const [isShowCommentModal, setIsShowCommentModal] = useState<boolean>(false);
   const [isShowCallInModal, setIsShowCallInModal] = useState<boolean>(false);
@@ -47,13 +42,15 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
   const [isShowSmsInModal, setIsShowSmsInModal] = useState<boolean>(false);
   const [isShowSmsOutModal, setIsShowSmsOutModal] = useState<boolean>(false);
   const [isShowEmailInModal, setIsShowEmailInModal] = useState<boolean>(false);
-  const [isShowEmailOutModal, setIsShowEmailOutModal] = useState<boolean>(false);
+  const [isShowEmailOutModal, setIsShowEmailOutModal] =
+    useState<boolean>(false);
 
   // Флаг загрузки
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // Данные комментария
-  const [interactionsCommentData, setInteractionsCommentData] = useState<InteractionsCommentData>();
+  const [interactionsCommentData, setInteractionsCommentData] =
+    useState<InteractionsCommentData>();
   // Получить данные комментария
   const fetchInteractionsComment = async () => {
     if (data?.channel !== InteractionsChannel.comment) return;
@@ -63,7 +60,8 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
   };
 
   // Данные  письма
-  const [interactionsEmailData, setInteractionsEmailData] = useState<InteractionsEmailData>();
+  const [interactionsEmailData, setInteractionsEmailData] =
+    useState<InteractionsEmailData>();
   // Получить данные письма
   const fetchInteractionsEmail = async () => {
     if (
@@ -77,7 +75,8 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
   };
 
   // Данные звонка
-  const [interactionsCallData, setinteractionsCallData] = useState<InteractionsCallData>();
+  const [interactionsCallData, setinteractionsCallData] =
+    useState<InteractionsCallData>();
   // Получить данные звока
   const fetchInteractionsCall = async () => {
     if (
@@ -131,10 +130,10 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
     setIsShowSmsOutModal(false);
     setIsShowEmailInModal(false);
     setIsShowEmailOutModal(false);
-  }
+  };
 
   /** Показывать кнопки удаления и редактирования? */
-  const checkCanShowEditButton = (): boolean => { 
+  const checkCanShowEditButton = (): boolean => {
     // Дата создания
     const createDateStr = data.createdAt;
     const createDate = moment(createDateStr);
@@ -143,15 +142,17 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
 
     // Если текущая дата меньше или равна 60 минут после даты создания, то показать кнопки
     return currentDate.isSameOrBefore(createDate.add(60, "minute"));
-  }
+  };
 
   /** Показывать кнопки изменения и удаления? */
-  const [isShowEditButtons, setIsShowEditButtons] = useState<boolean>(checkCanShowEditButton)
+  const [isShowEditButtons, setIsShowEditButtons] = useState<boolean>(
+    checkCanShowEditButton
+  );
 
   /** При отрисовке поставить таймер чтобы скрыть кнопки динамически */
   useEffect(() => {
     // Если кнопки не показаны, то не весить таймер
-    if(!checkCanShowEditButton()) return;
+    if (!checkCanShowEditButton()) return;
 
     // Дата создания
     const createDateStr = data.createdAt;
@@ -163,35 +164,35 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
 
     // Таймер для обновления отображения кнопок
     const timeout = setTimeout(() => {
-      setIsShowEditButtons(checkCanShowEditButton())
-    }, duration)
+      setIsShowEditButtons(checkCanShowEditButton());
+    }, duration);
 
     // Удалить таймер при закрытии
-    return () => clearTimeout(timeout)
-  }, [])
+    return () => clearTimeout(timeout);
+  }, []);
 
   /** Изменить флажок просмотренности */
   useEffect(() => {
     // Если просмотрено, выйти
-    if(data.isViewed) return;
+    if (data.isViewed) return;
 
     // Обновить в системе
     Scripts.updateIsInteractionViewed(data.id);
 
     const newItems = items;
-    const currentItemIndex = newItems.findIndex(item => item.id == data.id);
+    const currentItemIndex = newItems.findIndex((item) => item.id == data.id);
     // Если не найдено
-    if(currentItemIndex < 0) return
+    if (currentItemIndex < 0) return;
 
     newItems[currentItemIndex].isViewed = true;
 
     // Обновить счетчик
-    const unviewedItems = newItems.filter(item => !item.isViewed);
+    const unviewedItems = newItems.filter((item) => !item.isViewed);
     Scripts.setNewInteractionsCountRequest(unviewedItems.length);
 
     // Обновить значение просмотрено на форме
-    setItems(newItems)
-  }, [])
+    setItems(newItems);
+  }, []);
 
   return (
     <>
@@ -203,18 +204,21 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
         <div className="interactions-details">
           {/* Модальные окна */}
           <ModalManager
-              isShowCommentModal={isShowCommentModal}
-              isShowCallInModal={isShowCallInModal}
-              isShowCallOutModal={isShowCallOutModal}
-              isShowSmsInModal={isShowSmsInModal}
-              isShowSmsOutModal={isShowSmsOutModal}
-              isShowEmailInModal={isShowEmailInModal}
-              isShowEmailOutModal={isShowEmailOutModal}
-              closeModal={closeModal}
-              interactionId={data.id}
-              initialText={data.comment}
-            /> 
-        
+            isShowCommentModal={isShowCommentModal}
+            isShowCallInModal={isShowCallInModal}
+            isShowCallOutModal={isShowCallOutModal}
+            isShowSmsInModal={isShowSmsInModal}
+            isShowSmsOutModal={isShowSmsOutModal}
+            isShowEmailInModal={isShowEmailInModal}
+            isShowEmailOutModal={isShowEmailOutModal}
+            closeModal={closeModal}
+            interactionId={data.id}
+            initialText={data.comment}
+            initialFio={data.fio}
+            initialPhone={data.numberPhone}
+            reloadData={reloadData}
+          />
+
           <div className="interactions-details__content">
             {data.channel &&
               data.channel === InteractionsChannel.comment &&
@@ -228,8 +232,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
               )}
             {data.channel &&
               (data.channel === InteractionsChannel.incomingEmail ||
-                data.channel ===
-                  InteractionsChannel.outgoingEmail) &&
+                data.channel === InteractionsChannel.outgoingEmail) &&
               interactionsEmailData && (
                 <InteractionsEmail
                   interactionId={data.id}
@@ -239,12 +242,12 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                   setIsShowEmailInModal={setIsShowEmailInModal}
                   setIsShowEmailOutModal={setIsShowEmailOutModal}
                   isShowEditButtons={isShowEditButtons}
+                  isSystem={data.isSystem}
                 />
               )}
             {data.channel &&
               (data.channel === InteractionsChannel.incomingCall ||
-                data.channel ===
-                  InteractionsChannel.outgoingCall) &&
+                data.channel === InteractionsChannel.outgoingCall) &&
               interactionsCallData && (
                 <InteractionsCall
                   interactionsCallData={interactionsCallData}
@@ -253,6 +256,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                   setIsShowCallInModal={setIsShowCallInModal}
                   setIsShowCallOutModal={setIsShowCallOutModal}
                   isShowEditButtons={isShowEditButtons}
+                  isSystem={data.isSystem}
                 />
               )}
             {data.channel &&
@@ -267,6 +271,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                   setIsShowSmsInModal={setIsShowSmsInModal}
                   setIsShowSmsOutModal={setIsShowSmsOutModal}
                   isShowEditButtons={isShowEditButtons}
+                  isSystem={data.isSystem}
                 />
               )}
           </div>

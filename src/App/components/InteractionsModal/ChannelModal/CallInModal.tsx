@@ -12,7 +12,13 @@ interface CallInModalProps {
   interactionId?: string;
   text: string;
   setText: (value: string) => void;
+  fio: string;
+  setFio: (value: string) => void;
+  numberPhone: string;
+  setNumberPhone: (value: string) => void;
   maskFunction?: (value: string) => string;
+  /** Перезагрузить список */
+  reloadData?: () => void;
 }
 
 /** Модальное окно звонка */
@@ -21,26 +27,26 @@ export default function CallInModal({
   interactionId,
   text,
   setText,
+  fio,
+  setFio,
+  numberPhone,
+  setNumberPhone,
   maskFunction,
+  reloadData,
 }: CallInModalProps) {
-  // от кого
-  const [from, setFrom] = useState<string>("");
-  // номер телефона
-  const [number, setNumber] = useState<string>("");
-
   const fields: FieldConfig[] = [
     {
       type: FieldType.input,
       label: "От кого",
-      value: from,
-      setValue: setFrom,
+      value: fio,
+      setValue: setFio,
       style: { width: "232px" },
     },
     {
       type: FieldType.input,
       label: "Номер телефона",
-      value: number,
-      setValue: setNumber,
+      value: numberPhone,
+      setValue: setNumberPhone,
       style: { width: "232px" },
       placeholder: "+7 000 000 00 00",
       maskFunction: maskFunction,
@@ -59,11 +65,12 @@ export default function CallInModal({
     const isIncoming = true;
     await Scripts.addCallInteraction(
       text,
-      number,
-      from,
+      numberPhone,
+      fio,
       isIncoming,
       interactionId
     );
+    if (reloadData) reloadData();
   };
 
   return (
@@ -72,9 +79,9 @@ export default function CallInModal({
       closeModal={closeModal}
       saveHandler={saveCallHandler}
     >
-      <ModalInput {...fields[0]}/>
-      <ModalInput {...fields[1]}/>
-      <ModalTextarea {...fields[2]}/>
+      <ModalInput {...fields[0]} />
+      <ModalInput {...fields[1]} />
+      <ModalTextarea {...fields[2]} />
     </InteractionsModal>
   );
 }

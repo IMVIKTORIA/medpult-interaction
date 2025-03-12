@@ -19,6 +19,10 @@ interface ModalManagerProps {
   closeModal: () => void;
   interactionId?: string;
   initialText?: string;
+  initialFio?: string;
+  initialPhone?: string;
+  /** Перезагрузить список */
+  reloadData?: () => void;
 }
 
 const applyMaskPhone = (value: string): string => {
@@ -45,8 +49,13 @@ const ModalManager: React.FC<ModalManagerProps> = ({
   interactionId,
   closeModal,
   initialText = "",
+  initialFio = "",
+  initialPhone = "",
+  reloadData,
 }) => {
   const [text, setText] = useState<string>(initialText);
+  const [fio, setFio] = useState<string>(initialFio);
+  const [numberPhone, setNumberPhone] = useState<string>(initialPhone);
   const isModalOpen =
     isShowCommentModal ||
     isShowCallInModal ||
@@ -56,13 +65,38 @@ const ModalManager: React.FC<ModalManagerProps> = ({
     isShowEmailInModal ||
     isShowEmailOutModal;
 
+  // useEffect(() => {
+  //   if (isModalOpen && !initialText) {
+  //     setText(""); // Сбрасываем текст если initialText пустой
+  //   } else {
+  //     setText(initialText); // Иначе используем initialText
+  //   }
+  // }, [isModalOpen, initialText]);
+
+  // useEffect(() => {
+  //   if (isModalOpen && !initialFio) {
+  //     setFio(""); // Сбрасываем текст если initialFio пустой
+  //   } else {
+  //     setFio(initialFio); // Иначе используем initialFio
+  //   }
+  // }, [isModalOpen, initialFio]);
+
+  // useEffect(() => {
+  //   if (isModalOpen && !initialPhone) {
+  //     setNumberPhone(""); // Сбрасываем текст если initialPhone пустой
+  //   } else {
+  //     setNumberPhone(initialPhone); // Иначе используем initialPhone
+  //   }
+  // }, [isModalOpen, initialPhone]);
+
   useEffect(() => {
-    if (isModalOpen && !initialText) {
-      setText(""); // Сбрасываем текст если initialText пустой
-    } else {
-      setText(initialText); // Иначе используем initialText
+    // Сбрасываем или устанавливаем значения в зависимости от initial
+    if (isModalOpen) {
+      setText(initialText || "");
+      setFio(initialFio || "");
+      setNumberPhone(initialPhone || "");
     }
-  }, [isModalOpen, initialText]);
+  }, [isModalOpen, initialText, initialFio, initialPhone]);
 
   return (
     <>
@@ -73,6 +107,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
             closeModal={closeModal}
             text={text}
             setText={setText}
+            reloadData={reloadData}
           />
         </ModalWrapper>
       )}
@@ -83,7 +118,12 @@ const ModalManager: React.FC<ModalManagerProps> = ({
             closeModal={closeModal}
             text={text}
             setText={setText}
+            fio={fio}
+            setFio={setFio}
+            numberPhone={numberPhone}
+            setNumberPhone={setNumberPhone}
             maskFunction={applyMaskPhone}
+            reloadData={reloadData}
           />
         </ModalWrapper>
       )}
@@ -94,7 +134,12 @@ const ModalManager: React.FC<ModalManagerProps> = ({
             closeModal={closeModal}
             text={text}
             setText={setText}
+            fio={fio}
+            setFio={setFio}
+            numberPhone={numberPhone}
+            setNumberPhone={setNumberPhone}
             maskFunction={applyMaskPhone}
+            reloadData={reloadData}
           />
         </ModalWrapper>
       )}
@@ -105,7 +150,12 @@ const ModalManager: React.FC<ModalManagerProps> = ({
             closeModal={closeModal}
             text={text}
             setText={setText}
+            fio={fio}
+            setFio={setFio}
+            numberPhone={numberPhone}
+            setNumberPhone={setNumberPhone}
             maskFunction={applyMaskPhone}
+            reloadData={reloadData}
           />
         </ModalWrapper>
       )}
@@ -116,7 +166,12 @@ const ModalManager: React.FC<ModalManagerProps> = ({
             closeModal={closeModal}
             text={text}
             setText={setText}
+            fio={fio}
+            setFio={setFio}
+            numberPhone={numberPhone}
+            setNumberPhone={setNumberPhone}
             maskFunction={applyMaskPhone}
+            reloadData={reloadData}
           />
         </ModalWrapper>
       )}
@@ -127,6 +182,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
             closeModal={closeModal}
             text={text}
             setText={setText}
+            reloadData={reloadData}
           />
         </ModalWrapper>
       )}
@@ -137,6 +193,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
             closeModal={closeModal}
             text={text}
             setText={setText}
+            reloadData={reloadData}
           />
         </ModalWrapper>
       )}

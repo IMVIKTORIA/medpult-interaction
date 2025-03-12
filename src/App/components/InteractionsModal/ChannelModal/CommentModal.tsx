@@ -11,6 +11,8 @@ interface CommentModalProps {
   interactionId?: string;
   text: string;
   setText: (value: string) => void;
+  /** Перезагрузить список */
+  reloadData?: () => void;
 }
 
 /** Модальное окно комментария */
@@ -19,9 +21,8 @@ export default function CommentModal({
   interactionId,
   text,
   setText,
+  reloadData,
 }: CommentModalProps) {
-  // Текст
-
   const fields: FieldConfig[] = [
     {
       type: FieldType.textarea,
@@ -34,6 +35,7 @@ export default function CommentModal({
 
   const saveCommentHandler = async () => {
     await Scripts.addCommentChannel(interactionId, text);
+    if (reloadData) reloadData();
   };
 
   return (
@@ -42,7 +44,7 @@ export default function CommentModal({
       saveHandler={saveCommentHandler}
       closeModal={closeModal}
     >
-      <ModalTextarea {...fields[0]}/>
+      <ModalTextarea {...fields[0]} />
     </InteractionsModal>
   );
 }

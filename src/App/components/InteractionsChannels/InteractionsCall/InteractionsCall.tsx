@@ -14,6 +14,7 @@ class InteractionsCallProps {
   setIsShowCallOutModal: (value: boolean) => void;
   /** Показывать кнопки удалить и редактировать */
   isShowEditButtons: boolean;
+  isSystem: boolean;
 }
 
 /** Проект комментария */
@@ -24,6 +25,7 @@ function InteractionsCall({
   setIsShowCallInModal,
   setIsShowCallOutModal,
   isShowEditButtons,
+  isSystem,
 }: InteractionsCallProps) {
   const handleSwowClick = () => {
     if (channelCode === InteractionsChannel.incomingCall) {
@@ -50,7 +52,7 @@ function InteractionsCall({
             </div>
           </div>
           <div className="interactions-comment__button">
-            {isShowEditButtons && (
+            {isShowEditButtons && !isSystem && (
               <>
                 <div
                   style={{ paddingRight: "15px" }}

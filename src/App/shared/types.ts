@@ -137,7 +137,7 @@ export enum GroupType {
   /** Цепочка писем */
   email = "email",
   /** По-умолчанию (Одно взаимодействие в группе) */
-  default = "default"
+  default = "default",
 }
 
 /** Сгруппированные данные по взаимодействиям */
@@ -147,10 +147,9 @@ export class GroupData {
   /** Тип сгруппированных данных */
   groupType: GroupType;
   /** Идентификатор сессии */
-  sessionId?: string
+  sessionId?: string;
   /** Взаимодействия в цепочке писем */
   interactions?: InteractionsData[];
-  
 }
 
 // /** Детальные данные Взаимодействия */
@@ -198,11 +197,15 @@ export class InteractionsData {
   /** Дата создания */
   createdAt: Date;
   /** Просмотрено? */
-  isViewed: boolean
+  isViewed: boolean;
+  /** Cистема создала? */
+  isSystem: boolean;
   /** Номер задачи */
   task?: ObjectItem;
   /** Идентификатор сессии */
-  sessionId?: string
+  sessionId?: string;
+  /** Номер телефона */
+  numberPhone?: string;
 
   constructor() {
     this.channel = InteractionsChannel.comment;
@@ -211,6 +214,7 @@ export class InteractionsData {
     this.comment = "";
     this.createdAt = new Date();
     this.isViewed = false;
+    this.isSystem = false;
   }
 }
 

@@ -13,6 +13,8 @@ interface EmailInModalProps {
   interactionId?: string;
   text: string;
   setText: (value: string) => void;
+  /** Перезагрузить список */
+  reloadData?: () => void;
 }
 
 /** Модальное окно звонка */
@@ -21,6 +23,7 @@ export default function EmailInModal({
   interactionId,
   text,
   setText,
+  reloadData,
 }: EmailInModalProps) {
   // от кого
   const [from, setFrom] = useState<string>("");
@@ -50,11 +53,12 @@ export default function EmailInModal({
       style: { height: "158px" },
     },
   ];
-      
+
   /** Сохранить email входящее */
   const saveEmailHandler = async () => {
     const isIncoming = true;
     await Scripts.addEmail(text, from, to, isIncoming, interactionId);
+    if (reloadData) reloadData();
   };
 
   return (
@@ -63,9 +67,9 @@ export default function EmailInModal({
       saveHandler={saveEmailHandler}
       closeModal={closeModal}
     >
-      <ModalLineSelect {...fields[0]}/>
-      <ModalInput {...fields[1]}/>
-      <ModalTextarea {...fields[2]}/>
+      <ModalLineSelect {...fields[0]} />
+      <ModalInput {...fields[1]} />
+      <ModalTextarea {...fields[2]} />
     </InteractionsModal>
   );
 }
