@@ -115,7 +115,14 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
   // Интервал для проверки количества взаимодействий
   useEffect(() => {
     updateElementsCount();
-    const interval = setInterval(updateElementsCount, 3000);
+    const interval = setInterval(() => {
+      try {
+        updateElementsCount
+      } catch(e) {
+        // Отловить ошибку при переходе между страницами
+        clearInterval(interval)
+      }
+    }, 3000);
 
     return () => clearInterval(interval);
   }, []);
