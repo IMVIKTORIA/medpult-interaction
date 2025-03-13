@@ -113,6 +113,11 @@ function InteractionsHeader({
     setIsShowEmailOutModal(false);
   };
 
+  /** Открыть окно отправки email */
+  const toggleSendEmail = () => {
+    Scripts.toggleSendEmail(taskId);
+  }
+
   return (
     <div className={"custom-list-interaction__header"}>
       <div className="interaction-header">
@@ -127,6 +132,12 @@ function InteractionsHeader({
           />
         </div>
         <div className="interaction-header__buttons">
+          <CustomButton
+            title={"ОТПРАВИТЬ EMAIL"}
+            clickHandler={toggleSendEmail}
+            svg={icons.EmailBlue}
+            svgPosition="left"
+          />
           <CustomButton
             title={"ОБЪЕДИНИТЬ ОБРАЩЕНИЕ"}
             clickHandler={""}

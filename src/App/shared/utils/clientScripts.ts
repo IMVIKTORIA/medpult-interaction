@@ -553,6 +553,11 @@ async function getLines(): Promise<{ code: string; name: string }[]> {
   ];
 }
 
+/** Открыть окно отправки email */
+function toggleSendEmail(taskId?:string) {
+  alert("toggleSendEmail on: " + taskId);
+}
+
 export default {
   getInteractions,
   getInteractionsFulldata,
@@ -585,5 +590,6 @@ export default {
 
   setChangeRequestCallbackITask,
   setReloadInteractionsTaskCallback,
-  setNewInteractionsCountTask
+  setNewInteractionsCountTask,
+  toggleSendEmail
 };

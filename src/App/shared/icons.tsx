@@ -74,6 +74,30 @@ const imgIncomingEmail = (
     />
   </svg>
 );
+const EmailBlue = (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M5 7L10.8375 11.1697C11.5329 11.6664 12.4671 11.6664 13.1625 11.1697L19 7"
+      stroke="#45B0E6"
+      stroke-width="2"
+    />
+    <rect
+      x="4"
+      y="6"
+      width="16"
+      height="12"
+      rx="2"
+      stroke="#45B0E6"
+      stroke-width="2"
+    />
+  </svg>
+);
 const imgOutgoingEmail = (
   <svg
     width="24"
@@ -377,4 +401,6 @@ export default {
   //Переслать
   forward,
   pdf,
+  /** Синий конверт */
+  EmailBlue,
 };
