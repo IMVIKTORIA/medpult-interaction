@@ -125,9 +125,7 @@ function InteractionsEmail({
             )}
           </div>
         </div>
-        <span className="interactions-details_span">
-          {interactionsEmailData?.text}
-        </span>
+        <span className="interactions-details_span" dangerouslySetInnerHTML={{__html: interactionsEmailData?.text}}></span>
       </div>
     </div>
   );

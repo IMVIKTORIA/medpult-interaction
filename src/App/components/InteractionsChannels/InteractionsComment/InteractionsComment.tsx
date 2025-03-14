@@ -52,9 +52,7 @@ function InteractionsComment({
             )}
           </div>
         </div>
-        <span className="interactions-details_span">
-          {interactionsCommentData?.comment}
-        </span>
+        <span className="interactions-details_span" dangerouslySetInnerHTML={{__html: interactionsCommentData?.comment}}></span>
       </div>
     </div>
   );

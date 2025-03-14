@@ -89,9 +89,7 @@ function InteractionsSms({
             )}
           </div>
         </div>
-        <span className="interactions-details_span">
-          {interactionsSmsData?.comment}
-        </span>
+        <span className="interactions-details_span" dangerouslySetInnerHTML={{__html: interactionsSmsData?.comment}}></span>
       </div>
     </div>
   );

@@ -66,9 +66,7 @@ function InteractionsCall({
             )}
           </div>
         </div>
-        <span className="interactions-details_span">
-          {interactionsCallData?.comment}
-        </span>
+        <span className="interactions-details_span" dangerouslySetInnerHTML={{__html: interactionsCallData?.comment}}></span>
       </div>
     </div>
   );

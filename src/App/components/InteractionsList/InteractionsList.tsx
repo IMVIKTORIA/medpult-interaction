@@ -117,7 +117,7 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
     updateElementsCount();
     const interval = setInterval(() => {
       try {
-        updateElementsCount
+        updateElementsCount()
       } catch(e) {
         // Отловить ошибку при переходе между страницами
         clearInterval(interval)

@@ -70,6 +70,20 @@ function InteractionRow({
     console.log("Click task with id: " + data.task?.code);
   };
 
+  /** Получить текст из строки с HTML */
+  const getTextFromHTMLString = (innerHTML: string) => {
+    // Создание элемента
+    const element = document.createElement('div')
+    // Запись HTML
+    element.innerHTML = innerHTML
+    // Получение текста без тегов
+    const text = element.innerText;
+    // Удаление элемента
+    element.remove()
+
+    return text;
+  }
+
   /** Разметка шапки строки */
   const HeaderLayout = (
     <div
@@ -97,8 +111,8 @@ function InteractionRow({
         {data.topic}
       </InteractionListColumn>
       {/* Краткое содержание */}
-      <InteractionListColumn fr={1} title={data.comment}>
-        {data.comment}
+      <InteractionListColumn fr={1} title={getTextFromHTMLString(data.comment)}>
+        {getTextFromHTMLString(data.comment)}
       </InteractionListColumn>
       {/* Задача */}
       <InteractionListColumn
