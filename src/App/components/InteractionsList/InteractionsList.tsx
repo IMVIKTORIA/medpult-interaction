@@ -105,10 +105,15 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
 
   const [elementsCount, setElementsCount] = useState<number>(items.length);
   /** Обновить количество элементов */
-  const updateElementsCount = async () => {
-    const newCount = await Scripts.getInteractionsCount(taskId);
-    if (newCount !== elementsCount) {
-      setElementsCount(newCount);
+  const updateElementsCount = async (interval?: NodeJS.Timeout) => {
+    try {
+      const newCount = await Scripts.getInteractionsCount(taskId);
+      if (newCount !== elementsCount) {
+        setElementsCount(newCount);
+      }
+    } catch(e) {
+      // Очитска интервала при переходе на другую страницу
+      clearInterval(interval)
     }
   };
 
@@ -116,12 +121,7 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
   useEffect(() => {
     updateElementsCount();
     const interval = setInterval(() => {
-      try {
-        updateElementsCount()
-      } catch(e) {
-        // Отловить ошибку при переходе между страницами
-        clearInterval(interval)
-      }
+      updateElementsCount(interval) 
     }, 3000);
 
     return () => clearInterval(interval);
