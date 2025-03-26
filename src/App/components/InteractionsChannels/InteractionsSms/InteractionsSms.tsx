@@ -17,6 +17,9 @@ class InteractionsSmsProps {
   setIsShowSmsOutModal: (value: boolean) => void;
   /** Показывать кнопки удалить и редактировать */
   isShowEditButtons: boolean;
+  isUser?: boolean;
+  showErrorMessage: (message: string) => void;
+  isSystem: boolean;
 }
 
 /** Проект комментария */
@@ -28,8 +31,27 @@ function InteractionsSms({
   setIsShowSmsInModal,
   setIsShowSmsOutModal,
   isShowEditButtons,
+  isUser,
+  showErrorMessage,
+  isSystem,
 }: InteractionsSmsProps) {
   const handleSwowClick = () => {
+    if (!isShowEditButtons) {
+      showErrorMessage("Изменение невозможно, прошло более 60 минут");
+      return;
+    }
+    if (!isUser) {
+      showErrorMessage(
+        "Редактирование запрещено, взаимодействие внес другой пользователь"
+      );
+      return;
+    }
+    if (isSystem) {
+      showErrorMessage(
+        "Изменение невозможно, взаимодействие добавлено автоматически"
+      );
+      return;
+    }
     if (channelCode === InteractionsChannel.incomingSms) {
       setIsShowSmsInModal(true);
     } else setIsShowSmsOutModal(true);
@@ -50,12 +72,27 @@ function InteractionsSms({
               от кого:
               <span className="interactions-comment__info__from">
                 {interactionsSmsData?.fioFrom}
+                {channelCode === InteractionsChannel.outgoingSms && (
+                  <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
+                    {interactionsSmsData?.departament}
+                  </span>
+                )}
               </span>
             </div>
             <div style={{ paddingTop: "10px" }}>
               кому:
               <span style={{ paddingLeft: "21px" }}>
                 {interactionsSmsData?.fioWhom}
+                {channelCode === InteractionsChannel.outgoingSms && (
+                  <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
+                    {interactionsSmsData?.phone}
+                  </span>
+                )}
+                {channelCode === InteractionsChannel.incomingSms && (
+                  <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
+                    {interactionsSmsData?.departament}
+                  </span>
+                )}
               </span>
             </div>
           </div>
@@ -68,28 +105,30 @@ function InteractionsSms({
                 {icons.reply}ОТВЕТИТЬ
               </div>
             )}
-            {isShowEditButtons && (
-              <>
-                <div
-                  className="interactions-email__button"
-                  style={{ paddingRight: "15px" }}
-                  onClick={handleSwowClick}
-                  title="Редактировать"
-                >
-                  {icons.edit}
-                </div>
-                <div
-                  className="interactions-email__button"
-                  onClick={handleRemoveClick}
-                  title="Удалить"
-                >
-                  {icons.wasteBasket}
-                </div>
-              </>
-            )}
+            <div
+              className="interactions-email__button"
+              style={{
+                opacity: isShowEditButtons ? 1 : 0.5,
+              }}
+              onClick={handleSwowClick}
+              title="Редактировать"
+            >
+              {icons.edit}
+            </div>
+            <div
+              style={{ opacity: isShowEditButtons ? 1 : 0.5 }}
+              className="interactions-email__button"
+              onClick={handleRemoveClick}
+              title="Удалить"
+            >
+              {icons.wasteBasket}
+            </div>
           </div>
         </div>
-        <span className="interactions-details_span" dangerouslySetInnerHTML={{__html: interactionsSmsData?.comment}}></span>
+        <span
+          className="interactions-details_span"
+          dangerouslySetInnerHTML={{ __html: interactionsSmsData?.comment }}
+        ></span>
       </div>
     </div>
   );

@@ -208,6 +208,10 @@ export class InteractionsData {
   numberPhone?: string;
   /** для email */
   logChan?: string;
+  /** Файл для email */
+  fileSrc?: string;
+  /** Этот пользователь добавил взаимодействие */
+  isUser?: boolean;
 
   constructor() {
     this.channel = InteractionsChannel.comment;
@@ -228,6 +232,10 @@ export class InteractionsEmailData {
   fioFrom: string;
   /** Кому */
   fioWhom: string;
+  /** Отдел */
+  departament?: string;
+  /** email */
+  email?: string;
   /** Копия */
   copy: string;
   /** Тема */
@@ -241,6 +249,8 @@ export class InteractionsEmailData {
     this.startDate = "";
     this.fioFrom = "";
     this.fioWhom = "";
+    this.departament = "";
+    this.email = "";
     this.copy = "";
     this.topic = "";
     this.fileSrc = "";
@@ -270,6 +280,10 @@ export class InteractionsCallData {
   startDate: string;
   /** От кого */
   fioFrom: string;
+  /** Отдел */
+  departament?: string;
+  /** Телефон */
+  phone?: string;
   /** Кому */
   fioWhom: string;
   /** Текст */
@@ -278,6 +292,8 @@ export class InteractionsCallData {
   constructor() {
     this.startDate = "";
     this.fioFrom = "";
+    this.departament = "";
+    this.phone = "";
     this.fioWhom = "";
     this.comment = "";
   }

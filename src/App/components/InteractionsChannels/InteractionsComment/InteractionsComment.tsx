@@ -9,6 +9,9 @@ class InteractionsCommentProps {
   handleRemoveClick: () => Promise<void>;
   /** Показывать кнопки удалить и редактировать */
   isShowEditButtons: boolean;
+  /** Показывать кнопки переслать и ответить */
+  isUser?: boolean;
+  showErrorMessage: (message: string) => void;
 }
 
 /** Проект комментария */
@@ -17,8 +20,20 @@ function InteractionsComment({
   setIsShowCommentModal,
   handleRemoveClick,
   isShowEditButtons,
+  isUser,
+  showErrorMessage,
 }: InteractionsCommentProps) {
   const handleSwowClick = () => {
+    if (!isShowEditButtons) {
+      showErrorMessage("Изменение невозможно, прошло более 60 минут");
+      return;
+    }
+    if (!isUser) {
+      showErrorMessage(
+        "Редактирование запрещено, взаимодействие внес другой пользователь"
+      );
+      return;
+    }
     setIsShowCommentModal(true);
   };
 
@@ -36,23 +51,31 @@ function InteractionsComment({
             </div>
           </div>
           <div className="interactions-comment__button">
-            {isShowEditButtons && (
-              <>
-                <div
-                  style={{ paddingRight: "15px" }}
-                  onClick={handleSwowClick}
-                  title="Редактировать"
-                >
-                  {icons.edit}
-                </div>
-                <div onClick={handleRemoveClick} title="Удалить">
-                  {icons.wasteBasket}
-                </div>
-              </>
-            )}
+            <div
+              style={{
+                paddingRight: "15px",
+                opacity: isShowEditButtons ? 1 : 0.5,
+              }}
+              onClick={handleSwowClick}
+              title="Редактировать"
+            >
+              {icons.edit}
+            </div>
+            <div
+              style={{
+                opacity: isShowEditButtons ? 1 : 0.5,
+              }}
+              onClick={handleRemoveClick}
+              title="Удалить"
+            >
+              {icons.wasteBasket}
+            </div>
           </div>
         </div>
-        <span className="interactions-details_span" dangerouslySetInnerHTML={{__html: interactionsCommentData?.comment}}></span>
+        <span
+          className="interactions-details_span"
+          dangerouslySetInnerHTML={{ __html: interactionsCommentData?.comment }}
+        ></span>
       </div>
     </div>
   );

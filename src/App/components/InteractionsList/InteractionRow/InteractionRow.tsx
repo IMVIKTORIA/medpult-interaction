@@ -8,6 +8,7 @@ import InteractionsDetails from "../InteractionsDetails/InteractionsDetails";
 import InteractionChannelColumn from "./InteractionChannelColumn/InteractionChannelColumn";
 import InteractionListColumn from "./InteractionListColumn/InteractionListColumn";
 import moment from "moment";
+import icons from "../../../shared/icons";
 
 /** Пропсы */
 type InteractionRowProps = {
@@ -41,7 +42,7 @@ function InteractionRow({
   reloadData,
   selectedChannels,
   chainLength,
-  taskId
+  taskId,
 }: InteractionRowProps) {
   /** Фильтрация по каналам */
   if (
@@ -73,16 +74,16 @@ function InteractionRow({
   /** Получить текст из строки с HTML */
   const getTextFromHTMLString = (innerHTML: string) => {
     // Создание элемента
-    const element = document.createElement('div')
+    const element = document.createElement("div");
     // Запись HTML
-    element.innerHTML = innerHTML
+    element.innerHTML = innerHTML;
     // Получение текста без тегов
     const text = element.innerText;
     // Удаление элемента
-    element.remove()
+    element.remove();
 
     return text;
-  }
+  };
 
   /** Разметка шапки строки */
   const HeaderLayout = (
@@ -128,6 +129,12 @@ function InteractionRow({
         title={moment(data.createdAt).format("DD.MM.YYYY HH:mm")}
       >
         {moment(data.createdAt).format("DD.MM.YYYY HH:mm")}
+      </InteractionListColumn>
+      {/* Скрепка*/}
+      <InteractionListColumn fr={0.25} title={"Есть вложение"}>
+        {(data.channel === InteractionsChannel.incomingEmail ||
+          data.channel === InteractionsChannel.outgoingEmail) &&
+          data.fileSrc && <div>{icons.paperСlip}</div>}
       </InteractionListColumn>
     </div>
   );

@@ -119,11 +119,6 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
     reloadFulldata();
   }, []);
 
-  const handleRemoveClick = async () => {
-    await Scripts.deleteInteraction(data.id);
-    reloadData();
-  };
-
   const closeModal = () => {
     setIsShowCommentModal(false);
     setIsShowCallInModal(false);
@@ -137,7 +132,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
   /** Показывать кнопки удаления и редактирования? */
   const checkCanShowEditButton = (): boolean => {
     // Не показывать для автоматического
-    if(data.isSystem) return false;
+    if (data.isSystem) return false;
 
     // Дата создания
     const createDateStr = data.createdAt;
@@ -176,10 +171,34 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
     return () => clearTimeout(timeout);
   }, []);
 
+  // Вспомогательная функция для показа ошибок
+  const showErrorMessage = (message: string) => {
+    if ((window as any).showError) (window as any).showError(message);
+  };
+  const handleRemoveClick = async () => {
+    if (!isShowEditButtons) {
+      showErrorMessage("Изменение невозможно, прошло более 60 минут");
+      return;
+    }
+    if (!data.isUser) {
+      showErrorMessage(
+        "Удаление запрещено, взаимодействие внес другой пользователь"
+      );
+      return;
+    }
+    if (data.isSystem) {
+      showErrorMessage(
+        "Удаление невозможно, взаимодействие добавлено автоматически"
+      );
+      return;
+    }
+    await Scripts.deleteInteraction(data.id);
+    reloadData();
+  };
   /** Изменить флажок просмотренности */
   useEffect(() => {
-    // Если просмотрено, выйти
-    if (data.isViewed) return;
+    // Если просмотрено или это пользователь - выйти
+    if (data.isViewed || data.isUser) return;
 
     // Обновить в системе
     Scripts.updateIsInteractionViewed(data.id);
@@ -234,6 +253,8 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                   setIsShowCommentModal={setIsShowCommentModal}
                   handleRemoveClick={handleRemoveClick}
                   isShowEditButtons={isShowEditButtons}
+                  isUser={data.isUser}
+                  showErrorMessage={showErrorMessage}
                 />
               )}
             {data.channel &&
@@ -250,6 +271,8 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                   isShowEditButtons={isShowEditButtons}
                   isSystem={data.isSystem}
                   taskId={taskId}
+                  showErrorMessage={showErrorMessage}
+                  isUser={data.isUser}
                 />
               )}
             {data.channel &&
@@ -263,6 +286,9 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                   setIsShowCallInModal={setIsShowCallInModal}
                   setIsShowCallOutModal={setIsShowCallOutModal}
                   isShowEditButtons={isShowEditButtons}
+                  showErrorMessage={showErrorMessage}
+                  isUser={data.isUser}
+                  isSystem={data.isSystem}
                 />
               )}
             {data.channel &&
@@ -277,6 +303,9 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                   setIsShowSmsInModal={setIsShowSmsInModal}
                   setIsShowSmsOutModal={setIsShowSmsOutModal}
                   isShowEditButtons={isShowEditButtons}
+                  showErrorMessage={showErrorMessage}
+                  isUser={data.isUser}
+                  isSystem={data.isSystem}
                 />
               )}
           </div>

@@ -76,9 +76,10 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("12.03.2025 8:55").toDate(),
+    createdAt: moment("03.12.2025 8:55").toDate(),
     isViewed: false,
     isSystem: false,
+    isUser: false,
   };
 
   const mockData3: InteractionsData = {
@@ -96,7 +97,8 @@ async function getInteractions(
     /** Дата  */
     createdAt: moment("12.03.2025 10:30").toDate(),
     isViewed: false,
-    isSystem: false,
+    isSystem: true,
+    isUser: true,
   };
 
   const mockData4: InteractionsData = {
@@ -132,7 +134,7 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("12.03.2025 10:30").toDate(),
+    createdAt: moment("03.12.2025 10:30").toDate(),
     isViewed: false,
     isSystem: false,
     numberPhone: "8 999 333 22 11",
@@ -156,6 +158,7 @@ async function getInteractions(
     createdAt: moment("12.03.2025 8:55").toDate(),
     isViewed: false,
     isSystem: false,
+    fileSrc: "1",
   };
 
   const mockData7: InteractionsData = {
@@ -198,6 +201,43 @@ async function getInteractions(
     isSystem: false,
   };
 
+  const mockData9: InteractionsData = {
+    /** Идентификатор */
+    id: "111111",
+    /** Канал */
+    channel: InteractionsChannel.outgoingCall,
+    /** Фио */
+    fio: "Оператор 2",
+    topic: "Fuuuuu",
+    /** Комментарий */
+    comment: "Это электронное сообщение и любые документы",
+    /** Номер задачи */
+    task: { value: "TS01010201/12", code: "fasfas" },
+    /** Дата  */
+    createdAt: moment("12.03.2025 10:30").toDate(),
+    isViewed: false,
+    isSystem: true,
+    isUser: true,
+  };
+  const mockData10: InteractionsData = {
+    /** Идентификатор */
+    id: "11111111111454",
+    /** Канал */
+    channel: InteractionsChannel.incomingSms,
+    /** Фио */
+    fio: "Оператор 1",
+    topic: "Fuuuuu",
+    /** Комментарий */
+    comment: "Это электронное сообщение и любые документы",
+    /** Номер задачи */
+    task: { value: "TS01010201/12", code: "fasfas" },
+    /** Дата  */
+    createdAt: moment("03.12.2025 10:30").toDate(),
+    isViewed: false,
+    isSystem: false,
+    numberPhone: "8 999 333 22 11",
+  };
+
   await randomDelay();
   return {
     data: [
@@ -210,6 +250,8 @@ async function getInteractions(
       mockData6,
       mockData7,
       mockData8,
+      mockData9,
+      mockData10,
     ],
     hasMore: false,
   };
@@ -249,16 +291,18 @@ function setChangeTaskCallbackI(callback?: SetVisibilityCallbackI): void {
   window["changeTaskCallbackI"] = callback;
 }
 
-// 
+//
 // Для задачи
-// 
-  type ChangeRequestCallbackITask = (appealId?: string, taskId?: string) => void;
-  let changeRequestCallbackITask: ChangeRequestCallbackITask | undefined;
-  /** Установить функцию обратного вызова для изменения id обращения (Для взаимодействия с задачей) */
-  function setChangeRequestCallbackITask(callback?: ChangeRequestCallbackITask): void {
-    changeRequestCallbackITask = callback;
-    window["changeRequestCallbackITask"] = callback;
-  }
+//
+type ChangeRequestCallbackITask = (appealId?: string, taskId?: string) => void;
+let changeRequestCallbackITask: ChangeRequestCallbackITask | undefined;
+/** Установить функцию обратного вызова для изменения id обращения (Для взаимодействия с задачей) */
+function setChangeRequestCallbackITask(
+  callback?: ChangeRequestCallbackITask
+): void {
+  changeRequestCallbackITask = callback;
+  window["changeRequestCallbackITask"] = callback;
+}
 
 /** Ожидание */
 function sleep(ms: number) {
@@ -273,6 +317,8 @@ async function getInteractionsEmail(
     startDate: "10.03.2025 17:41",
     fioFrom: "Оператор 1",
     fioWhom: "103@sberins.ru",
+    departament: "операторы(дев)",
+    email: "444@email",
     copy: "103@sberins.ru",
     topic: "Согласуйте МРТ",
     fileSrc: "433433",
@@ -299,6 +345,8 @@ async function getInteractionsCall(
   return {
     startDate: "06.06.2024 17:00",
     fioFrom: "Оператор 2",
+    departament: "операторы(дев)",
+    phone: "8 888 888 88 88",
     fioWhom: "Медси",
     comment:
       "Это электронное сообщение и любые документы, приложенные к нему, содержат конфиденциальную информацию. Настоящим уведомляем Вас о том, что если это сообщение не предназначено Вам, использование, копирование, распространение информации, содержащейся в настоящем сообщении, а также осуществление любых действий на основе этой информации, строго запрещено.",
@@ -311,6 +359,8 @@ async function getInteractionsSms(
   return {
     startDate: "06.06.2024 17:00",
     fioFrom: "Медси",
+    departament: "операторы(дев)",
+    phone: "8 888 888 88 88",
     fioWhom: "Оператор 1",
     comment:
       "Это электронное сообщение и любые документы, приложенные к нему, содержат конфиденциальную информацию. Настоящим уведомляем Вас о том, что если это сообщение не предназначено Вам, использование, копирование, распространение информации, содержащейся в настоящем сообщении, а также осуществление любых действий на основе этой информации, строго запрещено.",
@@ -554,7 +604,7 @@ async function getLines(): Promise<{ code: string; name: string }[]> {
 }
 
 /** Открыть окно отправки email */
-function toggleSendEmail(taskId?:string) {
+function toggleSendEmail(taskId?: string) {
   alert("toggleSendEmail on: " + taskId);
 }
 
@@ -591,5 +641,5 @@ export default {
   setChangeRequestCallbackITask,
   setReloadInteractionsTaskCallback,
   setNewInteractionsCountTask,
-  toggleSendEmail
+  toggleSendEmail,
 };
