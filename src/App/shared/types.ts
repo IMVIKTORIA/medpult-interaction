@@ -232,6 +232,8 @@ export class InteractionsEmailData {
   fioFrom: string;
   /** Кому */
   fioWhom: string;
+  /** Кто добавил взаимодействие */
+  createdBy?: string;
   /** Отдел */
   departament?: string;
   /** email */

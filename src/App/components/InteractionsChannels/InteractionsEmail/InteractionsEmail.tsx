@@ -86,9 +86,14 @@ function InteractionsEmail({
                   {interactionsEmailData?.email}
                 </span>
                 {channelCode === InteractionsChannel.outgoingEmail && (
-                  <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
-                    {interactionsEmailData?.departament}
-                  </span>
+                  <>
+                    <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
+                      {interactionsEmailData?.createdBy}
+                    </span>
+                    <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
+                      {interactionsEmailData?.departament}
+                    </span>
+                  </>
                 )}
               </span>
             </div>
@@ -97,15 +102,19 @@ function InteractionsEmail({
               <span style={{ paddingLeft: "21px" }}>
                 {interactionsEmailData?.fioWhom}
                 {channelCode === InteractionsChannel.incomingEmail && (
-                  <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
-                    {interactionsEmailData?.departament}
-                  </span>
+                  <>
+                    <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
+                      {interactionsEmailData?.createdBy}
+                    </span>
+                    <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
+                      {interactionsEmailData?.departament}
+                    </span>
+                  </>
                 )}
-                {channelCode === InteractionsChannel.outgoingEmail && (
-                  <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
-                    {interactionsEmailData?.email}
-                  </span>
-                )}
+
+                <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
+                  {interactionsEmailData?.email}
+                </span>
               </span>
             </div>
             <div style={{ paddingTop: "10px" }}>

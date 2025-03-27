@@ -9,6 +9,9 @@ import InteractionChannelColumn from "./InteractionChannelColumn/InteractionChan
 import InteractionListColumn from "./InteractionListColumn/InteractionListColumn";
 import moment from "moment";
 import icons from "../../../shared/icons";
+import utils from "../../../shared/utils/utils";
+import Scripts from "../../../shared/utils/clientScripts";
+import { localStorageDraftKey } from "../../../shared/utils/constants";
 
 /** Пропсы */
 type InteractionRowProps = {
@@ -64,11 +67,27 @@ function InteractionRow({
   };
 
   const isShowDetails = String(data.id) === openRowIndex;
+  const isUserShowDetails = isShowDetails && !data.isUser;
 
   /** Обработчик нажатия на задачу */
-  const handleTaskClick = (ev: any) => {
-    ev.stopPropagation();
+  const handleTaskClick = async (props: InteractionsData) => {
     console.log("Click task with id: " + data.task?.code);
+    const taskId = data.task?.code;
+    if (!taskId) return;
+    // Установка обращения
+    const requestId = await Scripts.getRequestIdByTaskId(taskId);
+    utils.setRequest(requestId);
+
+    localStorage.setItem("taskId", taskId);
+
+    // Переход
+    const link = await Scripts.getRequestLink();
+    // utils.redirectSPA(link)
+
+    const redirectUrl = new URL(window.location.origin + "/" + link);
+    if (requestId) redirectUrl.searchParams.set("request_id", requestId);
+    if (taskId) redirectUrl.searchParams.set("task_id", taskId);
+    utils.redirectSPA(redirectUrl.toString());
   };
 
   /** Получить текст из строки с HTML */
@@ -94,7 +113,7 @@ function InteractionRow({
       {/* Канал */}
       <InteractionChannelColumn
         fr={0.5}
-        isViewed={isShowDetails || data.isViewed}
+        isViewed={isUserShowDetails || data.isViewed}
         channel={data.channel}
       />
       {/* Счетчик писем в цепочке*/}

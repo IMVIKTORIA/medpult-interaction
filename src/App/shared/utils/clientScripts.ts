@@ -317,6 +317,7 @@ async function getInteractionsEmail(
     startDate: "10.03.2025 17:41",
     fioFrom: "Оператор 1",
     fioWhom: "103@sberins.ru",
+    createdBy: "Иванов Иван",
     departament: "операторы(дев)",
     email: "444@email",
     copy: "103@sberins.ru",
