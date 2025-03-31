@@ -52,9 +52,9 @@ function InteractionChannelColumn(props: InteractionChannelColumnProps) {
       case InteractionsChannel.outgoingCall:
         return "Исходящий звонок";
       case InteractionsChannel.incomingSms:
-        return "Входящее SMS";
+        return "Входящее СМС";
       case InteractionsChannel.outgoingSms:
-        return "Исходящее SMS";
+        return "Исходящее СМС";
       default:
         return;
     }

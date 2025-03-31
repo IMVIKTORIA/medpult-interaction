@@ -8,6 +8,10 @@ import InteractionsDetails from "../InteractionsDetails/InteractionsDetails";
 import InteractionChannelColumn from "./InteractionChannelColumn/InteractionChannelColumn";
 import InteractionListColumn from "./InteractionListColumn/InteractionListColumn";
 import moment from "moment";
+import icons from "../../../shared/icons";
+import utils from "../../../shared/utils/utils";
+import Scripts from "../../../shared/utils/clientScripts";
+import { localStorageDraftKey } from "../../../shared/utils/constants";
 
 /** Пропсы */
 type InteractionRowProps = {
@@ -41,7 +45,7 @@ function InteractionRow({
   reloadData,
   selectedChannels,
   chainLength,
-  taskId
+  taskId,
 }: InteractionRowProps) {
   /** Фильтрация по каналам */
   if (
@@ -63,26 +67,47 @@ function InteractionRow({
   };
 
   const isShowDetails = String(data.id) === openRowIndex;
+  const isUserShowDetails = isShowDetails && !data.isUser;
 
-  /** Обработчик нажатия на задачу */
+  /** Обработчик нажатия на задачу 
+  const handleTaskClick = async (props: InteractionsData) => {
+    console.log("Click task with id: " + data.task?.code);
+    const taskId = data.task?.code;
+    if (!taskId) return;
+    // Установка обращения
+    const requestId = await Scripts.getRequestIdByTaskId(taskId);
+    utils.setRequest(requestId);
+
+    localStorage.setItem("taskId", taskId);
+
+    // Переход
+    const link = await Scripts.getRequestLink();
+    // utils.redirectSPA(link)
+
+    const redirectUrl = new URL(window.location.origin + "/" + link);
+    if (requestId) redirectUrl.searchParams.set("request_id", requestId);
+    if (taskId) redirectUrl.searchParams.set("task_id", taskId);
+    utils.redirectSPA(redirectUrl.toString());
+  };
+  */
+
   const handleTaskClick = (ev: any) => {
     ev.stopPropagation();
     console.log("Click task with id: " + data.task?.code);
   };
-
   /** Получить текст из строки с HTML */
   const getTextFromHTMLString = (innerHTML: string) => {
     // Создание элемента
-    const element = document.createElement('div')
+    const element = document.createElement("div");
     // Запись HTML
-    element.innerHTML = innerHTML
+    element.innerHTML = innerHTML;
     // Получение текста без тегов
     const text = element.innerText;
     // Удаление элемента
-    element.remove()
+    element.remove();
 
     return text;
-  }
+  };
 
   /** Разметка шапки строки */
   const HeaderLayout = (
@@ -93,7 +118,7 @@ function InteractionRow({
       {/* Канал */}
       <InteractionChannelColumn
         fr={0.5}
-        isViewed={isShowDetails || data.isViewed}
+        isViewed={isUserShowDetails || data.isViewed}
         channel={data.channel}
       />
       {/* Счетчик писем в цепочке*/}
@@ -128,6 +153,12 @@ function InteractionRow({
         title={moment(data.createdAt).format("DD.MM.YYYY HH:mm")}
       >
         {moment(data.createdAt).format("DD.MM.YYYY HH:mm")}
+      </InteractionListColumn>
+      {/* Скрепка*/}
+      <InteractionListColumn fr={0.25} title={"Есть вложение"}>
+        {(data.channel === InteractionsChannel.incomingEmail ||
+          data.channel === InteractionsChannel.outgoingEmail) &&
+          data.fileSrc && <div>{icons.paperСlip}</div>}
       </InteractionListColumn>
     </div>
   );

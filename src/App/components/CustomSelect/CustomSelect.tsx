@@ -39,6 +39,7 @@ function CustomSelect(props: CustomSelectProps) {
   const [listWidth, setListWidth] = useState<number>(100);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [listValues, setListValues] = useState<IInputData[]>([]);
+  const [isHovered, setIsHovered] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -116,8 +117,37 @@ function CustomSelect(props: CustomSelectProps) {
     .filter((item) => selectedValues.includes(item.data?.code))
     .map((item) => item.value);
 
+  const handleMouseEnter = async () => {
+    if (isViewMode) return;
+
+    setIsHovered(true);
+
+    if (!isOpen) {
+      setIsOpen(true);
+      setIsLoading(true);
+      const values = await getDataHandler();
+      setListValues(values);
+      setIsLoading(false);
+    }
+  };
+
+  const handleMouseLeave = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (
+      rootRef.current &&
+      !rootRef.current.contains(event.relatedTarget as Node)
+    ) {
+      setIsHovered(false);
+      setIsOpen(false);
+    }
+  };
+
   return (
-    <div className="custom-select" ref={rootRef}>
+    <div
+      className="custom-select"
+      ref={rootRef}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <CustomInput
         values={{ [name]: displayedValues }}
         name={name}
@@ -131,7 +161,7 @@ function CustomSelect(props: CustomSelectProps) {
         {...customInputProps}
         readOnly
       />
-      {isOpen && (
+      {(isOpen || isHovered) && (
         <CustomSelectList
           rootRef={rootRef}
           isOpen={isOpen}

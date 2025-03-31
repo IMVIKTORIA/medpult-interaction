@@ -22,6 +22,8 @@ class InteractionsEmailProps {
   isSystem: boolean;
   /** Идентификатор задачи */
   taskId?: string;
+  isUser?: boolean;
+  showErrorMessage: (message: string) => void;
 }
 
 /** Проект письма */
@@ -34,9 +36,27 @@ function InteractionsEmail({
   setIsShowEmailOutModal,
   isShowEditButtons,
   isSystem,
-  taskId
+  taskId,
+  isUser,
+  showErrorMessage,
 }: InteractionsEmailProps) {
   const handleSwowClick = () => {
+    if (!isShowEditButtons) {
+      showErrorMessage("Изменение невозможно, прошло более 60 минут");
+      return;
+    }
+    if (!isUser) {
+      showErrorMessage(
+        "Редактирование запрещено, взаимодействие внес другой пользователь"
+      );
+      return;
+    }
+    if (isSystem) {
+      showErrorMessage(
+        "Изменение невозможно, взаимодействие добавлено автоматически"
+      );
+      return;
+    }
     if (channelCode === InteractionsChannel.incomingEmail) {
       setIsShowEmailInModal(true);
     } else setIsShowEmailOutModal(true);
@@ -62,12 +82,39 @@ function InteractionsEmail({
               от кого:
               <span className="interactions-email__info__from">
                 {interactionsEmailData?.fioFrom}
+                <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
+                  {interactionsEmailData?.email}
+                </span>
+                {channelCode === InteractionsChannel.outgoingEmail && (
+                  <>
+                    <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
+                      {interactionsEmailData?.createdBy}
+                    </span>
+                    <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
+                      {interactionsEmailData?.departament}
+                    </span>
+                  </>
+                )}
               </span>
             </div>
             <div style={{ paddingTop: "10px" }}>
               кому:
               <span style={{ paddingLeft: "21px" }}>
                 {interactionsEmailData?.fioWhom}
+                {channelCode === InteractionsChannel.incomingEmail && (
+                  <>
+                    <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
+                      {interactionsEmailData?.createdBy}
+                    </span>
+                    <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
+                      {interactionsEmailData?.departament}
+                    </span>
+                  </>
+                )}
+
+                <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
+                  {interactionsEmailData?.email}
+                </span>
               </span>
             </div>
             <div style={{ paddingTop: "10px" }}>
@@ -83,20 +130,30 @@ function InteractionsEmail({
               </span>
             </div>
             <div className="interactions-email__info__file">
-              {/* {icons.pdf} */}
-              <span>{interactionsEmailData?.fileSrc}</span>
+              {interactionsEmailData?.fileSrc
+                ?.filter((file) => file.trim() !== "")
+                .map((file) => (
+                  <span
+                    key={file}
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    {icons.pdf} {file}
+                  </span>
+                ))}
             </div>
           </div>
 
           <div className="interactions-email__button_wrapper">
             {isSystem && (
               <>
-                <div
-                  onClick={handleReplyClick}
-                  className="interactions-email__button"
-                >
-                  {icons.reply}ОТВЕТИТЬ
-                </div>
+                {channelCode === InteractionsChannel.incomingEmail && (
+                  <div
+                    onClick={handleReplyClick}
+                    className="interactions-email__button"
+                  >
+                    {icons.reply}ОТВЕТИТЬ
+                  </div>
+                )}
                 <div
                   onClick={handleForwardClick}
                   className="interactions-email__button"
@@ -105,27 +162,29 @@ function InteractionsEmail({
                 </div>
               </>
             )}
-            {isShowEditButtons && (
-              <>
-                <div
-                  onClick={handleSwowClick}
-                  title="Редактировать"
-                  className="interactions-email__button"
-                >
-                  {icons.edit}
-                </div>
-                <div
-                  onClick={handleRemoveClick}
-                  title="Удалить"
-                  className="interactions-email__button"
-                >
-                  {icons.wasteBasket}
-                </div>
-              </>
-            )}
+
+            <div
+              style={{ opacity: isShowEditButtons ? 1 : 0.5 }}
+              onClick={handleSwowClick}
+              title="Редактировать"
+              className="interactions-email__button"
+            >
+              {icons.edit}
+            </div>
+            <div
+              style={{ opacity: isShowEditButtons ? 1 : 0.5 }}
+              onClick={handleRemoveClick}
+              title="Удалить"
+              className="interactions-email__button"
+            >
+              {icons.wasteBasket}
+            </div>
           </div>
         </div>
-        <span className="interactions-details_span" dangerouslySetInnerHTML={{__html: interactionsEmailData?.text}}></span>
+        <span
+          className="interactions-details_span"
+          dangerouslySetInnerHTML={{ __html: interactionsEmailData?.text }}
+        ></span>
       </div>
     </div>
   );
