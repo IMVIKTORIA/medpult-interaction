@@ -209,7 +209,7 @@ export class InteractionsData {
   /** для email */
   logChan?: string;
   /** Файл для email */
-  fileSrc?: string;
+  fileSrc?: boolean;
   /** Этот пользователь добавил взаимодействие */
   isUser?: boolean;
 
@@ -243,7 +243,7 @@ export class InteractionsEmailData {
   /** Тема */
   topic: string;
   /** Вложения */
-  fileSrc: string;
+  fileSrc: string[];
   /** Текст письма */
   text: string;
 
@@ -255,7 +255,7 @@ export class InteractionsEmailData {
     this.email = "";
     this.copy = "";
     this.topic = "";
-    this.fileSrc = "";
+    this.fileSrc = [];
     this.text = "";
   }
 }

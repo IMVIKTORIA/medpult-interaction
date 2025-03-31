@@ -9,7 +9,7 @@ import {
   InteractionsEmailData,
   InteractionsCallData,
 } from "../types";
-import { fileSrc } from "./constants";
+//import { fileSrc } from "./constants";
 
 /** Заглушка ожидания ответа сервера */
 function randomDelay() {
@@ -50,7 +50,7 @@ async function getInteractions(
     /** Канал */
     channel: InteractionsChannel.incomingEmail,
     /** Фио */
-    fio: "Оператор 1",
+    fio: "Оператор 4",
     topic: "Fuuuuu",
     /** Комментарий */
     comment: "Это электронное сообщение и любые документы",
@@ -76,7 +76,7 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("03.12.2025 8:55").toDate(),
+    createdAt: moment("03.12.2026 8:55").toDate(),
     isViewed: false,
     isSystem: false,
     isUser: false,
@@ -109,14 +109,14 @@ async function getInteractions(
     /** Канал */
     channel: InteractionsChannel.outgoingEmail,
     /** Фио */
-    fio: "Оператор 1",
+    fio: "Оператор 5",
     topic: "Fuuuuu",
     /** Комментарий */
     comment: "Это электронное сообщение и любые документы",
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("12.03.2025 8:55").toDate(),
+    createdAt: moment("04.11.2025 8:55").toDate(),
     isViewed: false,
     isSystem: false,
   };
@@ -134,7 +134,7 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("03.12.2025 10:30").toDate(),
+    createdAt: moment("12.03.2025 10:30").toDate(),
     isViewed: false,
     isSystem: false,
     numberPhone: "8 999 333 22 11",
@@ -148,17 +148,17 @@ async function getInteractions(
     /** Канал */
     channel: InteractionsChannel.outgoingEmail,
     /** Фио */
-    fio: "Оператор 1",
+    fio: "Оператор 6",
     topic: "Fuuuuu",
     /** Комментарий */
     comment: "Это электронное сообщение и любые документы",
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("12.03.2025 8:55").toDate(),
+    createdAt: moment("11.04.2025 8:55").toDate(),
     isViewed: false,
     isSystem: false,
-    fileSrc: "1",
+    fileSrc: true,
   };
 
   const mockData7: InteractionsData = {
@@ -176,7 +176,7 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("12.03.2025 8:55").toDate(),
+    createdAt: moment("11.04.2025 8:55").toDate(),
     isViewed: false,
     isSystem: false,
   };
@@ -196,7 +196,7 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("12.03.2025 8:55").toDate(),
+    createdAt: moment("03.12.2025 8:55").toDate(),
     isViewed: false,
     isSystem: false,
   };
@@ -322,7 +322,7 @@ async function getInteractionsEmail(
     email: "444@email",
     copy: "103@sberins.ru",
     topic: "Согласуйте МРТ",
-    fileSrc: "433433",
+    fileSrc: ["433433", "8888"],
     text: "Это электронное сообщение и любые документы, приложенные к нему, содержат конфиденциальную информацию. Настоящим уведомляем Вас о том, что если это сообщение не предназначено Вам, использование, копирование, распространение информации, содержащейся в настоящем сообщении, а также осуществление любых действий на основе этой информации, строго запрещено.",
   };
 }

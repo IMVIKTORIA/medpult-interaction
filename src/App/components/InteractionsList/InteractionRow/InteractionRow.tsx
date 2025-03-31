@@ -69,7 +69,7 @@ function InteractionRow({
   const isShowDetails = String(data.id) === openRowIndex;
   const isUserShowDetails = isShowDetails && !data.isUser;
 
-  /** Обработчик нажатия на задачу */
+  /** Обработчик нажатия на задачу 
   const handleTaskClick = async (props: InteractionsData) => {
     console.log("Click task with id: " + data.task?.code);
     const taskId = data.task?.code;
@@ -89,7 +89,12 @@ function InteractionRow({
     if (taskId) redirectUrl.searchParams.set("task_id", taskId);
     utils.redirectSPA(redirectUrl.toString());
   };
+  */
 
+  const handleTaskClick = (ev: any) => {
+    ev.stopPropagation();
+    console.log("Click task with id: " + data.task?.code);
+  };
   /** Получить текст из строки с HTML */
   const getTextFromHTMLString = (innerHTML: string) => {
     // Создание элемента

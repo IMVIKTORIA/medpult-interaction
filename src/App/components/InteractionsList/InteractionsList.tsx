@@ -111,9 +111,9 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
       if (newCount !== elementsCount) {
         setElementsCount(newCount);
       }
-    } catch(e) {
+    } catch (e) {
       // Очитска интервала при переходе на другую страницу
-      clearInterval(interval)
+      clearInterval(interval);
     }
   };
 
@@ -121,7 +121,7 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
   useEffect(() => {
     updateElementsCount();
     const interval = setInterval(() => {
-      updateElementsCount(interval) 
+      updateElementsCount(interval);
     }, 3000);
 
     return () => clearInterval(interval);
@@ -134,7 +134,7 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
   // Запись количества непросмотренных
   useEffect(() => {
     const unviewedItems = items.filter((item) => !item.isViewed);
-    if(taskId) {
+    if (taskId) {
       Scripts.setNewInteractionsCountTask(unviewedItems.length);
     } else {
       Scripts.setNewInteractionsCountRequest(unviewedItems.length);
@@ -143,53 +143,59 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
 
   /** Получение сгруппированных взаимодействий */
   const getGroupedItems = (items: InteractionsData[]) => {
-    // Сортировка взаимодействий по дате создания (от новых к старым)
-    const sortedItems = [...items].sort((a, b) => {
+    // Группируем письма по sessionId
+    const emailGroups = new Map<string, InteractionsData[]>();
+    const nonEmailItems: InteractionsData[] = [];
+
+    for (const item of items) {
+      if (
+        [
+          InteractionsChannel.incomingEmail,
+          InteractionsChannel.outgoingEmail,
+        ].includes(item.channel) &&
+        item.sessionId
+      ) {
+        if (!emailGroups.has(item.sessionId)) {
+          emailGroups.set(item.sessionId, []);
+        }
+        emailGroups.get(item.sessionId)?.push(item);
+      } else {
+        nonEmailItems.push(item);
+      }
+    }
+
+    // Сортируем только независимые элементы (не email)
+    const sortedNonEmailItems = [...nonEmailItems].sort((a, b) => {
       const dateA = moment(a.createdAt);
       const dateB = moment(b.createdAt);
       return dateB.diff(dateA);
     });
+
     const groups: GroupData[] = [];
 
-    // Обработка всех взаимодействий
-    for (const item of sortedItems) {
-      // Все кроме email не группируются
-      if (
-        ![
-          InteractionsChannel.incomingEmail,
-          InteractionsChannel.outgoingEmail,
-        ].includes(item.channel) ||
-        !item.sessionId
-      ) {
-        // Создание новой группы
-        const group = new GroupData();
-        group.interaction = item;
-        group.groupType = GroupType.default;
-        groups.push(group);
+    // Обработка сгруппированных писем
+    emailGroups.forEach((emailGroup, sessionId) => {
+      const group = new GroupData();
+      group.interaction = emailGroup[0];
+      group.interactions = emailGroup;
+      group.groupType = GroupType.email;
+      group.sessionId = sessionId;
+      groups.push(group);
+    });
 
-        continue;
-      }
-
-      // Найти группу с указанной сессией
-      const findGroup = groups.find(
-        (group) => group.sessionId == item.sessionId
-      );
-      // Если найдена группа - добавить взаимодействие в цепочку
-      if (findGroup) {
-        if (!findGroup.interactions) findGroup.interactions = [];
-        findGroup.interactions.push(item);
-
-        continue;
-      }
-
-      // Создание новой группы
+    // Обработка независимых элементов
+    for (const item of sortedNonEmailItems) {
       const group = new GroupData();
       group.interaction = item;
-      group.interactions = [item];
-      group.groupType = GroupType.email;
-      group.sessionId = item.sessionId;
+      group.groupType = GroupType.default;
       groups.push(group);
     }
+
+    groups.sort((a, b) => {
+      const dateA = moment(a.interaction.createdAt);
+      const dateB = moment(b.interaction.createdAt);
+      return dateB.diff(dateA);
+    });
 
     return groups;
   };

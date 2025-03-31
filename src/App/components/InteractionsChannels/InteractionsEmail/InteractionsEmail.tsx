@@ -130,8 +130,16 @@ function InteractionsEmail({
               </span>
             </div>
             <div className="interactions-email__info__file">
-              {/* {icons.pdf} */}
-              <span>{interactionsEmailData?.fileSrc}</span>
+              {interactionsEmailData?.fileSrc
+                ?.filter((file) => file.trim() !== "")
+                .map((file) => (
+                  <span
+                    key={file}
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    {icons.pdf} {file}
+                  </span>
+                ))}
             </div>
           </div>
 
