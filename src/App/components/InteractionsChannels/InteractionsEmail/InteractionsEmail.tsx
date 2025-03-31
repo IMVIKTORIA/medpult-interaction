@@ -22,8 +22,9 @@ class InteractionsEmailProps {
   isSystem: boolean;
   /** Идентификатор задачи */
   taskId?: string;
-  isUser?: boolean;
-  showErrorMessage: (message: string) => void;
+  
+  /** Проверить можно ли изменять взаимодействие, и показать ошибку если нельзя */
+  checkCanEdit: () => boolean;
 }
 
 /** Проект письма */
@@ -37,26 +38,11 @@ function InteractionsEmail({
   isShowEditButtons,
   isSystem,
   taskId,
-  isUser,
-  showErrorMessage,
+  checkCanEdit
 }: InteractionsEmailProps) {
   const handleSwowClick = () => {
-    if (!isShowEditButtons) {
-      showErrorMessage("Изменение невозможно, прошло более 60 минут");
-      return;
-    }
-    if (!isUser) {
-      showErrorMessage(
-        "Редактирование запрещено, взаимодействие внес другой пользователь"
-      );
-      return;
-    }
-    if (isSystem) {
-      showErrorMessage(
-        "Изменение невозможно, взаимодействие добавлено автоматически"
-      );
-      return;
-    }
+    if(!checkCanEdit()) return;
+
     if (channelCode === InteractionsChannel.incomingEmail) {
       setIsShowEmailInModal(true);
     } else setIsShowEmailOutModal(true);
@@ -252,7 +238,7 @@ function InteractionsEmail({
             )}
 
             <div
-              style={{ opacity: isShowEditButtons && isUser ? 1 : 0.5 }}
+              style={{ opacity: isShowEditButtons ? 1 : 0.5 }}
               onClick={handleSwowClick}
               title="Редактировать"
               className="interactions-email__button"
@@ -260,7 +246,7 @@ function InteractionsEmail({
               {icons.edit}
             </div>
             <div
-              style={{ opacity: isShowEditButtons && isUser ? 1 : 0.5 }}
+              style={{ opacity: isShowEditButtons ? 1 : 0.5 }}
               onClick={handleRemoveClick}
               title="Удалить"
               className="interactions-email__button"

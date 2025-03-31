@@ -17,9 +17,9 @@ class InteractionsSmsProps {
   setIsShowSmsOutModal: (value: boolean) => void;
   /** Показывать кнопки удалить и редактировать */
   isShowEditButtons: boolean;
-  isUser?: boolean;
-  showErrorMessage: (message: string) => void;
-  isSystem: boolean;
+  
+  /** Проверить можно ли изменять взаимодействие, и показать ошибку если нельзя */
+  checkCanEdit: () => boolean;
 }
 
 /** Проект комментария */
@@ -31,27 +31,10 @@ function InteractionsSms({
   setIsShowSmsInModal,
   setIsShowSmsOutModal,
   isShowEditButtons,
-  isUser,
-  showErrorMessage,
-  isSystem,
+  checkCanEdit
 }: InteractionsSmsProps) {
   const handleSwowClick = () => {
-    if (!isShowEditButtons) {
-      showErrorMessage("Изменение невозможно, прошло более 60 минут");
-      return;
-    }
-    if (!isUser) {
-      showErrorMessage(
-        "Редактирование запрещено, взаимодействие внес другой пользователь"
-      );
-      return;
-    }
-    if (isSystem) {
-      showErrorMessage(
-        "Изменение невозможно, взаимодействие добавлено автоматически"
-      );
-      return;
-    }
+    if(!checkCanEdit()) return
     if (channelCode === InteractionsChannel.incomingSms) {
       setIsShowSmsInModal(true);
     } else setIsShowSmsOutModal(true);
@@ -108,7 +91,7 @@ function InteractionsSms({
             <div
               className="interactions-email__button"
               style={{
-                opacity: isShowEditButtons && isUser ? 1 : 0.5,
+                opacity: isShowEditButtons ? 1 : 0.5,
               }}
               onClick={handleSwowClick}
               title="Редактировать"
@@ -116,7 +99,7 @@ function InteractionsSms({
               {icons.edit}
             </div>
             <div
-              style={{ opacity: isShowEditButtons && isUser ? 1 : 0.5 }}
+              style={{ opacity: isShowEditButtons ? 1 : 0.5 }}
               className="interactions-email__button"
               onClick={handleRemoveClick}
               title="Удалить"

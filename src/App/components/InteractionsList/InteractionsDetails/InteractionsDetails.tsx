@@ -133,6 +133,8 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
   const checkCanShowEditButton = (): boolean => {
     // Не показывать для автоматического
     if (data.isSystem) return false;
+    // Не показывать если не автор
+    if (!data.isUser) return false;
 
     // Дата создания
     const createDateStr = data.createdAt;
@@ -156,7 +158,8 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
 
     // Дата создания
     const createDateStr = data.createdAt;
-    const createDate = moment(createDateStr, "DD.MM.YYYY HH:mm");
+    // const createDate = moment(createDateStr, "DD.MM.YYYY HH:mm");
+    const createDate = moment(createDateStr);
     // Текущая дата
     const currentDate = moment();
     // Разница между текущей датой и 60 минут после создания
@@ -175,23 +178,59 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
   const showErrorMessage = (message: string) => {
     if ((window as any).showError) (window as any).showError(message);
   };
-  const handleRemoveClick = async () => {
+
+  /** Проверить можно ли изменять взаимодействие, и показать ошибку если нельзя */
+  function checkCanEdit() {
+    if (!data.isUser) {
+      showErrorMessage(
+        "Изменение запрещено, взаимодействие внес другой пользователь"
+      );
+      return false;
+    }
+
+    if (data.isSystem) {
+      showErrorMessage(
+        "Изменение невозможно, взаимодействие добавлено автоматически"
+      );
+      return false;
+    }
+    
     if (!isShowEditButtons) {
       showErrorMessage("Изменение невозможно, прошло более 60 минут");
-      return;
+      return false;
     }
+
+    return true;
+  }
+
+  /** Проверить можно ли удалять взаимодействие, и показать ошибку если нельзя */
+  function checkCanDelete() {
     if (!data.isUser) {
       showErrorMessage(
         "Удаление запрещено, взаимодействие внес другой пользователь"
       );
-      return;
+      return false;
     }
+
     if (data.isSystem) {
       showErrorMessage(
         "Удаление невозможно, взаимодействие добавлено автоматически"
       );
-      return;
+      return false;
     }
+    
+    if (!isShowEditButtons) {
+      showErrorMessage("Удаление невозможно, прошло более 60 минут");
+      return false;
+    }
+
+    return true;
+  }
+
+  const handleRemoveClick = async () => {
+    const canDelete = checkCanDelete();
+    if (!canDelete) return
+
     await Scripts.deleteInteraction(data.id);
     reloadData();
   };
@@ -253,8 +292,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                   setIsShowCommentModal={setIsShowCommentModal}
                   handleRemoveClick={handleRemoveClick}
                   isShowEditButtons={isShowEditButtons}
-                  isUser={data.isUser}
-                  showErrorMessage={showErrorMessage}
+                  checkCanEdit={checkCanEdit}
                 />
               )}
             {data.channel &&
@@ -271,8 +309,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                   isShowEditButtons={isShowEditButtons}
                   isSystem={data.isSystem}
                   taskId={taskId}
-                  showErrorMessage={showErrorMessage}
-                  isUser={data.isUser}
+                  checkCanEdit={checkCanEdit}
                 />
               )}
             {data.channel &&
@@ -286,9 +323,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                   setIsShowCallInModal={setIsShowCallInModal}
                   setIsShowCallOutModal={setIsShowCallOutModal}
                   isShowEditButtons={isShowEditButtons}
-                  showErrorMessage={showErrorMessage}
-                  isUser={data.isUser}
-                  isSystem={data.isSystem}
+                  checkCanEdit={checkCanEdit}
                 />
               )}
             {data.channel &&
@@ -303,9 +338,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                   setIsShowSmsInModal={setIsShowSmsInModal}
                   setIsShowSmsOutModal={setIsShowSmsOutModal}
                   isShowEditButtons={isShowEditButtons}
-                  showErrorMessage={showErrorMessage}
-                  isUser={data.isUser}
-                  isSystem={data.isSystem}
+                  checkCanEdit={checkCanEdit}
                 />
               )}
           </div>
