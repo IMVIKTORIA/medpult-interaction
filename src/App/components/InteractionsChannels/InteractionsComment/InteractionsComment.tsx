@@ -54,7 +54,7 @@ function InteractionsComment({
             <div
               style={{
                 paddingRight: "15px",
-                opacity: isShowEditButtons ? 1 : 0.5,
+                opacity: isShowEditButtons && isUser ? 1 : 0.5,
               }}
               onClick={handleSwowClick}
               title="Редактировать"
@@ -63,7 +63,7 @@ function InteractionsComment({
             </div>
             <div
               style={{
-                opacity: isShowEditButtons ? 1 : 0.5,
+                opacity: isShowEditButtons && isUser ? 1 : 0.5,
               }}
               onClick={handleRemoveClick}
               title="Удалить"
