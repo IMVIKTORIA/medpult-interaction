@@ -72,6 +72,102 @@ function InteractionsEmail({
     await Scripts.toggleSendEmailForward(interactionId, taskId);
   };
 
+  const [blobUrls, setBlobUrls] = useState<Record<string, string>>({});
+  // Очищаем Blob URL при размонтировании компонента
+  useEffect(() => {
+    return () => {
+      Object.values(blobUrls).forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [blobUrls]);
+
+  /**Создаем и сохраняем Blob URL из Data URL */
+  const getBlobUrl = (dataUrl: string): string | null => {
+    try {
+      // Если уже есть Blob URL для этого Data URL, возвращаем его
+      if (blobUrls[dataUrl]) {
+        return blobUrls[dataUrl];
+      }
+      const [header, data] = dataUrl.split(",");
+      const mimeType = header.split(":")[1].split(";")[0];
+      const byteString = atob(data);
+      const byteNumbers = new Array(byteString.length);
+
+      for (let i = 0; i < byteString.length; i++) {
+        byteNumbers[i] = byteString.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: mimeType });
+      const blobUrl = URL.createObjectURL(blob);
+
+      // Сохраняем Blob URL в состоянии
+      setBlobUrls((prev) => ({ ...prev, [dataUrl]: blobUrl }));
+
+      return blobUrl;
+    } catch (error) {
+      console.error("Error creating blob URL:", error);
+      return null;
+    }
+  };
+
+  /**Рендерим вложение в зависимости от типа */
+  const renderAttachment = (file: string, index: number) => {
+    try {
+      const mimeType = file.split(":")[1]?.split(";")[0];
+      const fileExtension = mimeType?.split("/")[1] || "file";
+      const fileName = `Документ${index + 1}`;
+
+      // Для PDF и изображений (PNG, JPEG и т. д.) — показываем только ссылку
+      if (mimeType === "application/pdf" || mimeType?.startsWith("image/")) {
+        const blobUrl = getBlobUrl(file);
+        if (!blobUrl) return null;
+
+        const icon = mimeType.startsWith("image/") ? "" : icons.pdf;
+
+        return (
+          <span
+            key={index}
+            style={{ display: "flex", alignItems: "center", margin: "5px 0" }}
+          >
+            {icon}
+            <a
+              href={blobUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ marginLeft: "5px" }}
+            >
+              {fileName}.{fileExtension}
+            </a>
+          </span>
+        );
+      }
+
+      // Для остальных типов (если нужно)
+      const blobUrl = getBlobUrl(file);
+      if (!blobUrl) return null;
+
+      return (
+        <span
+          key={index}
+          style={{ display: "flex", alignItems: "center", margin: "5px 0" }}
+        >
+          <a
+            href={blobUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            download={`${fileName}.${fileExtension}`}
+            style={{ marginLeft: "5px" }}
+          >
+            {fileName} ({mimeType})
+          </a>
+        </span>
+      );
+    } catch (error) {
+      console.error("Error rendering:", error);
+      return null;
+    }
+  };
+
   return (
     <div className="interactions-details_panel">
       <div className="interactions-details_panel__content">
@@ -132,17 +228,9 @@ function InteractionsEmail({
             <div className="interactions-email__info__file">
               {interactionsEmailData?.fileSrc
                 ?.filter((file) => file.trim() !== "")
-                .map((file) => (
-                  <span
-                    key={file}
-                    style={{ display: "flex", alignItems: "center" }}
-                  >
-                    {icons.pdf} {file}
-                  </span>
-                ))}
+                .map((file, index) => renderAttachment(file, index))}
             </div>
           </div>
-
           <div className="interactions-email__button_wrapper">
             {isSystem && (
               <>
@@ -164,7 +252,7 @@ function InteractionsEmail({
             )}
 
             <div
-              style={{ opacity: isShowEditButtons ? 1 : 0.5 }}
+              style={{ opacity: isShowEditButtons && isUser ? 1 : 0.5 }}
               onClick={handleSwowClick}
               title="Редактировать"
               className="interactions-email__button"
@@ -172,7 +260,7 @@ function InteractionsEmail({
               {icons.edit}
             </div>
             <div
-              style={{ opacity: isShowEditButtons ? 1 : 0.5 }}
+              style={{ opacity: isShowEditButtons && isUser ? 1 : 0.5 }}
               onClick={handleRemoveClick}
               title="Удалить"
               className="interactions-email__button"

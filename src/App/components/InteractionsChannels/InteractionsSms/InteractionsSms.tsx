@@ -108,7 +108,7 @@ function InteractionsSms({
             <div
               className="interactions-email__button"
               style={{
-                opacity: isShowEditButtons ? 1 : 0.5,
+                opacity: isShowEditButtons && isUser ? 1 : 0.5,
               }}
               onClick={handleSwowClick}
               title="Редактировать"
@@ -116,7 +116,7 @@ function InteractionsSms({
               {icons.edit}
             </div>
             <div
-              style={{ opacity: isShowEditButtons ? 1 : 0.5 }}
+              style={{ opacity: isShowEditButtons && isUser ? 1 : 0.5 }}
               className="interactions-email__button"
               onClick={handleRemoveClick}
               title="Удалить"
