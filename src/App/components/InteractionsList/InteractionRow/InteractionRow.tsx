@@ -69,8 +69,13 @@ function InteractionRow({
   const isShowDetails = String(data.id) === openRowIndex;
   const isUserShowDetails = isShowDetails && !data.isUser;
 
-  /** Обработчик нажатия на задачу 
-  const handleTaskClick = async (props: InteractionsData) => {
+  /** Обработчик нажатия на задачу */
+  const handleTaskClick = async () => {
+    if (!data.task?.value) {
+      await Scripts.toggleBindInteraction(data.id);
+      reloadData();
+      return;
+    }
     console.log("Click task with id: " + data.task?.code);
     const taskId = data.task?.code;
     if (!taskId) return;
@@ -79,6 +84,7 @@ function InteractionRow({
     utils.setRequest(requestId);
 
     localStorage.setItem("taskId", taskId);
+    localStorage.setItem(localStorageDraftKey, JSON.stringify(data));
 
     // Переход
     const link = await Scripts.getRequestLink();
@@ -87,14 +93,14 @@ function InteractionRow({
     const redirectUrl = new URL(window.location.origin + "/" + link);
     if (requestId) redirectUrl.searchParams.set("request_id", requestId);
     if (taskId) redirectUrl.searchParams.set("task_id", taskId);
-    utils.redirectSPA(redirectUrl.toString());
+    //utils.redirectSPA(redirectUrl.toString());
+    window.open(redirectUrl.toString(), "_blank");
   };
-  */
 
-  const handleTaskClick = (ev: any) => {
-    ev.stopPropagation();
-    console.log("Click task with id: " + data.task?.code);
-  };
+  // const handleTaskClick = (ev: any) => {
+  //   ev.stopPropagation();
+  //   console.log("Click task with id: " + data.task?.code);
+  // };
   /** Получить текст из строки с HTML */
   const getTextFromHTMLString = (innerHTML: string) => {
     // Создание элемента
@@ -140,13 +146,15 @@ function InteractionRow({
         {getTextFromHTMLString(data.comment)}
       </InteractionListColumn>
       {/* Задача */}
-      <InteractionListColumn
-        fr={1}
-        onClick={handleTaskClick}
-        title={data.task?.value}
-      >
-        {data.task?.value ?? ""}
-      </InteractionListColumn>
+      {!taskId && ( //только для обращения
+        <InteractionListColumn
+          fr={1}
+          onClick={handleTaskClick}
+          title={data.task?.value}
+        >
+          {data.task?.value || icons.Сlip}
+        </InteractionListColumn>
+      )}
       {/* Дата создания */}
       <InteractionListColumn
         fr={1}

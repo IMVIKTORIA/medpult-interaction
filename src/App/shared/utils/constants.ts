@@ -1,6 +1,6 @@
 /** Код значения черновика в localStorage */
-export const localStorageDraftKey = "medpult-treaty-draft";
-//export const localStorageDraftKey = 'medpult-select-task-draft'
+//export const localStorageDraftKey = "medpult-treaty-draft";
+export const localStorageDraftKey = "medpult-tasks-draft";
 
 /** Код значения черновика для идентификатора застрахованного в localStorage */
 export const localStorageDraftKeyInsuredId = "medpult-treaty-insured-id-draft";

@@ -194,7 +194,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
       );
       return false;
     }
-    
+
     if (!isShowEditButtons) {
       showErrorMessage("Изменение невозможно, прошло более 60 минут");
       return false;
@@ -218,7 +218,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
       );
       return false;
     }
-    
+
     if (!isShowEditButtons) {
       showErrorMessage("Удаление невозможно, прошло более 60 минут");
       return false;
@@ -229,7 +229,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
 
   const handleRemoveClick = async () => {
     const canDelete = checkCanDelete();
-    if (!canDelete) return
+    if (!canDelete) return;
 
     await Scripts.deleteInteraction(data.id);
     reloadData();
@@ -237,7 +237,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
   /** Изменить флажок просмотренности */
   useEffect(() => {
     // Если просмотрено или это пользователь - выйти
-    if (data.isViewed || data.isUser) return;
+    if (data.isUser || data.isViewed) return;
 
     // Обновить в системе
     Scripts.updateIsInteractionViewed(data.id);
