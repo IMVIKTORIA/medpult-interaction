@@ -22,7 +22,7 @@ class InteractionsEmailProps {
   isSystem: boolean;
   /** Идентификатор задачи */
   taskId?: string;
-  
+
   /** Проверить можно ли изменять взаимодействие, и показать ошибку если нельзя */
   checkCanEdit: () => boolean;
 }
@@ -38,10 +38,10 @@ function InteractionsEmail({
   isShowEditButtons,
   isSystem,
   taskId,
-  checkCanEdit
+  checkCanEdit,
 }: InteractionsEmailProps) {
   const handleSwowClick = () => {
-    if(!checkCanEdit()) return;
+    if (!checkCanEdit()) return;
 
     if (channelCode === InteractionsChannel.incomingEmail) {
       setIsShowEmailInModal(true);
@@ -103,7 +103,7 @@ function InteractionsEmail({
       const fileExtension = mimeType?.split("/")[1] || "file";
       const fileName = `Документ${index + 1}`;
 
-      // Для PDF и изображений (PNG, JPEG и т. д.) — показываем только ссылку
+      // Для PDF и изображений (PNG, JPEG и тд) — показываем только ссылку
       if (mimeType === "application/pdf" || mimeType?.startsWith("image/")) {
         const blobUrl = getBlobUrl(file);
         if (!blobUrl) return null;
@@ -128,7 +128,7 @@ function InteractionsEmail({
         );
       }
 
-      // Для остальных типов (если нужно)
+      // Для остальных типов
       const blobUrl = getBlobUrl(file);
       if (!blobUrl) return null;
 

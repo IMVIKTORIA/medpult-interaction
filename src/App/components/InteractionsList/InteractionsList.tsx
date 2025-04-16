@@ -73,6 +73,9 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
 
     loadData();
   };
+  useEffect(() => {
+    Scripts.setUpdateInteractionCallback(reloadData);
+  }, [appealId, taskId]);
 
   /** Загрузить взаимодействия */
   const loadData = async (
@@ -86,9 +89,17 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
     setIsLoading(true);
 
     const fetchData = await Scripts.getInteractions(appealId, taskId);
+
+    // Помечаем взаимодействия текущего пользователя как просмотренные
+    const processedData = fetchData.data.map((item) => ({
+      ...item,
+      isViewed: item.isUser ? true : item.isViewed,
+    }));
+
     setHasMore(fetchData.hasMore);
 
-    setItems([...items, ...fetchData.data]);
+    //setItems([...items, ...fetchData.data]);
+    setItems(processedData);
     setPage(page + 1);
     setIsLoading(false);
   };
@@ -133,7 +144,10 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
 
   // Запись количества непросмотренных
   useEffect(() => {
-    const unviewedItems = items.filter((item) => !item.isViewed);
+    //const unviewedItems = items.filter((item) => !item.isViewed);
+    const unviewedItems = items.filter(
+      (item) => !item.isViewed && !item.isUser
+    );
     if (taskId) {
       Scripts.setNewInteractionsCountTask(unviewedItems.length);
     } else {

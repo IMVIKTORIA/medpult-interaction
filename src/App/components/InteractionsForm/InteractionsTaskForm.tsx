@@ -10,12 +10,13 @@ export default function InteractionsTaskForm() {
 
   // Запись callback изменения задачи
   React.useLayoutEffect(() => {
-    if (appealId == "test" && taskId == "test") alert("Форма в режиме разработки (задача)");
+    if (appealId == "test" && taskId == "test")
+      alert("Форма в режиме разработки (задача)");
 
     const changeTaskCallback = (appealId?: string, taskId?: string) => {
-      setTaskId(taskId)
-      setAppealId(appealId)
-    }
+      setTaskId(taskId);
+      setAppealId(appealId);
+    };
 
     Scripts.setChangeRequestCallbackITask(changeTaskCallback);
 
@@ -23,9 +24,10 @@ export default function InteractionsTaskForm() {
   }, []);
 
   return (
-    taskId && appealId && (
+    taskId &&
+    appealId && (
       <div className="interaction-form">
-        <InteractionsList appealId={appealId} taskId={taskId}/>
+        <InteractionsList appealId={appealId} taskId={taskId} />
       </div>
     )
   );

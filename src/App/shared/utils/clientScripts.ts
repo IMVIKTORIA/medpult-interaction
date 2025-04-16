@@ -74,7 +74,7 @@ async function getInteractions(
     /** Комментарий */
     comment: "Это электронное сообщение и любые документы",
     /** Номер задачи */
-    task: { value: "TS01010201/12", code: "fasfas" },
+    task: { value: "", code: "" },
     /** Дата  */
     createdAt: moment("03.31.2025 12:30").toDate(),
     isViewed: false,
@@ -136,7 +136,7 @@ async function getInteractions(
     /** Дата  */
     createdAt: moment("12.03.2025 10:30").toDate(),
     isViewed: false,
-    isSystem: false,
+    isSystem: true,
     numberPhone: "8 999 333 22 11",
   };
 
@@ -289,6 +289,18 @@ let changeTaskCallbackI: SetVisibilityCallbackI | undefined;
 function setChangeTaskCallbackI(callback?: SetVisibilityCallbackI): void {
   changeTaskCallbackI = callback;
   window["changeTaskCallbackI"] = callback;
+}
+
+/** Тип функции обратного вызова обновления списка взаимодействий */
+type GetBindInteractionCallback = () => void;
+/** Функция обратного вызова обновления списка взаимодействий */
+let setBindInteractionIds: GetBindInteractionCallback | undefined = undefined;
+/** Установить функцию обратного вызова обновления списка взаимодействий */
+function setUpdateInteractionCallback(
+  callback: GetBindInteractionCallback
+): void {
+  (window as any).setBindInteractionIds = callback;
+  setBindInteractionIds = callback;
 }
 
 //
@@ -571,6 +583,14 @@ async function toggleSendSmsAnswer(interactionId: string) {
     throw new Error("Ошибка в функции toggleSendSmsAnswer: " + e);
   }
 }
+/** Открыть модальное окно привязки взаимодействия к задаче */
+async function toggleBindInteraction(interactionId: string) {
+  try {
+    alert("Bind Interaction: ");
+  } catch (e) {
+    throw new Error("Ошибка в функции toggleBindInteraction: " + e);
+  }
+}
 
 /** Установить количество непросмотренных взаимодействий в обращении */
 function setNewInteractionsCountRequest(count: number) {
@@ -643,4 +663,6 @@ export default {
   setReloadInteractionsTaskCallback,
   setNewInteractionsCountTask,
   toggleSendEmail,
+  toggleBindInteraction,
+  setUpdateInteractionCallback,
 };
