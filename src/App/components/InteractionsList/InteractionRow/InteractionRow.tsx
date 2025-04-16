@@ -70,12 +70,16 @@ function InteractionRow({
   const isUserShowDetails = isShowDetails && !data.isUser;
 
   /** Обработчик нажатия на задачу */
-  const handleTaskClick = async () => {
+  const handleTaskClick = async (ev?: React.MouseEvent<HTMLSpanElement>) => {
+    // Остановить распространение
+    if(ev) ev.stopPropagation()
+    
     if (!data.task?.value) {
       await Scripts.toggleBindInteraction(data.id);
       reloadData();
       return;
     }
+
     console.log("Click task with id: " + data.task?.code);
     const taskId = data.task?.code;
     if (!taskId) return;

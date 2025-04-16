@@ -5,7 +5,7 @@ interface InteractionListColumnProps extends React.PropsWithChildren {
   /** Коэффициент соотношения ширины столбца */
   fr: number;
   /** Обработчик нажатия на колонку */
-  onClick?: (ev?: any) => any;
+  onClick?: (ev?: React.MouseEvent<HTMLSpanElement>) => any;
   /** Текст при наведении */
   title?: string;
 }
