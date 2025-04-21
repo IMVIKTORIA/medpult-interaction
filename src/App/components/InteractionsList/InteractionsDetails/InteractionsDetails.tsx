@@ -181,6 +181,13 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
 
   /** Проверить можно ли изменять взаимодействие, и показать ошибку если нельзя */
   function checkCanEdit() {
+    if (data.isSystem) {
+      showErrorMessage(
+        "Изменение невозможно, взаимодействие добавлено автоматически"
+      );
+      return false;
+    }
+    
     if (!data.isUser) {
       showErrorMessage(
         "Изменение запрещено, взаимодействие внес другой пользователь"
@@ -188,12 +195,6 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
       return false;
     }
 
-    if (data.isSystem) {
-      showErrorMessage(
-        "Изменение невозможно, взаимодействие добавлено автоматически"
-      );
-      return false;
-    }
 
     if (!isShowEditButtons) {
       showErrorMessage("Изменение невозможно, прошло более 60 минут");
