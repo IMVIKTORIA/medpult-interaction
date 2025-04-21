@@ -206,6 +206,13 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
 
   /** Проверить можно ли удалять взаимодействие, и показать ошибку если нельзя */
   function checkCanDelete() {
+    if (data.isSystem) {
+      showErrorMessage(
+        "Удаление невозможно, взаимодействие добавлено автоматически"
+      );
+      return false;
+    }
+    
     if (!data.isUser) {
       showErrorMessage(
         "Удаление запрещено, взаимодействие внес другой пользователь"
@@ -213,12 +220,6 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
       return false;
     }
 
-    if (data.isSystem) {
-      showErrorMessage(
-        "Удаление невозможно, взаимодействие добавлено автоматически"
-      );
-      return false;
-    }
 
     if (!isShowEditButtons) {
       showErrorMessage("Удаление невозможно, прошло более 60 минут");
