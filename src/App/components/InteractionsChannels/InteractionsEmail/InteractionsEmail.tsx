@@ -5,6 +5,7 @@ import {
 } from "../../../shared/types";
 import icons from "../../../shared/icons";
 import Scripts from "../../../shared/utils/clientScripts";
+import moment from "moment";
 
 class InteractionsEmailProps {
   /** id Взаимодействия */
@@ -159,7 +160,7 @@ function InteractionsEmail({
       <div className="interactions-details_panel__content">
         <div className="interactions-email">
           <div className="interactions-email__info">
-            {interactionsEmailData?.startDate}
+            {interactionsEmailData?.startDate && moment(interactionsEmailData?.startDate).format("DD.MM.YYYY HH:mm")}
             <div style={{ paddingTop: "10px" }}>
               от кого:
               <span className="interactions-email__info__from">
