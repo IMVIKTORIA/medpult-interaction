@@ -227,7 +227,7 @@ export class InteractionsData {
 /** Данные проекта письма */
 export class InteractionsEmailData {
   /** Дата */
-  startDate: string;
+  startDate?: Date;
   /** От кого */
   fioFrom: string;
   /** Кому */
@@ -248,7 +248,7 @@ export class InteractionsEmailData {
   text: string;
 
   constructor() {
-    this.startDate = "";
+    // this.startDate = "";
     this.fioFrom = "";
     this.fioWhom = "";
     this.departament = "";
@@ -263,14 +263,13 @@ export class InteractionsEmailData {
 /** Данные комментария */
 export class InteractionsCommentData {
   /** Дата */
-  startDate: string;
+  startDate?: Date;
   /** От кого */
   fio: string;
   /** Текст*/
   comment: string;
 
   constructor() {
-    this.startDate = "";
     this.fio = "";
     this.comment = "";
   }
@@ -279,7 +278,7 @@ export class InteractionsCommentData {
 /** Данные Звонков */
 export class InteractionsCallData {
   /** Дата */
-  startDate: string;
+  startDate?: Date;
   /** От кого */
   fioFrom: string;
   /** Отдел */
@@ -292,7 +291,6 @@ export class InteractionsCallData {
   comment: string;
 
   constructor() {
-    this.startDate = "";
     this.fioFrom = "";
     this.departament = "";
     this.phone = "";

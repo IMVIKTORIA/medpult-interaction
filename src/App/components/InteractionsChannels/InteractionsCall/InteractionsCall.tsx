@@ -4,6 +4,7 @@ import {
   InteractionsChannel,
 } from "../../../shared/types";
 import icons from "../../../shared/icons";
+import moment from "moment";
 
 class InteractionsCallProps {
   /** Данные комментария */
@@ -39,7 +40,7 @@ function InteractionsCall({
       <div className="interactions-details_panel__content">
         <div className="interactions-comment">
           <div className="interactions-comment__info">
-            {interactionsCallData?.startDate}
+            {interactionsCallData?.startDate && moment(interactionsCallData?.startDate).format("DD.MM.YYYY HH:mm")}
             <div style={{ paddingTop: "10px" }}>
               от кого:
               <span className="interactions-comment__info__from">

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { InteractionsCommentData } from "../../../shared/types";
 import icons from "../../../shared/icons";
+import moment from "moment";
 
 class InteractionsCommentProps {
   /** Данные комментария */
@@ -34,7 +35,7 @@ function InteractionsComment({
       <div className="interactions-details_panel__content">
         <div className="interactions-comment">
           <div className="interactions-comment__info">
-            {interactionsCommentData?.startDate}
+            {interactionsCommentData?.startDate && moment(interactionsCommentData?.startDate).format("DD.MM.YYYY HH:mm")}
             <div style={{ paddingTop: "10px" }}>
               от кого:
               <span className="interactions-comment__info__from">
