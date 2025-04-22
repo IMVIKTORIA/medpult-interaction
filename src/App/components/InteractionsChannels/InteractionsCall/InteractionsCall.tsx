@@ -40,7 +40,7 @@ function InteractionsCall({
       <div className="interactions-details_panel__content">
         <div className="interactions-comment">
           <div className="interactions-comment__info">
-            {interactionsCallData?.startDate && moment(interactionsCallData?.startDate).format("DD.MM.YYYY HH:mm")}
+            {interactionsCallData?.startDate}
             <div style={{ paddingTop: "10px" }}>
               от кого:
               <span className="interactions-comment__info__from">

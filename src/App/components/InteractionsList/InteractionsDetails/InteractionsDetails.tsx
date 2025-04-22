@@ -136,14 +136,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
     // Не показывать если не автор
     if (!data.isUser) return false;
 
-    // Дата создания
-    const createDateStr = data.createdAt;
-    const createDate = moment(createDateStr);
-    // Текущая дата
-    const currentDate = moment();
-
-    // Если текущая дата меньше или равна 60 минут после даты создания, то показать кнопки
-    return currentDate.isSameOrBefore(createDate.add(60, "minute"));
+    return Scripts.checkCanShowEditButtonByTime(data.createdAt);
   };
 
   /** Показывать кнопки изменения и удаления? */
@@ -158,8 +151,8 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
 
     // Дата создания
     const createDateStr = data.createdAt;
-    // const createDate = moment(createDateStr, "DD.MM.YYYY HH:mm");
-    const createDate = moment(createDateStr);
+    const createDate = moment(createDateStr, "DD.MM.YYYY HH:mm");
+    
     // Текущая дата
     const currentDate = moment();
     // Разница между текущей датой и 60 минут после создания

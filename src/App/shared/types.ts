@@ -195,7 +195,7 @@ export class InteractionsData {
   /** Комментарий */
   comment: string;
   /** Дата создания */
-  createdAt: Date;
+  createdAt: string;
   /** Просмотрено? */
   isViewed: boolean;
   /** Cистема создала? */
@@ -218,7 +218,7 @@ export class InteractionsData {
     this.fio = "";
     this.topic = "";
     this.comment = "";
-    this.createdAt = new Date();
+    this.createdAt = "";
     this.isViewed = false;
     this.isSystem = false;
   }
@@ -227,7 +227,7 @@ export class InteractionsData {
 /** Данные проекта письма */
 export class InteractionsEmailData {
   /** Дата */
-  startDate?: Date;
+  startDate: string;
   /** От кого */
   fioFrom: string;
   /** Кому */
@@ -263,7 +263,7 @@ export class InteractionsEmailData {
 /** Данные комментария */
 export class InteractionsCommentData {
   /** Дата */
-  startDate?: Date;
+  startDate: string;
   /** От кого */
   fio: string;
   /** Текст*/
@@ -278,7 +278,7 @@ export class InteractionsCommentData {
 /** Данные Звонков */
 export class InteractionsCallData {
   /** Дата */
-  startDate?: Date;
+  startDate: string;
   /** От кого */
   fioFrom: string;
   /** Отдел */

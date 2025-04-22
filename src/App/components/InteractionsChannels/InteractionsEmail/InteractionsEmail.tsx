@@ -155,12 +155,14 @@ function InteractionsEmail({
     }
   };
 
+  console.log(interactionsEmailData)
+
   return (
     <div className="interactions-details_panel">
       <div className="interactions-details_panel__content">
         <div className="interactions-email">
           <div className="interactions-email__info">
-            {interactionsEmailData?.startDate && moment(interactionsEmailData?.startDate).format("DD.MM.YYYY HH:mm")}
+            {interactionsEmailData?.startDate}
             <div style={{ paddingTop: "10px" }}>
               от кого:
               <span className="interactions-email__info__from">
