@@ -37,7 +37,7 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("12.03.2025 8:20").toDate(),
+    createdAt: moment("12.03.2025 8:20").format("DD.MM.YYYY HH:mm"),
     isViewed: true,
     isSystem: true,
   };
@@ -57,7 +57,7 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("12.03.2025 14:25").toDate(),
+    createdAt: moment("12.03.2025 14:25").format("DD.MM.YYYY HH:mm"),
     isViewed: false,
     isSystem: true,
     logChan: "111",
@@ -76,7 +76,7 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "", code: "" },
     /** Дата  */
-    createdAt: moment("03.31.2025 12:30").toDate(),
+    createdAt: moment("03.31.2025 12:30").format("DD.MM.YYYY HH:mm"),
     isViewed: false,
     isSystem: false,
     isUser: false,
@@ -95,7 +95,7 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("12.03.2025 10:30").toDate(),
+    createdAt: moment("12.03.2025 10:30").format("DD.MM.YYYY HH:mm"),
     isViewed: false,
     isSystem: true,
     isUser: true,
@@ -116,7 +116,7 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("04.11.2025 8:55").toDate(),
+    createdAt: moment("04.11.2025 8:55").format("DD.MM.YYYY HH:mm"),
     isViewed: false,
     isSystem: false,
   };
@@ -134,7 +134,7 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("12.03.2025 10:30").toDate(),
+    createdAt: moment("12.03.2025 10:30").format("DD.MM.YYYY HH:mm"),
     isViewed: false,
     isSystem: true,
     numberPhone: "8 999 333 22 11",
@@ -155,7 +155,7 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("11.04.2025 8:55").toDate(),
+    createdAt: moment("11.04.2025 8:55").format("DD.MM.YYYY HH:mm"),
     isViewed: false,
     isSystem: false,
     fileSrc: true,
@@ -176,7 +176,7 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("11.04.2025 8:55").toDate(),
+    createdAt: moment("11.04.2025 8:55").format("DD.MM.YYYY HH:mm"),
     isViewed: false,
     isSystem: false,
   };
@@ -196,7 +196,7 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("03.12.2025 8:55").toDate(),
+    createdAt: moment("03.12.2025 8:55").format("DD.MM.YYYY HH:mm"),
     isViewed: false,
     isSystem: false,
   };
@@ -214,7 +214,7 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("12.03.2025 10:30").toDate(),
+    createdAt: moment("12.03.2025 10:30").format("DD.MM.YYYY HH:mm"),
     isViewed: false,
     isSystem: true,
     isUser: true,
@@ -232,7 +232,7 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("03.12.2025 10:30").toDate(),
+    createdAt: moment("03.12.2025 10:30").format("DD.MM.YYYY HH:mm"),
     isViewed: false,
     isSystem: false,
     numberPhone: "8 999 333 22 11",
@@ -274,7 +274,7 @@ async function getInteractionsFulldata(
     /** Дата отзыва */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Задача на отзыв */
-    createdAt: moment("01.01.2024 17:00").toDate(),
+    createdAt: moment("01.01.2024 17:00").format("DD.MM.YYYY HH:mm"),
     isViewed: false,
     isSystem: false,
   };
@@ -629,6 +629,29 @@ function toggleSendEmail(taskId?: string) {
   alert("toggleSendEmail on: " + taskId);
 }
 
+/** Проверка возможности отрисовки кнопок по времени */
+function checkCanShowEditButtonByTime(createdAt: string) {
+  // Дата создания
+  const createDate = moment(createdAt, "DD.MM.YYYY HH:mm");
+  // Текущая дата
+  const currentDate = moment();
+
+  // Если текущая дата меньше или равна 60 минут после даты создания, то показать кнопки
+  return currentDate.isSameOrBefore(createDate.add(60, "minute"));
+}
+
+/** Получить продолжительность таймера в минутах для сокрытия кнопок */
+function getHideButtonsTimerDuration(createdAt: string): number {
+  // Дата создания
+  const createDate = moment(createdAt, "DD.MM.YYYY HH:mm");
+  // Текущая дата
+  const currentDate = moment();
+
+  const duration = createDate.add(60, "minute").diff(currentDate);
+
+  return duration;
+}
+
 export default {
   getInteractions,
   getInteractionsFulldata,
@@ -665,4 +688,7 @@ export default {
   toggleSendEmail,
   toggleBindInteraction,
   setUpdateInteractionCallback,
+
+  checkCanShowEditButtonByTime,
+  getHideButtonsTimerDuration
 };

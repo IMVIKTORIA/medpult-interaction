@@ -180,8 +180,8 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
 
     // Сортируем только независимые элементы (не email)
     const sortedNonEmailItems = [...nonEmailItems].sort((a, b) => {
-      const dateA = moment(a.createdAt);
-      const dateB = moment(b.createdAt);
+      const dateA = moment(a.createdAt, "DD.MM.YYYY HH:mm");
+      const dateB = moment(b.createdAt, "DD.MM.YYYY HH:mm");
       return dateB.diff(dateA);
     });
 
@@ -206,8 +206,8 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
     }
 
     groups.sort((a, b) => {
-      const dateA = moment(a.interaction.createdAt);
-      const dateB = moment(b.interaction.createdAt);
+      const dateA = moment(a.interaction.createdAt, "DD.MM.YYYY HH:mm");
+      const dateB = moment(b.interaction.createdAt, "DD.MM.YYYY HH:mm");
       return dateB.diff(dateA);
     });
 

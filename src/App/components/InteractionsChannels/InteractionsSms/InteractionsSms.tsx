@@ -5,6 +5,7 @@ import {
 } from "../../../shared/types";
 import icons from "../../../shared/icons";
 import Scripts from "../../../shared/utils/clientScripts";
+import moment from "moment";
 
 class InteractionsSmsProps {
   /** id Взаимодействия */
@@ -50,7 +51,7 @@ function InteractionsSms({
       <div className="interactions-details_panel__content">
         <div className="interactions-comment">
           <div className="interactions-comment__info">
-            {interactionsSmsData?.startDate}
+            {interactionsSmsData?.startDate &&  moment(interactionsSmsData?.startDate).format("DD.MM.YYYY HH:mm")}
             <div style={{ paddingTop: "10px" }}>
               от кого:
               <span className="interactions-comment__info__from">

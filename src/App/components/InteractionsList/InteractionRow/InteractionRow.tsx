@@ -162,9 +162,9 @@ function InteractionRow({
       {/* Дата создания */}
       <InteractionListColumn
         fr={1}
-        title={moment(data.createdAt).format("DD.MM.YYYY HH:mm")}
+        title={data.createdAt}
       >
-        {moment(data.createdAt).format("DD.MM.YYYY HH:mm")}
+        {data.createdAt}
       </InteractionListColumn>
       {/* Скрепка*/}
       <InteractionListColumn fr={0.25} title={"Есть вложение"}>
