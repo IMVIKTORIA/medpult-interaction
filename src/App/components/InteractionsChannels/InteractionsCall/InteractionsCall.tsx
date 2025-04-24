@@ -5,6 +5,7 @@ import {
 } from "../../../shared/types";
 import icons from "../../../shared/icons";
 import moment from "moment";
+import { applyPhoneMask } from "../../../../UIKit/shared/utils/masks";
 
 class InteractionsCallProps {
   /** Данные комментария */
@@ -52,7 +53,7 @@ function InteractionsCall({
                 )}
                 {channelCode === InteractionsChannel.incomingCall && (
                   <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
-                    {interactionsCallData?.phone}
+                    {applyPhoneMask(interactionsCallData?.phone ?? "")}
                   </span>
                 )}
               </span>
@@ -68,7 +69,7 @@ function InteractionsCall({
                 )}
                 {channelCode === InteractionsChannel.outgoingCall && (
                   <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
-                    {interactionsCallData?.phone}
+                    {applyPhoneMask(interactionsCallData?.phone ?? "")}
                   </span>
                 )}
               </span>

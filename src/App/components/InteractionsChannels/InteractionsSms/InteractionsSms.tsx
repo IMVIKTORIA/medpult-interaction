@@ -6,6 +6,7 @@ import {
 import icons from "../../../shared/icons";
 import Scripts from "../../../shared/utils/clientScripts";
 import moment from "moment";
+import { applyPhoneMask } from "../../../../UIKit/shared/utils/masks";
 
 class InteractionsSmsProps {
   /** id Взаимодействия */
@@ -58,7 +59,7 @@ function InteractionsSms({
                 {interactionsSmsData?.fioFrom}
                 {channelCode === InteractionsChannel.incomingSms && (
                   <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
-                    {interactionsSmsData?.phone}
+                    {applyPhoneMask(interactionsSmsData?.phone ?? "")}
                   </span>
                 )}
                 {channelCode === InteractionsChannel.outgoingSms && (
@@ -74,7 +75,7 @@ function InteractionsSms({
                 {interactionsSmsData?.fioWhom}
                 {channelCode === InteractionsChannel.outgoingSms && (
                   <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
-                    {interactionsSmsData?.phone}
+                    {applyPhoneMask(interactionsSmsData?.phone ?? "")}
                   </span>
                 )}
                 {channelCode === InteractionsChannel.incomingSms && (

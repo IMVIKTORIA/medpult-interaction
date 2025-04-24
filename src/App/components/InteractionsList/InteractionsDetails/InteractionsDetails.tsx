@@ -149,14 +149,8 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
     // Если кнопки не показаны, то не весить таймер
     if (!checkCanShowEditButton()) return;
 
-    // Дата создания
-    const createDateStr = data.createdAt;
-    const createDate = moment(createDateStr, "DD.MM.YYYY HH:mm");
-    
-    // Текущая дата
-    const currentDate = moment();
     // Разница между текущей датой и 60 минут после создания
-    const duration = createDate.add(60, "minute").diff(currentDate);
+    const duration = Scripts.getHideButtonsTimerDuration(data.createdAt)
 
     // Таймер для обновления отображения кнопок
     const timeout = setTimeout(() => {
