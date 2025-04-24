@@ -66,6 +66,11 @@ function InteractionsCall({
                     {interactionsCallData?.departament}
                   </span>
                 )}
+                {channelCode === InteractionsChannel.outgoingCall && (
+                  <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
+                    {interactionsCallData?.phone}
+                  </span>
+                )}
               </span>
             </div>
           </div>
