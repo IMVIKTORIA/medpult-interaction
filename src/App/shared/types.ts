@@ -212,6 +212,8 @@ export class InteractionsData {
   fileSrc?: boolean;
   /** Этот пользователь добавил взаимодействие */
   isUser?: boolean;
+  /** Статус СМС */
+  statusCode?: string;
 
   constructor() {
     this.channel = InteractionsChannel.comment;
@@ -343,4 +345,22 @@ export interface InteractionsRowData {
 export interface TabProps {
   handler: any;
   values: InteractionsRowData;
+}
+
+export class SmsStatusData {
+  /**Статус код */
+  statusCode: string;
+  /** Наименование статуса  */
+  statusName?: string;
+  /** Подстатус код */
+  substatusCode?: string;
+  /** Наименование подстатуса */
+  substatusName?: string;
+
+  constructor() {
+    this.statusCode = "";
+    this.statusName = "";
+    this.substatusCode = "";
+    this.substatusName = "";
+  }
 }
