@@ -167,35 +167,35 @@ function InteractionsEmail({
               от кого:
               <span className="interactions-email__info__from">
                 {interactionsEmailData?.fioFrom}
-                <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
-                  {interactionsEmailData?.email}
-                </span>
-                {channelCode === InteractionsChannel.outgoingEmail && (
-                  <>
-                    <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
-                      {interactionsEmailData?.createdBy}
-                    </span>
-                    <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
-                      {interactionsEmailData?.departament}
-                    </span>
-                  </>
-                )}
+                {
+                  interactionsEmailData?.email && <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
+                    {interactionsEmailData?.email}
+                  </span>
+                }
+                {
+                  channelCode === InteractionsChannel.outgoingEmail && (
+                    <>
+                      <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
+                        {interactionsEmailData?.departament}
+                      </span>
+                    </>
+                  )
+                }
               </span>
             </div>
             <div style={{ paddingTop: "10px" }}>
               кому:
               <span style={{ paddingLeft: "21px" }}>
                 {interactionsEmailData?.fioWhom}
-                {channelCode === InteractionsChannel.incomingEmail && (
-                  <>
-                    <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
-                      {interactionsEmailData?.createdBy}
-                    </span>
-                    <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
-                      {interactionsEmailData?.departament}
-                    </span>
-                  </>
-                )}
+                {
+                  channelCode === InteractionsChannel.incomingEmail && (
+                    <>
+                      <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
+                        {interactionsEmailData?.departament}
+                      </span>
+                    </>
+                  )
+                }
 
                 <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
                   {interactionsEmailData?.email}
