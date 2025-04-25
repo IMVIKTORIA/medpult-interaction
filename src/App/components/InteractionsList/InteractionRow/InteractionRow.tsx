@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   InteractionsChannel,
   InteractionsData,
@@ -72,8 +72,8 @@ function InteractionRow({
   /** Обработчик нажатия на задачу */
   const handleTaskClick = async (ev?: React.MouseEvent<HTMLSpanElement>) => {
     // Остановить распространение
-    if(ev) ev.stopPropagation()
-    
+    if (ev) ev.stopPropagation();
+
     if (!data.task?.value) {
       await Scripts.toggleBindInteraction(data.id);
       reloadData();
@@ -119,6 +119,44 @@ function InteractionRow({
     return text;
   };
 
+  // const getIconSMS = () => {
+  //   const statusCode = data.statusCode;
+  //   const status = smsStatusData.find((item) => item.statusCode === statusCode);
+  //   switch (status?.statusCode) {
+  //     case "sent":
+  //       return icons.SmsSent;
+  //     case "delivered":
+  //       return icons.SmsDelivered;
+  //     case "undelivered":
+  //       return icons.SmsError;
+  //     default:
+  //       throw new Error("Неизвестный статус SMS");
+  //   }
+  // };
+  // const getSubstatusName = (statusCode) => {
+  //   const status = smsStatusData.find((item) => item.statusCode === statusCode);
+  //   return status?.substatusName;
+  // };
+  // const getSubstatusName = (substatusCode) => {
+  //   const status = smsStatusData.find((item) => item.substatusCode === substatusCode);
+  //   return status?.substatusName;
+  // };
+  const getIconSMS = () => {
+    const statusCode = data.statusCode;
+    switch (statusCode) {
+      case "sent":
+        return icons.SmsSent;
+      case "delivered":
+        return icons.SmsDelivered;
+      case "undelivered":
+        return icons.SmsError;
+      default:
+        return null;
+    }
+  };
+
+  const [isTooltipVisible, setTooltipVisible] = useState(false);
+
   /** Разметка шапки строки */
   const HeaderLayout = (
     <div
@@ -135,6 +173,25 @@ function InteractionRow({
       <InteractionListColumn fr={0.25}>
         {chainLength && (
           <div className="interaction-row__counter">{chainLength}</div>
+        )}
+      </InteractionListColumn>
+      {/* Статус СМС*/}
+      <InteractionListColumn
+        fr={0.25}
+        // onMouseEnter={() => setTooltipVisible(true)}
+        // onMouseLeave={() => setTooltipVisible(false)}
+      >
+        {data.channel === InteractionsChannel.outgoingSms && (
+          <div>
+            {/* {isTooltipVisible && (
+              <div className="tooltip">
+                {data.channel === InteractionsChannel.outgoingSms
+                  ? getSubstatusName(data.statusCode)
+                  : undefined}
+              </div>
+            )} */}
+            {getIconSMS()}
+          </div>
         )}
       </InteractionListColumn>
       {/* ФИО */}
@@ -160,10 +217,7 @@ function InteractionRow({
         </InteractionListColumn>
       )}
       {/* Дата создания */}
-      <InteractionListColumn
-        fr={1}
-        title={data.createdAt}
-      >
+      <InteractionListColumn fr={1} title={data.createdAt}>
         {data.createdAt}
       </InteractionListColumn>
       {/* Скрепка*/}

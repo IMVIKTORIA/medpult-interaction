@@ -138,6 +138,7 @@ async function getInteractions(
     isViewed: false,
     isSystem: true,
     numberPhone: "8 999 333 22 11",
+    statusCode: "sent",
   };
 
   const mockData6: InteractionsData = {
@@ -223,7 +224,7 @@ async function getInteractions(
     /** Идентификатор */
     id: "11111111111454",
     /** Канал */
-    channel: InteractionsChannel.incomingSms,
+    channel: InteractionsChannel.outgoingSms,
     /** Фио */
     fio: "Оператор 1",
     topic: "Fuuuuu",
@@ -236,6 +237,7 @@ async function getInteractions(
     isViewed: false,
     isSystem: false,
     numberPhone: "8 999 333 22 11",
+    statusCode: "undelivered",
   };
 
   await randomDelay();
@@ -690,5 +692,5 @@ export default {
   setUpdateInteractionCallback,
 
   checkCanShowEditButtonByTime,
-  getHideButtonsTimerDuration
+  getHideButtonsTimerDuration,
 };

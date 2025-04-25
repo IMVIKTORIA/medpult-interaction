@@ -8,10 +8,14 @@ interface InteractionListColumnProps extends React.PropsWithChildren {
   onClick?: (ev?: React.MouseEvent<HTMLSpanElement>) => any;
   /** Текст при наведении */
   title?: string;
+  /** Обработчик наведения */
+  onMouseEnter?: (ev?: React.MouseEvent<HTMLDivElement>) => any;
+  /** Обработчик ухода */
+  onMouseLeave?: (ev?: React.MouseEvent<HTMLDivElement>) => any;
 }
 
 function InteractionListColumn(props: InteractionListColumnProps) {
-  const { fr, onClick, children, title } = props;
+  const { fr, onClick, children, title, onMouseEnter, onMouseLeave } = props;
 
   return (
     <div
@@ -21,6 +25,8 @@ function InteractionListColumn(props: InteractionListColumnProps) {
           : "interaction-column"
       }
       style={{ flex: fr }}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
       <span title={title} onClick={onClick}>
         {children}
