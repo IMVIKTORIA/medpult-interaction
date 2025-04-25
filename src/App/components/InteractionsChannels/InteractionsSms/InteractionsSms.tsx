@@ -57,11 +57,6 @@ function InteractionsSms({
               от кого:
               <span className="interactions-comment__info__from">
                 {interactionsSmsData?.fioFrom}
-                {channelCode === InteractionsChannel.incomingSms && (
-                  <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
-                    {applyPhoneMask(interactionsSmsData?.phone ?? "")}
-                  </span>
-                )}
                 {channelCode === InteractionsChannel.outgoingSms && (
                   <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
                     {interactionsSmsData?.departament}
@@ -73,11 +68,6 @@ function InteractionsSms({
               кому:
               <span style={{ paddingLeft: "21px" }}>
                 {interactionsSmsData?.fioWhom}
-                {channelCode === InteractionsChannel.outgoingSms && (
-                  <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
-                    {applyPhoneMask(interactionsSmsData?.phone ?? "")}
-                  </span>
-                )}
                 {channelCode === InteractionsChannel.incomingSms && (
                   <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
                     {interactionsSmsData?.departament}

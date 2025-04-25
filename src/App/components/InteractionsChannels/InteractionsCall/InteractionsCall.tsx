@@ -51,11 +51,6 @@ function InteractionsCall({
                     {interactionsCallData?.departament}
                   </span>
                 )}
-                {channelCode === InteractionsChannel.incomingCall && (
-                  <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
-                    {applyPhoneMask(interactionsCallData?.phone ?? "")}
-                  </span>
-                )}
               </span>
             </div>
             <div style={{ paddingTop: "10px" }}>
@@ -65,11 +60,6 @@ function InteractionsCall({
                 {channelCode === InteractionsChannel.incomingCall && (
                   <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
                     {interactionsCallData?.departament}
-                  </span>
-                )}
-                {channelCode === InteractionsChannel.outgoingCall && (
-                  <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
-                    {applyPhoneMask(interactionsCallData?.phone ?? "")}
                   </span>
                 )}
               </span>
