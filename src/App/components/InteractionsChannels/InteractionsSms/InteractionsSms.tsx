@@ -6,6 +6,7 @@ import {
 import icons from "../../../shared/icons";
 import Scripts from "../../../shared/utils/clientScripts";
 import moment from "moment";
+import { applyPhoneMask } from "../../../../UIKit/shared/utils/masks";
 
 class InteractionsSmsProps {
   /** id Взаимодействия */
@@ -51,11 +52,16 @@ function InteractionsSms({
       <div className="interactions-details_panel__content">
         <div className="interactions-comment">
           <div className="interactions-comment__info">
-            {interactionsSmsData?.startDate &&  moment(interactionsSmsData?.startDate).format("DD.MM.YYYY HH:mm")}
+            {interactionsSmsData?.startDate}
             <div style={{ paddingTop: "10px" }}>
               от кого:
               <span className="interactions-comment__info__from">
                 {interactionsSmsData?.fioFrom}
+                {channelCode === InteractionsChannel.incomingSms && (
+                  <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
+                    {applyPhoneMask(interactionsSmsData?.phone ?? "")}
+                  </span>
+                )}
                 {channelCode === InteractionsChannel.outgoingSms && (
                   <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
                     {interactionsSmsData?.departament}
@@ -69,7 +75,7 @@ function InteractionsSms({
                 {interactionsSmsData?.fioWhom}
                 {channelCode === InteractionsChannel.outgoingSms && (
                   <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
-                    {interactionsSmsData?.phone}
+                    {applyPhoneMask(interactionsSmsData?.phone ?? "")}
                   </span>
                 )}
                 {channelCode === InteractionsChannel.incomingSms && (
