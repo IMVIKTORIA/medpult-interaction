@@ -571,7 +571,7 @@ async function toggleSendEmailAnswer(interactionId: string, taskId?: string) {
 /** Открыть модальное окно для отправки ответа на email */
 async function toggleSendEmailForward(interactionId: string, taskId?: string) {
   try {
-    alert("Forward on: " + interactionId);
+    alert("Forward on: " + interactionId + "taskId: " + taskId);
   } catch (e) {
     throw new Error("Ошибка в функции toggleSendEmailForward: " + e);
   }
