@@ -19,7 +19,7 @@ class InteractionsSmsProps {
   setIsShowSmsOutModal: (value: boolean) => void;
   /** Показывать кнопки удалить и редактировать */
   isShowEditButtons: boolean;
-  
+
   /** Проверить можно ли изменять взаимодействие, и показать ошибку если нельзя */
   checkCanEdit: () => boolean;
 }
@@ -33,10 +33,10 @@ function InteractionsSms({
   setIsShowSmsInModal,
   setIsShowSmsOutModal,
   isShowEditButtons,
-  checkCanEdit
+  checkCanEdit,
 }: InteractionsSmsProps) {
   const handleSwowClick = () => {
-    if(!checkCanEdit()) return
+    if (!checkCanEdit()) return;
     if (channelCode === InteractionsChannel.incomingSms) {
       setIsShowSmsInModal(true);
     } else setIsShowSmsOutModal(true);
@@ -57,11 +57,11 @@ function InteractionsSms({
               от кого:
               <span className="interactions-comment__info__from">
                 {interactionsSmsData?.fioFrom}
-                {channelCode === InteractionsChannel.incomingSms && (
+                {/* {channelCode === InteractionsChannel.incomingSms && (
                   <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
                     {applyPhoneMask(interactionsSmsData?.phone ?? "")}
                   </span>
-                )}
+                )} */}
                 {channelCode === InteractionsChannel.outgoingSms && (
                   <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
                     {interactionsSmsData?.departament}
@@ -73,11 +73,11 @@ function InteractionsSms({
               кому:
               <span style={{ paddingLeft: "21px" }}>
                 {interactionsSmsData?.fioWhom}
-                {channelCode === InteractionsChannel.outgoingSms && (
+                {/* {channelCode === InteractionsChannel.outgoingSms && (
                   <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
                     {applyPhoneMask(interactionsSmsData?.phone ?? "")}
                   </span>
-                )}
+                )} */}
                 {channelCode === InteractionsChannel.incomingSms && (
                   <span style={{ fontWeight: "400", paddingLeft: "10px" }}>
                     {interactionsSmsData?.departament}

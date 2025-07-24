@@ -5,8 +5,8 @@ import InteractionsList from "../InteractionsList/InteractionsList";
 /** Форма вкладки Взаимодействия в задаче */
 export default function InteractionsTaskForm() {
   // Идентификатор текущего обращения
-  const [appealId, setAppealId] = useState<string>("test");
-  const [taskId, setTaskId] = useState<string>("test");
+  const [appealId, setAppealId] = useState<string>(/* "test" */);
+  const [taskId, setTaskId] = useState<string>(/* "test" */);
 
   // Запись callback изменения задачи
   React.useLayoutEffect(() => {

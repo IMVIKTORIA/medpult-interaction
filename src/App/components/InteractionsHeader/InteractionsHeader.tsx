@@ -26,10 +26,10 @@ interface InteractionsHeaderProps {
   };
   /** Изменить выбранные каналы */
   setSelectedChannels: React.Dispatch<
-  React.SetStateAction<InteractionsChannel[]>
+    React.SetStateAction<InteractionsChannel[]>
   >;
   /** Идентификатор задачи (Для взаимодействий в задаче) */
-  taskId?: string
+  taskId?: string;
 }
 function InteractionsHeader({
   modalStates,
@@ -116,7 +116,7 @@ function InteractionsHeader({
   /** Открыть окно отправки email */
   const toggleSendEmail = () => {
     Scripts.toggleSendEmail(taskId);
-  }
+  };
 
   return (
     <div className={"custom-list-interaction__header"}>
@@ -129,6 +129,7 @@ function InteractionsHeader({
             inputHandler={handleInputChange}
             name="channel"
             values={formValues}
+            style={{ width: "100%" }}
           />
         </div>
         <div className="interaction-header__buttons">

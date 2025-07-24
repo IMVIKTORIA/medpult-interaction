@@ -214,6 +214,8 @@ export class InteractionsData {
   isUser?: boolean;
   /** Статус СМС */
   statusCode?: string;
+  /** ФИО для модалки редактирования*/
+  fioEdit?: string;
 
   constructor() {
     this.channel = InteractionsChannel.comment;

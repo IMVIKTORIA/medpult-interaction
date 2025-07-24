@@ -21,6 +21,10 @@
     height: fit-content;
     max-height: inherit;
     padding: 12px 0 12px 7px;
+    //
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
     //overflow-y: auto;
   }
 }

@@ -33,13 +33,11 @@ function ChannelDropdown({
 
   return (
     <>
-      {isLoading ? (
-        <div className="channel-dropdown">
+      <div className="channel-dropdown">
+        {isLoading ? (
           <Loader />
-        </div>
-      ) : (
-        <div className="channel-dropdown">
-          {filteredChannels.map((channel) => (
+        ) : (
+          filteredChannels.map((channel) => (
             <div
               key={channel.value}
               className="channel-dropdown__item"
@@ -47,9 +45,9 @@ function ChannelDropdown({
             >
               {channel.value}
             </div>
-          ))}
-        </div>
-      )}
+          ))
+        )}
+      </div>
     </>
   );
 }

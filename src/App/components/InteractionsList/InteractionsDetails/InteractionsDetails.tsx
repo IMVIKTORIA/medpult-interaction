@@ -150,7 +150,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
     if (!checkCanShowEditButton()) return;
 
     // Разница между текущей датой и 60 минут после создания
-    const duration = Scripts.getHideButtonsTimerDuration(data.createdAt)
+    const duration = Scripts.getHideButtonsTimerDuration(data.createdAt);
 
     // Таймер для обновления отображения кнопок
     const timeout = setTimeout(() => {
@@ -174,14 +174,13 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
       );
       return false;
     }
-    
+
     if (!data.isUser) {
       showErrorMessage(
         "Изменение запрещено, взаимодействие внес другой пользователь"
       );
       return false;
     }
-
 
     if (!isShowEditButtons) {
       showErrorMessage("Изменение невозможно, прошло более 60 минут");
@@ -199,14 +198,13 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
       );
       return false;
     }
-    
+
     if (!data.isUser) {
       showErrorMessage(
         "Удаление запрещено, взаимодействие внес другой пользователь"
       );
       return false;
     }
-
 
     if (!isShowEditButtons) {
       showErrorMessage("Удаление невозможно, прошло более 60 минут");
@@ -266,7 +264,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
             closeModal={closeModal}
             interactionId={data.id}
             initialText={data.comment}
-            initialFio={data.fio}
+            initialFio={data.fioEdit}
             initialPhone={data.numberPhone}
             initialLogChan={data.logChan}
             reloadData={reloadData}
