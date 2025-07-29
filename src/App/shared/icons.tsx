@@ -451,6 +451,21 @@ const SmsError = (
     <path d="M12 8V12" stroke="white" stroke-width="2" stroke-linecap="round" />
   </svg>
 );
+
+const AnswerArrow = (
+  <svg
+    width="16"
+    height="14"
+    viewBox="0 0 16 14"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M6.43175 13.1394C6.77114 13.4634 7.33333 13.2228 7.33333 12.7536V12V10C11.3835 10 13.3006 10.981 15.0023 12.8148C15.3473 13.1866 15.9816 12.9576 15.9422 12.4519C15.5985 8.03875 13.6205 4 7.33333 4V1.2464C7.33333 0.777202 6.77114 0.536639 6.43175 0.860606L0.40416 6.61421C0.184054 6.82431 0.184054 7.17569 0.404161 7.38579L6.43175 13.1394Z"
+      fill="#AAABAD"
+    />
+  </svg>
+);
 export default {
   /** Маленький треугольник */
   Triangle,
@@ -484,4 +499,6 @@ export default {
   SmsSent,
   SmsDelivered,
   SmsError,
+  /**Стрелка у ответа */
+  AnswerArrow,
 };

@@ -33,6 +33,7 @@ type InteractionRowProps = {
   chainLength?: number;
   /** Идентификатор задачи */
   taskId?: string;
+  isReply?: boolean;
 };
 
 /** Строка со взаимодействием */
@@ -46,6 +47,7 @@ function InteractionRow({
   selectedChannels,
   chainLength,
   taskId,
+  isReply,
 }: InteractionRowProps) {
   /** Фильтрация по каналам */
   if (
@@ -174,6 +176,10 @@ function InteractionRow({
         {chainLength && (
           <div className="interaction-row__counter">{chainLength}</div>
         )}
+      </InteractionListColumn>
+      {/* Стрелка у ответа письма в цепочке*/}
+      <InteractionListColumn fr={0.25}>
+        {isReply && <div className="">{icons.AnswerArrow}</div>}
       </InteractionListColumn>
       {/* Статус СМС*/}
       <InteractionListColumn

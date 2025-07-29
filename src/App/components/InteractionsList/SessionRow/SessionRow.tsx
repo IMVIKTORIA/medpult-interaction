@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  InteractionsChannel,
-  InteractionsData
-} from "../../../shared/types";
+import { InteractionsChannel, InteractionsData } from "../../../shared/types";
 import InteractionRow from "../InteractionRow/InteractionRow";
 
 /** Пропсы */
@@ -34,30 +31,36 @@ function SessionRow({
   setOpenRowIndex,
   reloadData,
   selectedChannels,
-  taskId
+  taskId,
 }: SessionRowProps) {
   /** Фильтрация по каналам */
   if (
     !selectedChannels.includes(InteractionsChannel.allChannel) && // Если не выбраны все каналы
     !selectedChannels.includes(InteractionsChannel.incomingEmail) && // Если не выбран канал входящих email
     !selectedChannels.includes(InteractionsChannel.outgoingEmail) // Если не выбран канал исходящих email
-  ) return;
+  )
+    return;
 
   return (
     <div className="session-row">
-        {interactions.map((data, index) => 
-            <InteractionRow
-              data={data}
-              items={items}
-              setItems={setItems}
-              openRowIndex={openRowIndex}
-              setOpenRowIndex={setOpenRowIndex}
-              reloadData={reloadData}
-              selectedChannels={selectedChannels}
-              chainLength={index == 0 && interactions.length > 1 ? interactions.length - 1 : undefined}
-              taskId={taskId}
-            />
-        )}
+      {interactions.map((data, index) => (
+        <InteractionRow
+          data={data}
+          items={items}
+          setItems={setItems}
+          openRowIndex={openRowIndex}
+          setOpenRowIndex={setOpenRowIndex}
+          reloadData={reloadData}
+          selectedChannels={selectedChannels}
+          chainLength={
+            index == 0 && interactions.length > 1
+              ? interactions.length - 1
+              : undefined
+          }
+          taskId={taskId}
+          isReply={index !== 0}
+        />
+      ))}
     </div>
   );
 }
