@@ -71,9 +71,9 @@ function CustomInput(props: CustomInputProps) {
 
   return (
     <div
-      className={`custom-input__wrapperr ${
-        isOpen ? "custom-input__wrapperr_open" : ""
-      } ${isInvalid ? "custom-input__wrapperr_invalid" : ""} ${
+      className={`custom-input-new__wrapper ${
+        isOpen ? "custom-input-new__wrapper_open" : ""
+      } ${isInvalid ? "custom-input-new__wrapper_invalid" : ""} ${
         customClassname ? customClassname : ""
       }`}
       ref={wrapperRef}
@@ -81,7 +81,7 @@ function CustomInput(props: CustomInputProps) {
       <input
         name={name}
         autoComplete="off"
-        className="custom-input__input"
+        className="custom-input-new__input"
         style={{
           cursor: cursor,
         }}

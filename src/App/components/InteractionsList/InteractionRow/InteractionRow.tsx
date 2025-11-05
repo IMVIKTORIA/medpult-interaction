@@ -6,6 +6,7 @@ import {
 } from "../../../shared/types";
 import InteractionsDetails from "../InteractionsDetails/InteractionsDetails";
 import InteractionChannelColumn from "./InteractionChannelColumn/InteractionChannelColumn";
+import InteractionStatusColumn from "./InteractionStatusColumn/InteractionStatusColumn";
 import InteractionListColumn from "./InteractionListColumn/InteractionListColumn";
 import moment from "moment";
 import icons from "../../../shared/icons";
@@ -121,28 +122,6 @@ function InteractionRow({
     return text;
   };
 
-  // const getIconSMS = () => {
-  //   const statusCode = data.statusCode;
-  //   const status = smsStatusData.find((item) => item.statusCode === statusCode);
-  //   switch (status?.statusCode) {
-  //     case "sent":
-  //       return icons.SmsSent;
-  //     case "delivered":
-  //       return icons.SmsDelivered;
-  //     case "undelivered":
-  //       return icons.SmsError;
-  //     default:
-  //       throw new Error("Неизвестный статус SMS");
-  //   }
-  // };
-  // const getSubstatusName = (statusCode) => {
-  //   const status = smsStatusData.find((item) => item.statusCode === statusCode);
-  //   return status?.substatusName;
-  // };
-  // const getSubstatusName = (substatusCode) => {
-  //   const status = smsStatusData.find((item) => item.substatusCode === substatusCode);
-  //   return status?.substatusName;
-  // };
   const getIconSMS = () => {
     const statusCode = data.statusCode;
     switch (statusCode) {
@@ -152,6 +131,8 @@ function InteractionRow({
         return icons.SmsDelivered;
       case "undelivered":
         return icons.SmsError;
+      case "attention":
+        return icons.SmsAttention;
       default:
         return null;
     }
@@ -165,53 +146,36 @@ function InteractionRow({
       className="interaction-row interaction-row_openable"
       onClick={toggleShowDetails}
     >
+      {/* Статус */}
+      <InteractionStatusColumn fr={0.15} status={data.status} />
       {/* Канал */}
       <InteractionChannelColumn
-        fr={0.5}
-        isViewed={isUserShowDetails || data.isViewed}
+        fr={0.25}
+        //isViewed={isUserShowDetails || data.isViewed}
         channel={data.channel}
       />
-      {/* Счетчик писем в цепочке*/}
-      <InteractionListColumn fr={0.25}>
-        {chainLength && (
-          <div className="interaction-row__counter">{chainLength}</div>
-        )}
-      </InteractionListColumn>
-      {/* Стрелка у ответа письма в цепочке*/}
-      <InteractionListColumn fr={0.25}>
-        {isReply && <div className="">{icons.AnswerArrow}</div>}
-      </InteractionListColumn>
-      {/* Статус СМС*/}
-      <InteractionListColumn
-        fr={0.25}
-        // onMouseEnter={() => setTooltipVisible(true)}
-        // onMouseLeave={() => setTooltipVisible(false)}
-      >
-        {data.channel === InteractionsChannel.outgoingSms && (
-          <div>
-            {/* {isTooltipVisible && (
-              <div className="tooltip">
-                {data.channel === InteractionsChannel.outgoingSms
-                  ? getSubstatusName(data.statusCode)
-                  : undefined}
-              </div>
-            )} */}
-            {getIconSMS()}
-          </div>
-        )}
-      </InteractionListColumn>
       {/* ФИО */}
       <InteractionListColumn fr={1} title={data.fio}>
         {data.fio}
       </InteractionListColumn>
-      {/* Тема */}
-      <InteractionListColumn fr={1} title={data.topic}>
-        {data.topic}
+
+      {/* Тема + доп. элементы */}
+      <InteractionListColumn fr={2} title={data.topic}>
+        <div className="interaction-row__group">
+          {chainLength && (
+            <div className="interaction-row__group__counter">{chainLength}</div>
+          )}
+          {/* Стрелка у ответа письма в цепочке */}
+          {isReply && <div>{icons.AnswerArrow}</div>}
+          {/* Статус СМС */}
+          {data.channel === InteractionsChannel.outgoingSms && (
+            <div>{getIconSMS()}</div>
+          )}
+          {/* Текст темы */}
+          <span className="interaction-row__group__text">{data.topic}</span>
+        </div>
       </InteractionListColumn>
-      {/* Краткое содержание */}
-      <InteractionListColumn fr={1} title={getTextFromHTMLString(data.comment)}>
-        {getTextFromHTMLString(data.comment)}
-      </InteractionListColumn>
+
       {/* Задача */}
       {!taskId && ( //только для обращения
         <InteractionListColumn
@@ -231,6 +195,16 @@ function InteractionRow({
         {(data.channel === InteractionsChannel.incomingEmail ||
           data.channel === InteractionsChannel.outgoingEmail) &&
           data.fileSrc && <div>{icons.paperСlip}</div>}
+      </InteractionListColumn>
+      {/* Развернуть*/}
+      <InteractionListColumn fr={0.25}>
+        <div
+          style={{
+            transform: isShowDetails ? "rotate(180deg)" : "rotate(0deg)",
+          }}
+        >
+          {icons.Triangle24}
+        </div>
       </InteractionListColumn>
     </div>
   );
@@ -255,3 +229,42 @@ function InteractionRow({
 }
 
 export default InteractionRow;
+
+// {/* Счетчик писем в цепочке*/}
+// <InteractionListColumn fr={0.25}>
+//   {chainLength && (
+//     <div className="interaction-row__counter">{chainLength}</div>
+//   )}
+// </InteractionListColumn>
+// {/* Стрелка у ответа письма в цепочке*/}
+// <InteractionListColumn fr={0.25}>
+//   {isReply && <div className="">{icons.AnswerArrow}</div>}
+// </InteractionListColumn>
+// {/* Статус СМС*/}
+// <InteractionListColumn
+//   fr={0.25}
+//   // onMouseEnter={() => setTooltipVisible(true)}
+//   // onMouseLeave={() => setTooltipVisible(false)}
+// >
+//   {data.channel === InteractionsChannel.outgoingSms && (
+//     <div>
+//       {/* {isTooltipVisible && (
+//         <div className="tooltip">
+//           {data.channel === InteractionsChannel.outgoingSms
+//             ? getSubstatusName(data.statusCode)
+//             : undefined}
+//         </div>
+//       )} */}
+//       {getIconSMS()}
+//     </div>
+//   )}
+// </InteractionListColumn>
+
+// {/* Тема */}
+// <InteractionListColumn fr={1} title={data.topic}>
+//   {data.topic}
+// </InteractionListColumn>
+// {/* Краткое содержание */}
+// <InteractionListColumn fr={1} title={getTextFromHTMLString(data.comment)}>
+//   {getTextFromHTMLString(data.comment)}
+// </InteractionListColumn>

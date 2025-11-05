@@ -14,8 +14,8 @@ interface ModalManagerProps {
   isShowCallOutModal: boolean;
   isShowSmsInModal: boolean;
   isShowSmsOutModal: boolean;
-  isShowEmailInModal: boolean;
-  isShowEmailOutModal: boolean;
+  //isShowEmailInModal: boolean;
+  //isShowEmailOutModal: boolean;
   closeModal: () => void;
   interactionId?: string;
   initialText?: string;
@@ -25,7 +25,7 @@ interface ModalManagerProps {
   /** Перезагрузить список */
   reloadData?: () => void;
   /** Идентификатор задачи (Для взаимодействий в задаче) */
-  taskId?: string
+  taskId?: string;
 }
 
 const applyMaskPhone = (value: string): string => {
@@ -47,8 +47,8 @@ const ModalManager: React.FC<ModalManagerProps> = ({
   isShowCallOutModal,
   isShowSmsInModal,
   isShowSmsOutModal,
-  isShowEmailInModal,
-  isShowEmailOutModal,
+  //isShowEmailInModal,
+  //isShowEmailOutModal,
   interactionId,
   closeModal,
   initialText = "",
@@ -56,7 +56,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
   initialPhone = "",
   initialLogChan = "",
   reloadData,
-  taskId
+  taskId,
 }) => {
   const [text, setText] = useState<string>(initialText);
   const [fio, setFio] = useState<string>(initialFio);
@@ -67,9 +67,9 @@ const ModalManager: React.FC<ModalManagerProps> = ({
     isShowCallInModal ||
     isShowCallOutModal ||
     isShowSmsInModal ||
-    isShowSmsOutModal ||
-    isShowEmailInModal ||
-    isShowEmailOutModal;
+    isShowSmsOutModal;
+  //isShowEmailInModal ||
+  //isShowEmailOutModal;
 
   // useEffect(() => {
   //   if (isModalOpen && !initialText) {
@@ -186,7 +186,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
           />
         </ModalWrapper>
       )}
-      {isShowEmailInModal && (
+      {/* {isShowEmailInModal && (
         <ModalWrapper>
           <EmailInModal
             interactionId={interactionId}
@@ -217,7 +217,7 @@ const ModalManager: React.FC<ModalManagerProps> = ({
             taskId={taskId}
           />
         </ModalWrapper>
-      )}
+      )} */}
     </>
   );
 };

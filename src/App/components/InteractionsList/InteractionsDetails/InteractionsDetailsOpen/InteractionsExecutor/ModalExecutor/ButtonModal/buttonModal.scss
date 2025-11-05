@@ -1,0 +1,32 @@
+.button-modal {
+  text-align: center;
+  align-items: center;
+  border: 1px solid transparent;
+  height: 40px;
+  padding: 8 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #1570ef;
+  color: #fdfdfd;
+
+  font-family: "Inter";
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+
+  &_outline {
+    border: 1px solid #1570ef;
+    background: transparent;
+    color: #1570ef;
+  }
+
+  &:active {
+    opacity: 0.6;
+  }
+
+  &:disabled {
+    background-color: #9ec4f9;
+    cursor: not-allowed !important;
+  }
+}

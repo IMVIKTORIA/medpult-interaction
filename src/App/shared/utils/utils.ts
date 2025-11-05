@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { IInputData } from "../types";
+import icons from "../icons";
 import Scripts from "./clientScripts";
 
 /** Маршрутизация по SPA */
@@ -16,11 +17,10 @@ export const redirectSPA = (href: string) => {
  * @param id Идентификатор обращения
  */
 async function setRequest(id: string) {
-	localStorage.setItem('currentRequestId', id)
-	localStorage.setItem('currentContractorId', '')
-	localStorage.setItem('currentContractorPhone', '')
+  localStorage.setItem("currentRequestId", id);
+  localStorage.setItem("currentContractorId", "");
+  localStorage.setItem("currentContractorPhone", "");
 }
-
 
 export default {
   setRequest,
@@ -111,11 +111,74 @@ export const copy = (text: string) => {
 
 /** Показать уведомление об ошибке */
 export const showError = (text: string) => {
-  if((window as any).showError) {
-    (window as any).showError(text)
+  if ((window as any).showError) {
+    (window as any).showError(text);
 
-    return
+    return;
   }
 
-  alert(text)
+  alert(text);
 };
+
+/** Получение иконки по статусу взаимодействия */
+export const getIcon = (status: string) => {
+  switch (status) {
+    case "new":
+      return icons.InteracrionNew;
+    case "queue":
+      return icons.InteracrionQueue;
+    case "atWork":
+      return icons.InteracrionAtWork;
+    case "processed":
+      return icons.InteracrionProcessed;
+    case "missed":
+      return icons.InteracrionMissed;
+    default:
+      return null;
+  }
+};
+
+/** Текстовый ярлык статуса */
+export const getStatusLabel = (status: string): string => {
+  switch (status) {
+    case "new":
+      return "Новое";
+    case "queue":
+      return "В очереди";
+    case "atWork":
+      return "В работе";
+    case "processed":
+      return "Обработано";
+    case "missed":
+      return "Пропущено";
+    default:
+      return "";
+  }
+};
+
+/** Скачать файл по URL */
+export async function onClickDownloadFileByUrl(
+  url?: string,
+  fileName?: string
+) {
+  try {
+    if (!url) return;
+
+    const fileNameCalculated =
+      fileName || url.substring(url.lastIndexOf("/") + 1);
+    const response = await Scripts.downloadFileBucket(url, fileNameCalculated);
+    const blob = new Blob([response.arrayBuffer], {
+      type: response.contentType,
+    });
+    const link = document.createElement("a");
+
+    link.href = URL.createObjectURL(blob);
+    link.download = fileNameCalculated;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href); // Освобождаем URL, созданный createObjectURL
+  } catch (error) {
+    console.error("Ошибка при скачивании файла:", error);
+  }
+}

@@ -8,13 +8,13 @@ interface InteractionChannelColumnProps extends React.PropsWithChildren {
   /** Коэффициент соотношения ширины столбца */
   fr: number;
   /** Просмотрено? */
-  isViewed: boolean;
+  // isViewed: boolean;
   /** Канал  */
   channel: InteractionsChannel;
 }
 
 function InteractionChannelColumn(props: InteractionChannelColumnProps) {
-  const { channel, isViewed, ...restProps } = props;
+  const { channel, ...restProps } = props;
 
   /** Получение иконки по каналу взаимодействия */
   const getIcon = () => {
@@ -61,12 +61,12 @@ function InteractionChannelColumn(props: InteractionChannelColumnProps) {
   };
 
   /** Иконка состояния прочитано */
-  const isReadIcon = !isViewed ? icons.circleRead : icons.circleNoRead;
+  //const isReadIcon = !isViewed ? icons.circleRead : icons.circleNoRead;
 
   return (
     <InteractionListColumn {...restProps} title={getTitle()}>
       <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-        {isReadIcon}
+        {/* {isReadIcon} */}
         {getIcon()}
       </div>
     </InteractionListColumn>
