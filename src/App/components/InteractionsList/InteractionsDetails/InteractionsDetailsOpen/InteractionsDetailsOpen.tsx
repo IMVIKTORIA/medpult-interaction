@@ -65,7 +65,7 @@ function InteractionsDetailsOpen({
       <span className="interactions-open-panel__line"></span>
 
       {/* Причина обращения и Описание задачи*/}
-      {data.request?.code && (
+      {data.request?.code != "" && (
         <>
           <InteractionField label="Причина обращения">
             <span className="interactions-open-panel__value">

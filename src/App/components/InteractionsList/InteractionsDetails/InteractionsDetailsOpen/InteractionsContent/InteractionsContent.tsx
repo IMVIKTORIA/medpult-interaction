@@ -70,7 +70,7 @@ function InteractionsContent({
               {icons.reply}Ответить
             </div>
             {/* Кнопка Ответить всем*/}
-            {data.copy[0] != "-" && (
+            {data.copy[0] != "" && (
               <div
                 onClick={handleReplyClick}
                 className="interactions-open-panel-content__buttons_button"
@@ -125,10 +125,10 @@ function InteractionsContent({
       <InteractionField label="Статус обработки">
         <span
           className="interactions-open-panel-content__status"
-          title={getStatusLabel(data.status)}
+          title={data.status.value}
         >
-          {getIcon(data.status)}
-          {getStatusLabel(data.status)}
+          {getIcon(data.status.code)}
+          {data.status.value}
         </span>
       </InteractionField>
 

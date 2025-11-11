@@ -30,7 +30,7 @@ export default function ModalExecutor({
 
   React.useLayoutEffect(() => {
     Scripts.getUserGroups().then((items) => setGroups(items));
-    Scripts.getUsers().then((items) => setEmployees(items));
+    Scripts.getUsersInteraction().then((items) => setEmployees(items));
   }, []);
 
   const saveGroupExecutor = async () => {
@@ -79,7 +79,7 @@ export default function ModalExecutor({
               title="Сохранить"
               clickHandler={saveGroupExecutor}
               style={{ width: "194px" }}
-              disabled={!group}
+              disabled={!group?.code}
             />
           </div>
         </div>

@@ -28,7 +28,7 @@ async function getInteractions(
     /** Идентификатор */
     id: appealId,
     /** Статус */
-    status: InteractionsStatus.new,
+    status: { value: "В работе", code: InteractionsStatus.atWork },
     /** Канал */
     channel: InteractionsChannel.outgoingEmail,
     /** Фио */
@@ -50,7 +50,7 @@ async function getInteractions(
     /** Идентификатор */
     id: "1111111111111",
     /** Статус */
-    status: InteractionsStatus.atWork,
+    status: { value: "В работе", code: InteractionsStatus.atWork },
     /** Канал */
     channel: InteractionsChannel.incomingEmail,
     /** Фио */
@@ -71,7 +71,7 @@ async function getInteractions(
     /** Идентификатор */
     id: "11111111111112",
     /** Статус */
-    status: InteractionsStatus.queue,
+    status: { value: "В работе", code: InteractionsStatus.atWork },
     /** Канал */
     channel: InteractionsChannel.comment,
     /** Фио */
@@ -92,7 +92,7 @@ async function getInteractions(
     /** Идентификатор */
     id: "11111111111113",
     /** Статус */
-    status: InteractionsStatus.processed,
+    status: { value: "В работе", code: InteractionsStatus.atWork },
     /** Канал */
     channel: InteractionsChannel.incomingCall,
     /** Фио */
@@ -115,7 +115,7 @@ async function getInteractions(
     /** Идентификатор */
     id: "11111111111114",
     /** Статус */
-    status: InteractionsStatus.missed,
+    status: { value: "В работе", code: InteractionsStatus.atWork },
     /** Канал */
     channel: InteractionsChannel.outgoingEmail,
     /** Фио */
@@ -135,7 +135,7 @@ async function getInteractions(
     /** Идентификатор */
     id: "11111111111115",
     /** Статус */
-    status: InteractionsStatus.new,
+    status: { value: "В работе", code: InteractionsStatus.atWork },
     /** Канал */
     channel: InteractionsChannel.outgoingSms,
     /** Фио */
@@ -159,7 +159,7 @@ async function getInteractions(
     /** Идентификатор */
     id: "11111111111116",
     /** Статус */
-    status: InteractionsStatus.atWork,
+    status: { value: "В работе", code: InteractionsStatus.atWork },
     /** Канал */
     channel: InteractionsChannel.outgoingEmail,
     /** Фио */
@@ -182,7 +182,7 @@ async function getInteractions(
     /** Идентификатор */
     id: "111111111111161",
     /** Статус */
-    status: InteractionsStatus.queue,
+    status: { value: "В работе", code: InteractionsStatus.atWork },
     /** Канал */
     channel: InteractionsChannel.outgoingEmail,
     /** Фио */
@@ -205,7 +205,7 @@ async function getInteractions(
     /** Идентификатор */
     id: "111111111111162",
     /** Статус */
-    status: InteractionsStatus.processed,
+    status: { value: "В работе", code: InteractionsStatus.atWork },
     /** Канал */
     channel: InteractionsChannel.outgoingEmail,
     /** Фио */
@@ -225,7 +225,7 @@ async function getInteractions(
     /** Идентификатор */
     id: "111111",
     /** Статус */
-    status: InteractionsStatus.missed,
+    status: { value: "В работе", code: InteractionsStatus.atWork },
     /** Канал */
     channel: InteractionsChannel.outgoingCall,
     /** Фио */
@@ -245,7 +245,7 @@ async function getInteractions(
     /** Идентификатор */
     id: "11111111111454",
     /** Статус */
-    status: InteractionsStatus.new,
+    status: { value: "В работе", code: InteractionsStatus.atWork },
     /** Канал */
     channel: InteractionsChannel.outgoingSms,
     /** Фио */
@@ -292,7 +292,7 @@ async function getInteractionsFulldata(
     /** Канал */
     channel: InteractionsChannel.outgoingEmail,
     /** Статус */
-    status: InteractionsStatus.new,
+    status: { value: "В работе", code: InteractionsStatus.atWork },
     /** Отправитель/получатель */
     fio: "Оператор 1",
     /** Тема */
@@ -374,7 +374,7 @@ async function getInteractionsDetails(
     ],
     copy: ["-"],
     createdAt: " 02.08.2025 15:00",
-    status: InteractionsStatus.atWork,
+    status: { value: "В работе", code: InteractionsStatus.atWork },
     fileSrc: [
       {
         ...new FilesData(),
@@ -583,7 +583,7 @@ async function getUserGroups(): Promise<ObjectItem[]> {
   return authors;
 }
 /** Получение исполнителей */
-async function getUsers(): Promise<ObjectItem[]> {
+async function getUsersInteraction(): Promise<ObjectItem[]> {
   await randomDelay();
   const authors: ObjectItem[] = [
     new ObjectItem({ code: "test", value: "Иванов Иван Иванович" }),
@@ -746,7 +746,7 @@ export default {
   setUpdateInteractionCallback,
 
   getUserGroups,
-  getUsers,
+  getUsersInteraction,
   saveGroupExecutor,
 
   getIcomingEmailLink,

@@ -4,5 +4,5 @@ import InteractionsTaskForm from "./components/InteractionsForm/InteractionsTask
 
 export default function App() {
   return <InteractionsForm />; // Для обращения
-  //return <InteractionsTaskForm />; // Для задачи
+  return <InteractionsTaskForm />; // Для задачи
 }

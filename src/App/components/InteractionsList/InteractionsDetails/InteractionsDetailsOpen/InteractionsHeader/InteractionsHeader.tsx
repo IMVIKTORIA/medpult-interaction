@@ -33,7 +33,7 @@ function InteractionsHeader(props: InteractionsHeaderProps) {
   /** Обработка нажатия на кнопку В работу */
   const onTakeToWorkClick = async () => {
     await Scripts.setStatusAtWork(data.id);
-    onSave?.();
+    reloadData?.();
   };
   /** Обработка нажатия на кнопку Закрыть */
   const onTakeCloseClick = async () => {
@@ -68,13 +68,13 @@ function InteractionsHeader(props: InteractionsHeaderProps) {
         </div>
       </div>
       <div className="interactions-open-panel-header__button">
-        {data.request?.code ? (
+        {data.request?.code != "" ? (
           <CustomButton
             title={`Изменить${duplicateCount ? ` (${duplicateCount})` : ""}`}
             clickHandler={onEditClick}
             svg={icons.Edit}
             svgPosition="left"
-            disabled={data.status === InteractionsStatus.processed}
+            disabled={data.status.code === InteractionsStatus.processed}
           />
         ) : (
           <CustomButton
@@ -87,10 +87,10 @@ function InteractionsHeader(props: InteractionsHeaderProps) {
               color: "#FDFDFD",
               border: "none",
             }}
-            disabled={data.status === InteractionsStatus.processed}
+            disabled={data.status.code === InteractionsStatus.processed}
           />
         )}
-        {data.status === InteractionsStatus.atWork && (
+        {data.status.code === InteractionsStatus.atWork && (
           <CustomButton
             buttonType="outline"
             title={`Закрыть${duplicateCount ? ` (${duplicateCount})` : ""}`}
@@ -99,8 +99,8 @@ function InteractionsHeader(props: InteractionsHeaderProps) {
             svgPosition="left"
           />
         )}
-        {(data.status === InteractionsStatus.new ||
-          data.status === InteractionsStatus.queue) && (
+        {(data.status.code === InteractionsStatus.new ||
+          data.status.code === InteractionsStatus.queue) && (
           <CustomButton
             title={`В работу${duplicateCount ? ` (${duplicateCount})` : ""}`}
             buttonType="outline"

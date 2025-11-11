@@ -64,11 +64,15 @@ function CustomButton(props: ButtonData) {
     >
       <div style={{ display: "flex", alignItems: "center" }}>
         {svgPosition === "left" && svg && (
-          <div style={{ marginRight: "5px" }}>{svg}</div>
+          <div className="button-custom__svg" style={{ marginRight: "5px" }}>
+            {svg}
+          </div>
         )}
         {title}
         {svgPosition === "right" && svg && (
-          <div style={{ marginLeft: "12px" }}>{svg}</div>
+          <div className="button-custom__svg" style={{ marginLeft: "12px" }}>
+            {svg}
+          </div>
         )}
       </div>
     </button>

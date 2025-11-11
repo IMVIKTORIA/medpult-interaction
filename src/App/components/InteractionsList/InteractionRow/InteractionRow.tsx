@@ -147,7 +147,11 @@ function InteractionRow({
       onClick={toggleShowDetails}
     >
       {/* Статус */}
-      <InteractionStatusColumn fr={0.15} status={data.status} />
+      <InteractionStatusColumn
+        fr={0.15}
+        statusName={data.status.value}
+        statusCode={data.status.code}
+      />
       {/* Канал */}
       <InteractionChannelColumn
         fr={0.25}

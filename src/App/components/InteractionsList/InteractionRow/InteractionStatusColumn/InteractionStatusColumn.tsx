@@ -8,15 +8,16 @@ interface InteractionStatusColumnProps extends React.PropsWithChildren {
   /** Коэффициент соотношения ширины столбца */
   fr: number;
   /** Статус  */
-  status: InteractionsStatus;
+  statusName: string;
+  statusCode: string;
 }
 
 function InteractionStatusColumn(props: InteractionStatusColumnProps) {
-  const { status, ...restProps } = props;
+  const { statusName, statusCode, ...restProps } = props;
 
   /** Получение иконки по статусу взаимодействия */
-  const getIcon = () => {
-    switch (status) {
+  const getIcon = (statusCode: string) => {
+    switch (statusCode) {
       case InteractionsStatus.new:
         return icons.InteracrionNew;
       case InteractionsStatus.queue:
@@ -32,28 +33,10 @@ function InteractionStatusColumn(props: InteractionStatusColumnProps) {
     }
   };
 
-  /** Получение title по статусу взаимодействия */
-  const getTitle = () => {
-    switch (status) {
-      case InteractionsStatus.new:
-        return "Новое";
-      case InteractionsStatus.queue:
-        return "В очереди";
-      case InteractionsStatus.atWork:
-        return "В работе";
-      case InteractionsStatus.processed:
-        return "Обработано";
-      case InteractionsStatus.missed:
-        return "Пропущено";
-      default:
-        return;
-    }
-  };
-
   return (
-    <InteractionListColumn {...restProps} title={getTitle()}>
+    <InteractionListColumn {...restProps} title={statusName}>
       <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-        {getIcon()}
+        {getIcon(statusCode)}
       </div>
     </InteractionListColumn>
   );

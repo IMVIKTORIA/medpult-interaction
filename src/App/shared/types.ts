@@ -159,7 +159,7 @@ export class InteractionsData {
   /** Канал поступления */
   channel: InteractionsChannel;
   /** Статус взаимодействия */
-  status: InteractionsStatus;
+  status: ObjectItem;
   /** ФИО */
   fio: string;
   /** Тема */
@@ -190,7 +190,7 @@ export class InteractionsData {
   fioEdit?: string;
 
   constructor() {
-    (this.id = ""), (this.status = InteractionsStatus.new);
+    (this.id = ""), (this.status = { value: "", code: InteractionsStatus.new });
     this.channel = InteractionsChannel.comment;
     this.fio = "";
     this.topic = "";
@@ -314,7 +314,7 @@ export class InteractionDetailsData {
   /** Дата создания */
   createdAt: string;
   /** Статус взаимодействия */
-  status: InteractionsStatus;
+  status: ObjectItem;
   /** Вложения */
   fileSrc?: FilesData[];
   /** Группа */
@@ -341,7 +341,7 @@ export class InteractionDetailsData {
     this.fioWhom = [];
     this.copy = [];
     this.createdAt = "";
-    this.status = InteractionsStatus.new;
+    this.status = { value: "", code: InteractionsStatus.new };
     this.reasonRequest = "";
     this.descriptionTask = "";
     this.topic = "";

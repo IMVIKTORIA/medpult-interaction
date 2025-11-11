@@ -25,7 +25,7 @@ function InteractionsExecutor({
   // Состояние для открытия модального окна
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const isDisabled = data.status === InteractionsStatus.processed;
+  const isDisabled = data.status.code === InteractionsStatus.processed;
   /** Обработка нажатия на кнопку добавить Исполнителя */
   const AddExecutorClick = async () => {
     if (isDisabled) return;
@@ -70,7 +70,7 @@ function InteractionsExecutor({
     <div className="interactions-open-panel-executor">
       <div className="interactions-open-panel-executor__title">Исполнитель</div>
       <div className="interactions-open-panel-executor__group">
-        <InteractionField label="Группа" minWidth={320}>
+        <InteractionField label="Группа">
           {data.group?.code ? (
             <div className="interactions-open-panel-executor__group_group">
               <span className="interactions-open-panel-executor__group__value">
@@ -99,7 +99,7 @@ function InteractionsExecutor({
           )}
         </InteractionField>
 
-        <InteractionField label="Сотрудник" minWidth={320}>
+        <InteractionField label="Сотрудник">
           {data.employee?.code ? (
             <div className="interactions-open-panel-executor__group_group">
               <span className="interactions-open-panel-executor__group__value">
@@ -128,7 +128,7 @@ function InteractionsExecutor({
           )}
         </InteractionField>
 
-        <InteractionField label="Обращение" minWidth={320}>
+        <InteractionField label="Обращение">
           <span
             className={`interactions-open-panel-executor__group__value ${
               data.request?.code ? "link" : ""
@@ -139,7 +139,7 @@ function InteractionsExecutor({
           </span>
         </InteractionField>
 
-        <InteractionField label="Задача" minWidth={320}>
+        <InteractionField label="Задача">
           <span
             className={`interactions-open-panel-executor__group__value ${
               data.task?.code ? "link" : ""
