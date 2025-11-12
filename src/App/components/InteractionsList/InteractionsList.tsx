@@ -96,10 +96,14 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
       isViewed: item.isUser ? true : item.isViewed,
     }));
 
+    const filteredData = processedData.filter(
+      (item) => item.status.code !== "processed"
+    );
+
     setHasMore(fetchData.hasMore);
 
     //setItems([...items, ...fetchData.data]);
-    setItems(processedData);
+    setItems(filteredData);
     setPage(page + 1);
     setIsLoading(false);
   };

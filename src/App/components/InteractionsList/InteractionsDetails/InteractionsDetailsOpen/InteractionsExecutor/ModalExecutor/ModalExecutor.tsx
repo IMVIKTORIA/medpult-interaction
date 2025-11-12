@@ -28,10 +28,35 @@ export default function ModalExecutor({
   const [group, setGroup] = useState<ObjectItem | null>(initialGroup);
   const [employee, setEmployee] = useState<ObjectItem | null>(initialEmployee);
 
-  React.useLayoutEffect(() => {
-    Scripts.getUserGroups().then((items) => setGroups(items));
-    Scripts.getUsersInteraction().then((items) => setEmployees(items));
+  useEffect(() => {
+    const loadData = async () => {
+      const groupsList = await Scripts.getUserGroups(employee?.code);
+      const employeesList = await Scripts.getUsersInteraction(group?.code);
+
+      setGroups(groupsList);
+      setEmployees(employeesList);
+    };
+    loadData();
   }, []);
+
+  // Обновляем сотрудников, когда выбираем группу
+  useEffect(() => {
+    const loadEmployees = async () => {
+      const list = await Scripts.getUsersInteraction(group?.code);
+      setEmployees(list);
+    };
+    loadEmployees();
+  }, [group]);
+
+  // Обновляем группы, когда выбираем сотрудника
+  useEffect(() => {
+    const loadGroups = async () => {
+      const list = await Scripts.getUserGroups(employee?.code);
+      setGroups(list);
+      if (list.length === 1) setGroup(list[0]);
+    };
+    loadGroups();
+  }, [employee]);
 
   const saveGroupExecutor = async () => {
     await Scripts.saveGroupExecutor(interactionId, group, employee);
@@ -87,3 +112,8 @@ export default function ModalExecutor({
     </ModalWrapper>
   );
 }
+
+// React.useLayoutEffect(() => {
+//   Scripts.getUserGroups().then((items) => setGroups(items));
+//   Scripts.getUsersInteraction().then((items) => setEmployees(items));
+// }, []);

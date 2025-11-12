@@ -568,7 +568,7 @@ async function getChannel() {
 }
 
 /** Получение групп */
-async function getUserGroups(): Promise<ObjectItem[]> {
+async function getUserGroups(userId?: string): Promise<ObjectItem[]> {
   await randomDelay();
 
   const authors: ObjectItem[] = [
@@ -583,7 +583,7 @@ async function getUserGroups(): Promise<ObjectItem[]> {
   return authors;
 }
 /** Получение исполнителей */
-async function getUsersInteraction(): Promise<ObjectItem[]> {
+async function getUsersInteraction(groupId?: string): Promise<ObjectItem[]> {
   await randomDelay();
   const authors: ObjectItem[] = [
     new ObjectItem({ code: "test", value: "Иванов Иван Иванович" }),

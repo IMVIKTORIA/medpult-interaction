@@ -161,24 +161,23 @@ export async function onClickDownloadFileByUrl(
   url?: string,
   fileName?: string
 ) {
-  try {
-    if (!url) return;
+  if (!url) return;
 
-    const fileNameCalculated =
-      fileName || url.substring(url.lastIndexOf("/") + 1);
-    const response = await Scripts.downloadFileBucket(url, fileNameCalculated);
-    const blob = new Blob([response.arrayBuffer], {
-      type: response.contentType,
-    });
-    const link = document.createElement("a");
+  let blob: Blob;
 
-    link.href = URL.createObjectURL(blob);
-    link.download = fileNameCalculated;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(link.href); // Освобождаем URL, созданный createObjectURL
-  } catch (error) {
-    console.error("Ошибка при скачивании файла:", error);
+  if (url.startsWith("data:")) {
+    const res = await fetch(url);
+    blob = await res.blob();
+  } else {
+    const response = await Scripts.downloadFileBucket(url, fileName || "file");
+    blob = new Blob([response.arrayBuffer], { type: response.contentType });
   }
+
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = fileName || "file";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(link.href);
 }
