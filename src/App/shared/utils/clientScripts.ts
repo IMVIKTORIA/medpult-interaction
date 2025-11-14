@@ -39,7 +39,7 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: "6 июля",
+    createdAt: moment("12.03.2025 8:20").format("DD.MM.YYYY HH:mm"),
     isViewed: true,
     isSystem: true,
   };
@@ -61,7 +61,7 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: "6 июля",
+    createdAt: moment("03.12.2025 14:25").format("DD.MM.YYYY HH:mm"),
     isViewed: false,
     isSystem: true,
     logChan: "111",
@@ -82,7 +82,7 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "", code: "" },
     /** Дата  */
-    createdAt: "6 июля",
+    createdAt: moment("03.31.2025 12:30").format("DD.MM.YYYY HH:mm"),
     isViewed: false,
     isSystem: false,
     isUser: false,
@@ -103,7 +103,7 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: "12:00",
+    createdAt: moment("12.03.2025 10:30").format("DD.MM.YYYY HH:mm"),
     isViewed: false,
     isSystem: true,
     isUser: true,
@@ -126,7 +126,7 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: "17:30",
+    createdAt: moment("04.11.2025 8:55").format("DD.MM.YYYY HH:mm"),
     isViewed: false,
     isSystem: false,
   };
@@ -146,7 +146,7 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: "18:00",
+    createdAt: moment("12.03.2025 10:30").format("DD.MM.YYYY HH:mm"),
     isViewed: false,
     isSystem: true,
     numberPhone: "8 999 333 22 11",
@@ -170,7 +170,7 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: "6 июля",
+    createdAt: moment("11.04.2025 8:55").format("DD.MM.YYYY HH:mm"),
     isViewed: false,
     isSystem: false,
     fileSrc: true,
@@ -187,14 +187,13 @@ async function getInteractions(
     channel: InteractionsChannel.outgoingEmail,
     /** Фио */
     fio: "Медси",
-    topic:
-      "Информация о состоянии здоровья предоставляется пациенту лично лечащим врачом или другими медицинскими работниками, принимающими непосредственное участие в медицинском обследовании и лечении.",
+    topic: "Fuuuuu",
     /** Комментарий */
     comment: "Это электронное сообщение и любые документы",
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: "6 июля",
+    createdAt: moment("11.04.2025 8:55").format("DD.MM.YYYY HH:mm"),
     isViewed: false,
     isSystem: false,
   };
@@ -216,7 +215,7 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: "6 июля",
+    createdAt: moment("03.12.2025 8:55").format("DD.MM.YYYY HH:mm"),
     isViewed: false,
     isSystem: false,
   };
@@ -236,7 +235,7 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: "6 июля",
+    createdAt: moment("12.03.2025 10:30").format("DD.MM.YYYY HH:mm"),
     isViewed: false,
     isSystem: true,
     isUser: true,
@@ -256,7 +255,7 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: "6 июля",
+    createdAt: moment("03.12.2025 10:30").format("DD.MM.YYYY HH:mm"),
     isViewed: false,
     isSystem: false,
     numberPhone: "8 999 333 22 11",

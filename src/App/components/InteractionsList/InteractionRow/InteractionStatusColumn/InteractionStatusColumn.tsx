@@ -29,7 +29,7 @@ function InteractionStatusColumn(props: InteractionStatusColumnProps) {
       case InteractionsStatus.missed:
         return icons.InteracrionMissed;
       default:
-        throw new Error("Неверный статус взаимодействия");
+        return null;
     }
   };
 

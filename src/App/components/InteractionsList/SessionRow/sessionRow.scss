@@ -1,9 +1,9 @@
 .session-row {
-    & > :not(:first-child) {
-        background-color: var(--medpult-hover-color);
+  & > :not(:first-child) {
+    background-color: #f5f5f5;
 
-        &:hover {
-            background-color: var(--medpult-bg-color);
-        }
+    &:hover {
+      background-color: var(--medpult-bg-color);
     }
+  }
 }

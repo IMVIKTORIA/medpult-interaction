@@ -35,6 +35,10 @@ type InteractionRowProps = {
   /** Идентификатор задачи */
   taskId?: string;
   isReply?: boolean;
+
+  isWrapperRow?: boolean;
+  onClickHeader?: () => void;
+  isOpen?: boolean;
 };
 
 /** Строка со взаимодействием */
@@ -48,7 +52,9 @@ function InteractionRow({
   selectedChannels,
   chainLength,
   taskId,
-  isReply,
+  isWrapperRow,
+  onClickHeader,
+  isOpen,
 }: InteractionRowProps) {
   /** Фильтрация по каналам */
   if (
@@ -69,7 +75,8 @@ function InteractionRow({
     setOpenRowIndex(String(data.id));
   };
 
-  const isShowDetails = String(data.id) === openRowIndex;
+  const isShowDetails = !isWrapperRow && String(data.id) === openRowIndex;
+
   const isUserShowDetails = isShowDetails && !data.isUser;
 
   /** Обработчик нажатия на задачу */
@@ -144,13 +151,13 @@ function InteractionRow({
   const HeaderLayout = (
     <div
       className="interaction-row interaction-row_openable"
-      onClick={toggleShowDetails}
+      onClick={onClickHeader || toggleShowDetails}
     >
       {/* Статус */}
       <InteractionStatusColumn
         fr={0.15}
-        statusName={data.status.value}
-        statusCode={data.status.code}
+        statusName={isWrapperRow ? "" : data.status.value}
+        statusCode={isWrapperRow ? "" : data.status.code}
       />
       {/* Канал */}
       <InteractionChannelColumn
@@ -164,13 +171,14 @@ function InteractionRow({
       </InteractionListColumn>
 
       {/* Тема + доп. элементы */}
-      <InteractionListColumn fr={2} title={data.topic}>
+      <InteractionListColumn fr={1} title={data.topic}>
         <div className="interaction-row__group">
+          {/* Стрелка у главного письма в цепочке */}
+          {chainLength && <div>{icons.AnswerArrow}</div>}
+
           {chainLength && (
             <div className="interaction-row__group__counter">{chainLength}</div>
           )}
-          {/* Стрелка у ответа письма в цепочке */}
-          {isReply && <div>{icons.AnswerArrow}</div>}
           {/* Статус СМС */}
           {data.channel === InteractionsChannel.outgoingSms && (
             <div>{getIconSMS()}</div>
@@ -178,6 +186,11 @@ function InteractionRow({
           {/* Текст темы */}
           <span className="interaction-row__group__text">{data.topic}</span>
         </div>
+      </InteractionListColumn>
+
+      {/* Краткое содержание */}
+      <InteractionListColumn fr={1} title={getTextFromHTMLString(data.comment)}>
+        {getTextFromHTMLString(data.comment)}
       </InteractionListColumn>
 
       {/* Задача */}
@@ -198,13 +211,15 @@ function InteractionRow({
       <InteractionListColumn fr={0.25} title={"Есть вложение"}>
         {(data.channel === InteractionsChannel.incomingEmail ||
           data.channel === InteractionsChannel.outgoingEmail) &&
-          data.fileSrc && <div>{icons.paperСlip}</div>}
+          data.fileSrc &&
+          !isWrapperRow && <div>{icons.paperСlip}</div>}
       </InteractionListColumn>
       {/* Развернуть*/}
       <InteractionListColumn fr={0.25}>
         <div
           style={{
-            transform: isShowDetails ? "rotate(180deg)" : "rotate(0deg)",
+            transform:
+              isShowDetails || isOpen ? "rotate(180deg)" : "rotate(0deg)",
           }}
         >
           {icons.Triangle24}
@@ -233,42 +248,3 @@ function InteractionRow({
 }
 
 export default InteractionRow;
-
-// {/* Счетчик писем в цепочке*/}
-// <InteractionListColumn fr={0.25}>
-//   {chainLength && (
-//     <div className="interaction-row__counter">{chainLength}</div>
-//   )}
-// </InteractionListColumn>
-// {/* Стрелка у ответа письма в цепочке*/}
-// <InteractionListColumn fr={0.25}>
-//   {isReply && <div className="">{icons.AnswerArrow}</div>}
-// </InteractionListColumn>
-// {/* Статус СМС*/}
-// <InteractionListColumn
-//   fr={0.25}
-//   // onMouseEnter={() => setTooltipVisible(true)}
-//   // onMouseLeave={() => setTooltipVisible(false)}
-// >
-//   {data.channel === InteractionsChannel.outgoingSms && (
-//     <div>
-//       {/* {isTooltipVisible && (
-//         <div className="tooltip">
-//           {data.channel === InteractionsChannel.outgoingSms
-//             ? getSubstatusName(data.statusCode)
-//             : undefined}
-//         </div>
-//       )} */}
-//       {getIconSMS()}
-//     </div>
-//   )}
-// </InteractionListColumn>
-
-// {/* Тема */}
-// <InteractionListColumn fr={1} title={data.topic}>
-//   {data.topic}
-// </InteractionListColumn>
-// {/* Краткое содержание */}
-// <InteractionListColumn fr={1} title={getTextFromHTMLString(data.comment)}>
-//   {getTextFromHTMLString(data.comment)}
-// </InteractionListColumn>

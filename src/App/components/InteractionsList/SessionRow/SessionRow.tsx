@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { InteractionsChannel, InteractionsData } from "../../../shared/types";
 import InteractionRow from "../InteractionRow/InteractionRow";
 
@@ -40,27 +40,71 @@ function SessionRow({
     !selectedChannels.includes(InteractionsChannel.outgoingEmail) // Если не выбран канал исходящих email
   )
     return;
+  if (!interactions.length) return null;
+
+  const mainInteraction = interactions[interactions.length - 1];
+  const otherInteractions = interactions.slice(0, -1);
+
+  // состояние для раскрытия цепочки
+  const [openWrapperId, setOpenWrapperId] = useState<string | undefined>();
+  const isOpen = openWrapperId === String(mainInteraction.id);
 
   return (
     <div className="session-row">
-      {interactions.map((data, index) => (
-        <InteractionRow
-          data={data}
-          items={items}
-          setItems={setItems}
-          openRowIndex={openRowIndex}
-          setOpenRowIndex={setOpenRowIndex}
-          reloadData={reloadData}
-          selectedChannels={selectedChannels}
-          chainLength={
-            index == 0 && interactions.length > 1
-              ? interactions.length - 1
-              : undefined
-          }
-          taskId={taskId}
-          isReply={index !== 0}
-        />
-      ))}
+      {/*Обертка */}
+      <InteractionRow
+        data={mainInteraction}
+        items={items}
+        setItems={setItems}
+        openRowIndex={openRowIndex}
+        setOpenRowIndex={setOpenRowIndex}
+        reloadData={reloadData}
+        selectedChannels={selectedChannels}
+        chainLength={interactions.length > 0 ? interactions.length : undefined}
+        taskId={taskId}
+        isReply={false}
+        isWrapperRow={true}
+        onClickHeader={() =>
+          setOpenWrapperId(isOpen ? undefined : String(mainInteraction.id))
+        }
+        isOpen={isOpen}
+      />
+
+      {isOpen && (
+        <div className="session-row__details">
+          {/* Письма из цепочки */}
+          {otherInteractions.map((item) => (
+            <InteractionRow
+              key={item.id}
+              data={item}
+              items={items}
+              setItems={setItems}
+              openRowIndex={openRowIndex}
+              setOpenRowIndex={setOpenRowIndex}
+              reloadData={reloadData}
+              selectedChannels={selectedChannels}
+              taskId={taskId}
+              isReply={true}
+              isWrapperRow={false}
+            />
+          ))}
+
+          {/* Главное письмо */}
+          <InteractionRow
+            key={mainInteraction.id + "_main"}
+            data={mainInteraction}
+            items={items}
+            setItems={setItems}
+            openRowIndex={openRowIndex}
+            setOpenRowIndex={setOpenRowIndex}
+            reloadData={reloadData}
+            selectedChannels={selectedChannels}
+            taskId={taskId}
+            isReply={true}
+            isWrapperRow={false}
+          />
+        </div>
+      )}
     </div>
   );
 }

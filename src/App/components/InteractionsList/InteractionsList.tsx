@@ -182,19 +182,12 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
       }
     }
 
-    // Сортируем только независимые элементы (не email)
-    const sortedNonEmailItems = [...nonEmailItems].sort((a, b) => {
-      const dateA = moment(a.createdAt, "DD.MM.YYYY HH:mm");
-      const dateB = moment(b.createdAt, "DD.MM.YYYY HH:mm");
-      return dateB.diff(dateA);
-    });
-
     const groups: GroupData[] = [];
 
     // Обработка сгруппированных писем
     emailGroups.forEach((emailGroup, sessionId) => {
       const group = new GroupData();
-      group.interaction = emailGroup[0];
+      group.interaction = emailGroup[emailGroup.length - 1];
       group.interactions = emailGroup;
       group.groupType = GroupType.email;
       group.sessionId = sessionId;
@@ -202,18 +195,12 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
     });
 
     // Обработка независимых элементов
-    for (const item of sortedNonEmailItems) {
+    for (const item of nonEmailItems) {
       const group = new GroupData();
       group.interaction = item;
       group.groupType = GroupType.default;
       groups.push(group);
     }
-
-    groups.sort((a, b) => {
-      const dateA = moment(a.interaction.createdAt, "DD.MM.YYYY HH:mm");
-      const dateB = moment(b.interaction.createdAt, "DD.MM.YYYY HH:mm");
-      return dateB.diff(dateA);
-    });
 
     return groups;
   };
@@ -234,21 +221,39 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
       >
         {/* Данные */}
         {getGroupedItems(items).map((data) => {
-          if (data.groupType == GroupType.email) {
-            if (!data.interactions?.length) return;
+          if (data.groupType === GroupType.email) {
+            if (!data.interactions?.length) return null;
 
-            return (
-              <SessionRow
-                interactions={data.interactions}
-                items={items}
-                setItems={setItems}
-                openRowIndex={openRowIndex}
-                setOpenRowIndex={setOpenRowIndex}
-                reloadData={reloadData}
-                selectedChannels={selectedChannels}
-                taskId={taskId}
-              />
-            );
+            if (data.interactions.length > 1) {
+              // Цепочка писем
+              return (
+                <SessionRow
+                  interactions={data.interactions}
+                  items={items}
+                  setItems={setItems}
+                  openRowIndex={openRowIndex}
+                  setOpenRowIndex={setOpenRowIndex}
+                  reloadData={reloadData}
+                  selectedChannels={selectedChannels}
+                  taskId={taskId}
+                />
+              );
+            } else {
+              // Одиночное письмо
+              return (
+                <InteractionRow
+                  key={data.interactions[0].id}
+                  data={data.interactions[0]}
+                  items={items}
+                  setItems={setItems}
+                  openRowIndex={openRowIndex}
+                  setOpenRowIndex={setOpenRowIndex}
+                  reloadData={reloadData}
+                  selectedChannels={selectedChannels}
+                  taskId={taskId}
+                />
+              );
+            }
           }
 
           return (
