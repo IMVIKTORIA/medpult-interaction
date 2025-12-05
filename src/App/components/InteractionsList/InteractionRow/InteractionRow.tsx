@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   InteractionsChannel,
   InteractionsData,
@@ -147,11 +147,20 @@ function InteractionRow({
 
   const [isTooltipVisible, setTooltipVisible] = useState(false);
 
+  const [isExecutor, setIsExecutor] = useState<boolean | null>(null);
+  useEffect(() => {
+    async function checkExecutor() {
+      const result = await Scripts.isCurrentUserExecutor(data.id);
+      setIsExecutor(result);
+    }
+    checkExecutor();
+  }, []);
+
   /** Разметка шапки строки */
   const HeaderLayout = (
     <div
       className="interaction-row interaction-row_openable"
-      onClick={onClickHeader || toggleShowDetails}
+      onClick={onClickHeader}
     >
       {/* Статус */}
       <InteractionStatusColumn
@@ -215,16 +224,19 @@ function InteractionRow({
           !isWrapperRow && <div>{icons.paperСlip}</div>}
       </InteractionListColumn>
       {/* Развернуть*/}
-      <InteractionListColumn fr={0.25}>
-        <div
-          style={{
-            transform:
-              isShowDetails || isOpen ? "rotate(180deg)" : "rotate(0deg)",
-          }}
-        >
-          {icons.Triangle24}
-        </div>
-      </InteractionListColumn>
+      {isExecutor && (
+        <InteractionListColumn fr={0.25}>
+          <div
+            style={{
+              transform:
+                isShowDetails || isOpen ? "rotate(180deg)" : "rotate(0deg)",
+            }}
+            onClick={toggleShowDetails}
+          >
+            {icons.Triangle24}
+          </div>
+        </InteractionListColumn>
+      )}
     </div>
   );
 

@@ -20,8 +20,18 @@ function InteractionsHeader(props: InteractionsHeaderProps) {
 
   /** Копирование номера в буфер обмена */
   const handleCopyClick = async () => {
-    await navigator.clipboard.writeText(data.number);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(data.number);
+    } else {
+      const textarea = document.createElement("textarea");
+      textarea.value = data.number;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+    }
   };
+
   /** Обработка нажатия на кнопку изменить */
   const onEditClick = async () => {
     const email = data.email;
@@ -29,16 +39,25 @@ function InteractionsHeader(props: InteractionsHeaderProps) {
     const link = Scripts.getIcomingEmailLink();
     const redirectUrl = new URL(window.location.origin + "/" + link);
     if (email) redirectUrl.searchParams.set("email", email);
+    if (data.id) redirectUrl.searchParams.set("interactionId", data.id);
     window.open(redirectUrl.toString(), "_blank");
   };
+  /** Обработка нажатия на кнопку Сохранить */
+  const onTakeSaveClick = async () => {
+    onSave?.();
+    reloadData?.();
+  };
+
   /** Обработка нажатия на кнопку В работу */
   const onTakeToWorkClick = async () => {
     await Scripts.setStatusAtWork(data.id);
+    onSave?.();
     reloadData?.();
   };
   /** Обработка нажатия на кнопку Закрыть */
   const onTakeCloseClick = async () => {
     await Scripts.setStatusProcessed(data.id);
+    onSave?.();
     reloadData?.();
   };
   return (
@@ -91,6 +110,14 @@ function InteractionsHeader(props: InteractionsHeaderProps) {
             disabled={data.status.code === InteractionsStatus.processed}
           />
         )}
+
+        <CustomButton
+          title={`Сохранить${duplicateCount ? ` (${duplicateCount})` : ""}`}
+          clickHandler={onTakeSaveClick}
+          svg={icons.saveIcon}
+          svgPosition="left"
+          disabled={data.status.code === InteractionsStatus.processed}
+        />
         {data.status.code === InteractionsStatus.atWork && (
           <CustomButton
             buttonType="outline"

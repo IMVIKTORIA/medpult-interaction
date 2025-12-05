@@ -61,6 +61,7 @@ function InteractionsDetailsOpen({
         data={data}
         onSave={onSave}
         duplicateCount={countDuplicate ? countDuplicate : undefined}
+        reloadData={reloadData}
       />
       <span className="interactions-open-panel__line"></span>
 

@@ -567,7 +567,7 @@ async function getChannel() {
 }
 
 /** Получение групп */
-async function getUserGroups(userId?: string): Promise<ObjectItem[]> {
+async function getUserGroups(users?: string[]): Promise<ObjectItem[]> {
   await randomDelay();
 
   const authors: ObjectItem[] = [
@@ -582,7 +582,7 @@ async function getUserGroups(userId?: string): Promise<ObjectItem[]> {
   return authors;
 }
 /** Получение исполнителей */
-async function getUsersInteraction(groupId?: string): Promise<ObjectItem[]> {
+async function getUsersInteraction(groups?: string[]): Promise<ObjectItem[]> {
   await randomDelay();
   const authors: ObjectItem[] = [
     new ObjectItem({ code: "test", value: "Иванов Иван Иванович" }),
@@ -711,6 +711,10 @@ async function downloadFileBucket(
   };
 }
 
+async function isCurrentUserExecutor(interactionId: string): Promise<boolean> {
+  return true;
+}
+
 export default {
   getInteractions,
   getInteractionsFulldata,
@@ -756,4 +760,5 @@ export default {
   getInteractionsDublicateCount,
 
   downloadFileBucket,
+  isCurrentUserExecutor,
 };

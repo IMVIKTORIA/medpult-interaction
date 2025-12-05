@@ -1,28 +1,44 @@
 import React, { useState, useRef, useEffect } from "react";
 import icons from "../../../../../../../shared/icons";
 import { ObjectItem } from "../../../../../../../../UIKit/Filters/FiltersTypes";
+import Loader from "../../../../../../Loader/Loader";
 
 interface SearchableSelectProps {
   label: string;
   placeholder: string;
-  items: ObjectItem[];
   value: ObjectItem | null;
   onSelect: (value: ObjectItem) => void;
+  getDataHandler?: () => Promise<ObjectItem[]>;
 }
 
 export function SearchableSelect({
   label,
   placeholder,
-  items,
   value,
   onSelect,
+  getDataHandler,
 }: SearchableSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
+  const [items, setItems] = useState<ObjectItem[]>([]);
+  const [loading, setLoading] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
 
-  const filteredItems = items.filter((item) =>
-    item.value.toLowerCase().includes(search.toLowerCase())
+  const toggleDropdown = async () => {
+    setIsOpen((prev) => !prev);
+    if (!isOpen) setSearch("");
+
+    // Ленивое подгружение данных
+    if (getDataHandler && items.length === 0) {
+      setLoading(true);
+      const data = await getDataHandler();
+      setItems(data);
+      setLoading(false);
+    }
+  };
+
+  const filteredItems = items.filter(
+    (item) => item.value?.toLowerCase().includes(search.toLowerCase())
   );
 
   // Закрытие по клику вне
@@ -39,10 +55,7 @@ export function SearchableSelect({
   return (
     <div ref={ref} className="searchable-select">
       <div className="searchable-select__label">{label}</div>
-      <div
-        className="searchable-select__input"
-        onClick={() => setIsOpen((prev) => !prev)}
-      >
+      <div className="searchable-select__input" onClick={toggleDropdown}>
         <span className="searchable-select__input__value">
           {value?.value || ""}
         </span>
@@ -65,6 +78,13 @@ export function SearchableSelect({
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="searchable-select__dropdown__search"
+              style={{
+                width: "100%",
+                border: "1px solid #a4a7ae",
+                borderRadius: "8px",
+                height: "40px",
+              }}
+              onFocus={(e) => (e.target.style.border = "1px solid #1570ef")}
             />
 
             {search && ( // показываем иконку только если есть введённый текст
@@ -78,19 +98,23 @@ export function SearchableSelect({
           </div>
 
           <div className="searchable-select__dropdown__search__list">
-            {filteredItems.map((item) => (
-              <div
-                key={item.code}
-                className="searchable-select__dropdown__search__list__item"
-                onClick={() => {
-                  onSelect(item);
-                  setIsOpen(false);
-                  setSearch("");
-                }}
-              >
-                {item.value}
-              </div>
-            ))}
+            {loading ? (
+              <Loader />
+            ) : (
+              filteredItems.map((item) => (
+                <div
+                  key={item.code}
+                  className="searchable-select__dropdown__search__list__item"
+                  onClick={() => {
+                    onSelect(item);
+                    setIsOpen(false);
+                    setSearch("");
+                  }}
+                >
+                  {item.value}
+                </div>
+              ))
+            )}
           </div>
         </div>
       )}
