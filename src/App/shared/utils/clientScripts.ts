@@ -714,6 +714,12 @@ async function downloadFileBucket(
 async function isCurrentUserExecutor(interactionId: string): Promise<boolean> {
   return true;
 }
+async function validateEmployeeForGroup(
+  groupId: string,
+  userId: string
+): Promise<boolean> {
+  return false;
+}
 
 export default {
   getInteractions,
@@ -761,4 +767,5 @@ export default {
 
   downloadFileBucket,
   isCurrentUserExecutor,
+  validateEmployeeForGroup,
 };
