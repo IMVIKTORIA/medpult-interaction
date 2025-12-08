@@ -16,7 +16,6 @@ interface InteractionsDetailsOpenProps {
   reloadData?: () => void;
 }
 
-/** Проект комментария */
 function InteractionsDetailsOpen({
   data,
   interactionId,

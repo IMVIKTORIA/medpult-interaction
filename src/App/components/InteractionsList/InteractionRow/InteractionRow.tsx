@@ -249,9 +249,6 @@ function InteractionRow({
         <InteractionsDetails
           reloadData={reloadData}
           data={data}
-          onClickRowHandler={toggleShowDetails}
-          items={items}
-          setItems={setItems}
           taskId={taskId}
         />
       )}

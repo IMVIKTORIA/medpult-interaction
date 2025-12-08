@@ -9,6 +9,7 @@ import {
   InteractionsStatus,
   FilesData,
 } from "../types";
+import { IInteractionsCallData, IInteractionsCommentData } from "../../components/InteractionsList/InteractionsDetails/InteractionsDetailsTypes";
 //import { fileSrc } from "./constants";
 
 /** Заглушка ожидания ответа сервера */
@@ -348,6 +349,46 @@ function sleep(ms: number) {
   return new Promise((resolve) => window.setTimeout(resolve, ms));
 }
 
+/** Получение комментария */
+async function getInteractionsComment(
+  appealId: string
+): Promise<IInteractionsCommentData> {
+  return {
+    startDate: "10.03.2025 17:41",
+    fio: "Оператор 1",
+    comment:
+      "Это электронное сообщение и любые документы, приложенные к нему, содержат конфиденциальную информацию. Настоящим уведомляем Вас о том, что если это сообщение не предназначено Вам, использование, копирование, распространение информации, содержащейся в настоящем сообщении, а также осуществление любых действий на основе этой информации, строго запрещено.",
+  };
+}
+
+/** Получение звонка */
+async function getInteractionsCall(
+  appealId: string
+): Promise<IInteractionsCallData> {
+  return {
+    startDate: "06.06.2024 17:00",
+    fioFrom: "Оператор 2",
+    departament: "операторы(дев)",
+    //phone: "8 888 888 88 88",
+    fioWhom: "Медси",
+    comment:
+      "Это электронное сообщение и любые документы, приложенные к нему, содержат конфиденциальную информацию. Настоящим уведомляем Вас о том, что если это сообщение не предназначено Вам, использование, копирование, распространение информации, содержащейся в настоящем сообщении, а также осуществление любых действий на основе этой информации, строго запрещено.",
+  };
+}
+/** Получение смс */
+async function getInteractionsSms(
+  appealId: string
+): Promise<IInteractionsCallData> {
+  return {
+    startDate: "06.06.2024 17:00",
+    fioFrom: "Медси",
+    departament: "операторы(дев)",
+    phone: "8 888 888 88 88",
+    fioWhom: "Оператор 1",
+    comment:
+      "Это электронное сообщение и любые документы, приложенные к нему, содержат конфиденциальную информацию. Настоящим уведомляем Вас о том, что если это сообщение не предназначено Вам, использование, копирование, распространение информации, содержащейся в настоящем сообщении, а также осуществление любых действий на основе этой информации, строго запрещено.",
+  };
+}
 /** Получение детальных данных взаимодействия */
 async function getInteractionsDetails(
   interactionId: string
@@ -815,4 +856,7 @@ export default {
   validateEmployeeForGroup,
 
   getAddInteractionChannel,
+  getInteractionsComment,
+  getInteractionsCall,
+  getInteractionsSms,
 };
