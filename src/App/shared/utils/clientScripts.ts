@@ -807,6 +807,31 @@ async function validateEmployeeForGroup(
   return false;
 }
 
+
+
+/** Проверка возможности отрисовки кнопок по времени */
+function checkCanShowEditButtonByTime(createdAt: string) {
+  // Дата создания
+  const createDate = moment(createdAt, "DD.MM.YYYY HH:mm");
+  // Текущая дата
+  const currentDate = moment();
+
+  // Если текущая дата меньше или равна 60 минут после даты создания, то показать кнопки
+  return currentDate.isSameOrBefore(createDate.add(60, "minute"));
+}
+
+/** Получить продолжительность таймера в минутах для сокрытия кнопок */
+function getHideButtonsTimerDuration(createdAt: string): number {
+  // Дата создания
+  const createDate = moment(createdAt, "DD.MM.YYYY HH:mm");
+  // Текущая дата
+  const currentDate = moment();
+
+  const duration = createDate.add(60, "minute").diff(currentDate);
+
+  return duration;
+}
+
 export default {
   getInteractions,
   getInteractionsFulldata,
@@ -859,4 +884,6 @@ export default {
   getInteractionsComment,
   getInteractionsCall,
   getInteractionsSms,
+  checkCanShowEditButtonByTime,
+  getHideButtonsTimerDuration,
 };

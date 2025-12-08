@@ -12,6 +12,8 @@ import Loader from "../Loader/Loader";
 import InteractionRow from "./InteractionRow/InteractionRow";
 import SessionRow from "./SessionRow/SessionRow";
 import moment from "moment";
+import { ModalsState } from "./InteractionsListTypes";
+import { useModalStates } from "./InteractionsListHooks";
 
 /** Пропсы  */
 type InteractionsListProps = {
@@ -23,32 +25,7 @@ type InteractionsListProps = {
 
 /** Список согласований */
 function InteractionsList({ appealId, taskId }: InteractionsListProps) {
-  const [isShowCommentModal, setIsShowCommentModal] = useState<boolean>(false);
-  const [isShowCallInModal, setIsShowCallInModal] = useState<boolean>(false);
-  const [isShowCallOutModal, setIsShowCallOutModal] = useState<boolean>(false);
-  const [isShowSmsInModal, setIsShowSmsInModal] = useState<boolean>(false);
-  const [isShowSmsOutModal, setIsShowSmsOutModal] = useState<boolean>(false);
-  const [isShowEmailInModal, setIsShowEmailInModal] = useState<boolean>(false);
-  const [isShowEmailOutModal, setIsShowEmailOutModal] =
-    useState<boolean>(false);
-
-  /** Состояние модального окна TODO: Опираться на одно булево состояние и передавать канал взаимодействия */
-  const modalStates = {
-    isShowCommentModal,
-    setIsShowCommentModal,
-    isShowCallInModal,
-    setIsShowCallInModal,
-    isShowCallOutModal,
-    setIsShowCallOutModal,
-    isShowSmsInModal,
-    setIsShowSmsInModal,
-    isShowSmsOutModal,
-    setIsShowSmsOutModal,
-    isShowEmailInModal,
-    setIsShowEmailInModal,
-    isShowEmailOutModal,
-    setIsShowEmailOutModal,
-  };
+  const {modalStates}= useModalStates();
 
   // TODO: Убрать
   const [page, setPage] = useState<number>(0);
@@ -251,6 +228,7 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
                   reloadData={reloadData}
                   selectedChannels={selectedChannels}
                   taskId={taskId}
+                  modalStates={modalStates}
                 />
               );
             }
@@ -266,6 +244,7 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
               reloadData={reloadData}
               selectedChannels={selectedChannels}
               taskId={taskId}
+              modalStates={modalStates}
             />
           );
         })}

@@ -3,28 +3,14 @@ import CustomSelect from "../CustomSelect/CustomSelect";
 import Scripts from "../../shared/utils/clientScripts";
 import CustomButton from "../CustomButton/CustomButton";
 import icons from "../../shared/icons";
-import { InteractionsChannel } from "../../shared/types";
+import { InteractionsChannel, InteractionsData } from "../../shared/types";
 import ModalManager from "../InteractionsModal/ModalManager";
 import { getChannelData } from "../../shared/utils/utils";
 import ChannelDropdown from "./ChannelDropdown/ChannelDropdown";
+import { ModalsState } from "../InteractionsList/InteractionsListTypes";
 
 interface InteractionsHeaderProps {
-  modalStates: {
-    isShowCommentModal: boolean;
-    setIsShowCommentModal: (value: boolean) => void;
-    isShowCallInModal: boolean;
-    setIsShowCallInModal: (value: boolean) => void;
-    isShowCallOutModal: boolean;
-    setIsShowCallOutModal: (value: boolean) => void;
-    isShowSmsInModal: boolean;
-    setIsShowSmsInModal: (value: boolean) => void;
-    isShowSmsOutModal: boolean;
-    setIsShowSmsOutModal: (value: boolean) => void;
-    isShowEmailInModal: boolean;
-    setIsShowEmailInModal: (value: boolean) => void;
-    isShowEmailOutModal: boolean;
-    setIsShowEmailOutModal: (value: boolean) => void;
-  };
+  modalStates: ModalsState;
   /** Изменить выбранные каналы */
   setSelectedChannels: React.Dispatch<
     React.SetStateAction<InteractionsChannel[]>

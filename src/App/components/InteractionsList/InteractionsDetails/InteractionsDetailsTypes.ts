@@ -1,4 +1,5 @@
 import { InteractionsData } from "../../../shared/types";
+import { ModalsState } from "../InteractionsListTypes";
 
 /** Пропсы */
 export interface InteractionsDetailsProps {

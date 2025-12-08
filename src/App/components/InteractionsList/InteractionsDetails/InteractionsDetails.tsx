@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  InteractionsData,
-  InteractionDetailsData,
   InteractionsChannel,
 } from "../../../shared/types";
 import { InteractionsDetailsProps } from "./InteractionsDetailsTypes";
@@ -13,6 +11,7 @@ import InteractionsDetailsSms from "./InteractionsDetailsSms/InteractionsDetails
 /** Детальная форма согласования */
 function InteractionsDetails(props: InteractionsDetailsProps) {
   const {data} = props;
+
   switch(data.channel) {
     case InteractionsChannel.incomingEmail:
     case InteractionsChannel.outgoingEmail:
