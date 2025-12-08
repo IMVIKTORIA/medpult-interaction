@@ -136,6 +136,32 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
     }
   }, [items]);
 
+  // Функция сортировки массива GroupData[] по полю interaction.createdAt
+  function sortGroupDataByCreatedAt(data: GroupData[]) {
+    // Получаем текущую дату для сравнения
+    const currentDate = moment();
+
+    return data.sort((a, b) => {
+      let dateA = a.interaction.createdAt;
+      let dateB = b.interaction.createdAt;
+      
+      // Если дата в формате "HH:mm", добавляем текущую дату перед временем
+      if (!/\d{2}\.\d{2}\.\d{4}/.test(dateA)) {
+        dateA = `${currentDate.format('DD.MM.YYYY')} ${dateA}`;
+      }
+      if (!/\d{2}\.\d{2}\.\d{4}/.test(dateB)) {
+        dateB = `${currentDate.format('DD.MM.YYYY')} ${dateB}`;
+      }
+
+      // Преобразуем строки в моменты времени
+      const momentA = moment(dateA, 'DD.MM.YYYY HH:mm');
+      const momentB = moment(dateB, 'DD.MM.YYYY HH:mm');
+
+      // Возвращаем разницу моментов времени
+      return momentB.diff(momentA);
+    });
+  }
+
   /** Получение сгруппированных взаимодействий */
   const getGroupedItems = (items: InteractionsData[]) => {
     // Группируем письма по sessionId
@@ -179,7 +205,7 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
       groups.push(group);
     }
 
-    return groups;
+    return sortGroupDataByCreatedAt(groups);
   };
 
   return (
