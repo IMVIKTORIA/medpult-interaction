@@ -3,11 +3,11 @@ import { ObjectItem } from "../../../UIKit/Filters/FiltersTypes";
 import {
   InputDataCategory,
   InteractionsData,
+  InteractionDetailsData,
   GetInteractionsResponse,
   InteractionsChannel,
-  InteractionsCommentData,
-  InteractionsEmailData,
-  InteractionsCallData,
+  InteractionsStatus,
+  FilesData,
 } from "../types";
 //import { fileSrc } from "./constants";
 
@@ -27,6 +27,8 @@ async function getInteractions(
   const mockData: InteractionsData = {
     /** Идентификатор */
     id: appealId,
+    /** Статус */
+    status: { value: "В работе", code: InteractionsStatus.atWork },
     /** Канал */
     channel: InteractionsChannel.outgoingEmail,
     /** Фио */
@@ -47,17 +49,19 @@ async function getInteractions(
     sessionId: "session",
     /** Идентификатор */
     id: "1111111111111",
+    /** Статус */
+    status: { value: "В работе", code: InteractionsStatus.atWork },
     /** Канал */
     channel: InteractionsChannel.incomingEmail,
     /** Фио */
-    fio: "Оператор 4",
+    fio: "Медси",
     topic: "Fuuuuu",
     /** Комментарий */
     comment: "Это электронное сообщение и любые документы",
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("12.03.2025 14:25").format("DD.MM.YYYY HH:mm"),
+    createdAt: moment("03.12.2025 14:25").format("DD.MM.YYYY HH:mm"),
     isViewed: false,
     isSystem: true,
     logChan: "111",
@@ -66,6 +70,8 @@ async function getInteractions(
   const mockData2: InteractionsData = {
     /** Идентификатор */
     id: "11111111111112",
+    /** Статус */
+    status: { value: "В работе", code: InteractionsStatus.atWork },
     /** Канал */
     channel: InteractionsChannel.comment,
     /** Фио */
@@ -85,10 +91,12 @@ async function getInteractions(
   const mockData3: InteractionsData = {
     /** Идентификатор */
     id: "11111111111113",
+    /** Статус */
+    status: { value: "В работе", code: InteractionsStatus.atWork },
     /** Канал */
     channel: InteractionsChannel.incomingCall,
     /** Фио */
-    fio: "Оператор 2",
+    fio: "Иванов Иван Иванович",
     topic: "Fuuuuu",
     /** Комментарий */
     comment: "Это электронное сообщение и любые документы",
@@ -106,6 +114,8 @@ async function getInteractions(
     sessionId: "session",
     /** Идентификатор */
     id: "11111111111114",
+    /** Статус */
+    status: { value: "В работе", code: InteractionsStatus.atWork },
     /** Канал */
     channel: InteractionsChannel.outgoingEmail,
     /** Фио */
@@ -124,6 +134,8 @@ async function getInteractions(
   const mockData5: InteractionsData = {
     /** Идентификатор */
     id: "11111111111115",
+    /** Статус */
+    status: { value: "В работе", code: InteractionsStatus.atWork },
     /** Канал */
     channel: InteractionsChannel.outgoingSms,
     /** Фио */
@@ -138,7 +150,7 @@ async function getInteractions(
     isViewed: false,
     isSystem: true,
     numberPhone: "8 999 333 22 11",
-    statusCode: "sent",
+    statusCode: "delivered",
   };
 
   const mockData6: InteractionsData = {
@@ -146,10 +158,12 @@ async function getInteractions(
     sessionId: "session",
     /** Идентификатор */
     id: "11111111111116",
+    /** Статус */
+    status: { value: "В работе", code: InteractionsStatus.atWork },
     /** Канал */
     channel: InteractionsChannel.outgoingEmail,
     /** Фио */
-    fio: "Оператор 6",
+    fio: "Группа",
     topic: "Fuuuuu",
     /** Комментарий */
     comment: "Это электронное сообщение и любые документы",
@@ -167,10 +181,12 @@ async function getInteractions(
     sessionId: "session1",
     /** Идентификатор */
     id: "111111111111161",
+    /** Статус */
+    status: { value: "В работе", code: InteractionsStatus.atWork },
     /** Канал */
     channel: InteractionsChannel.outgoingEmail,
     /** Фио */
-    fio: "Оператор 1",
+    fio: "Медси",
     topic: "Fuuuuu",
     /** Комментарий */
     comment: "Это электронное сообщение и любые документы",
@@ -187,6 +203,8 @@ async function getInteractions(
     sessionId: "session1",
     /** Идентификатор */
     id: "111111111111162",
+    /** Статус */
+    status: { value: "В работе", code: InteractionsStatus.atWork },
     /** Канал */
     channel: InteractionsChannel.outgoingEmail,
     /** Фио */
@@ -205,10 +223,12 @@ async function getInteractions(
   const mockData9: InteractionsData = {
     /** Идентификатор */
     id: "111111",
+    /** Статус */
+    status: { value: "В работе", code: InteractionsStatus.atWork },
     /** Канал */
     channel: InteractionsChannel.outgoingCall,
     /** Фио */
-    fio: "Оператор 2",
+    fio: "Иванов Иван Иванович",
     topic: "Fuuuuu",
     /** Комментарий */
     comment: "Это электронное сообщение и любые документы",
@@ -223,6 +243,8 @@ async function getInteractions(
   const mockData10: InteractionsData = {
     /** Идентификатор */
     id: "11111111111454",
+    /** Статус */
+    status: { value: "В работе", code: InteractionsStatus.atWork },
     /** Канал */
     channel: InteractionsChannel.outgoingSms,
     /** Фио */
@@ -266,16 +288,19 @@ async function getInteractionsFulldata(
   const mockData: InteractionsData = {
     /** Идентификатор */
     id: interactionId,
-    /** Номер ГП */
+    /** Канал */
     channel: InteractionsChannel.outgoingEmail,
-    /** Согласованные услуги */
+    /** Статус */
+    status: { value: "В работе", code: InteractionsStatus.atWork },
+    /** Отправитель/получатель */
     fio: "Оператор 1",
-    topic: "Fuuuuu",
-    /** Срок действия */
-    comment: "Это электронное сообщение и любые документы",
-    /** Дата отзыва */
+    /** Тема */
+    topic: "Это электронное сообщение и любые документы",
+    /** Краткое содержание */
+    comment: "",
+    /** Задача */
     task: { value: "TS01010201/12", code: "fasfas" },
-    /** Задача на отзыв */
+    /** Дата создания */
     createdAt: moment("01.01.2024 17:00").format("DD.MM.YYYY HH:mm"),
     isViewed: false,
     isSystem: false,
@@ -323,62 +348,55 @@ function sleep(ms: number) {
   return new Promise((resolve) => window.setTimeout(resolve, ms));
 }
 
-/** Получение проекта письма */
-async function getInteractionsEmail(
-  appealId: string
-): Promise<InteractionsEmailData> {
+/** Получение детальных данных взаимодействия */
+async function getInteractionsDetails(
+  interactionId: string
+): Promise<InteractionDetailsData> {
   return {
-    startDate: "10.03.2025 17:41",
-    fioFrom: "Оператор 1",
-    fioWhom: "103@sberins.ru",
-    createdBy: "Иванов Иван",
-    departament: "операторы(дев)",
-    email: "444@email",
-    copy: "103@sberins.ru",
-    topic: "Согласуйте МРТ",
-    fileSrc: [],
+    id: "111",
+    number: "VZ00000809/21",
+    fioFrom: "Андреев Максим Максимович",
+    email: "andreev@mail.ru",
+    fioWhom: [
+      "103@sberins.ru",
+      "103@sberins.ru",
+      "103@sberins.ru",
+      "103@sberins.ru",
+      "103@sberins.ru",
+      "103@sberins.ru",
+      "103@sberins.ru",
+      "103@sberins.ru",
+      "103@sberins.ru",
+      "103@sberins.ru",
+      "103@sberins.ru",
+      "103@sberins.ru",
+    ],
+    copy: ["-"],
+    createdAt: " 02.08.2025 15:00",
+    status: { value: "В работе", code: InteractionsStatus.atWork },
+    fileSrc: [
+      {
+        ...new FilesData(),
+        fileDownloadURL:
+          "https://t4.ftcdn.net/jpg/02/66/72/41/360_F_266724172_Iy8gdKgMa7XmrhYYxLCxyhx6J7070Pr8.jpg",
+        nameFiles: "file1",
+      },
+      {
+        ...new FilesData(),
+        fileDownloadURL:
+          "https://t3.ftcdn.net/jpg/02/36/99/22/360_F_236992283_sNOxCVQeFLd5pdqaKGh8DRGMZy7P4XKm.jpg",
+        nameFiles: "file2",
+      },
+    ],
+    group: { value: "Экстренная помощь", code: "fasfas" },
+    employee: { value: "", code: "" },
+    request: { value: "RQ00000809/21", code: "fasfas" },
+    task: { value: " -", code: "" },
+    reasonRequest: "Информация о состоянии здоровья",
+    descriptionTask:
+      " Информация о состоянии здоровья предоставляется пациенту лично",
+    topic: "Fw: Запрос согласования",
     text: "Это электронное сообщение и любые документы, приложенные к нему, содержат конфиденциальную информацию. Настоящим уведомляем Вас о том, что если это сообщение не предназначено Вам, использование, копирование, распространение информации, содержащейся в настоящем сообщении, а также осуществление любых действий на основе этой информации, строго запрещено.",
-  };
-}
-
-/** Получение комментария */
-async function getInteractionsComment(
-  appealId: string
-): Promise<InteractionsCommentData> {
-  return {
-    startDate: "10.03.2025 17:41",
-    fio: "Оператор 1",
-    comment:
-      "Это электронное сообщение и любые документы, приложенные к нему, содержат конфиденциальную информацию. Настоящим уведомляем Вас о том, что если это сообщение не предназначено Вам, использование, копирование, распространение информации, содержащейся в настоящем сообщении, а также осуществление любых действий на основе этой информации, строго запрещено.",
-  };
-}
-
-/** Получение звонка */
-async function getInteractionsCall(
-  appealId: string
-): Promise<InteractionsCallData> {
-  return {
-    startDate: "06.06.2024 17:00",
-    fioFrom: "Оператор 2",
-    departament: "операторы(дев)",
-    //phone: "8 888 888 88 88",
-    fioWhom: "Медси",
-    comment:
-      "Это электронное сообщение и любые документы, приложенные к нему, содержат конфиденциальную информацию. Настоящим уведомляем Вас о том, что если это сообщение не предназначено Вам, использование, копирование, распространение информации, содержащейся в настоящем сообщении, а также осуществление любых действий на основе этой информации, строго запрещено.",
-  };
-}
-/** Получение смс */
-async function getInteractionsSms(
-  appealId: string
-): Promise<InteractionsCallData> {
-  return {
-    startDate: "06.06.2024 17:00",
-    fioFrom: "Медси",
-    departament: "операторы(дев)",
-    phone: "8 888 888 88 88",
-    fioWhom: "Оператор 1",
-    comment:
-      "Это электронное сообщение и любые документы, приложенные к нему, содержат конфиденциальную информацию. Настоящим уведомляем Вас о том, что если это сообщение не предназначено Вам, использование, копирование, распространение информации, содержащейся в настоящем сообщении, а также осуществление любых действий на основе этой информации, строго запрещено.",
   };
 }
 
@@ -525,15 +543,9 @@ async function getChannel() {
       },
     },
     {
-      value: "Email входящий",
+      value: "Email",
       data: {
-        code: InteractionsChannel.incomingEmail,
-      },
-    },
-    {
-      value: "Email исходящий",
-      data: {
-        code: InteractionsChannel.outgoingEmail,
+        code: InteractionsChannel.email,
       },
     },
     {
@@ -552,6 +564,45 @@ async function getChannel() {
 
   await randomDelay();
   return data;
+}
+
+/** Получение групп */
+async function getUserGroups(users?: string[]): Promise<ObjectItem[]> {
+  await randomDelay();
+
+  const authors: ObjectItem[] = [
+    new ObjectItem({ code: "test", value: "Группа записи" }),
+    new ObjectItem({ code: "test1", value: "Врачи кураторы МедКЦ (3 линия)" }),
+    new ObjectItem({ code: "test2", value: "Операторы (дев)" }),
+    new ObjectItem({ code: "test3", value: "Врачи кураторы МедКЦ (2 линия)" }),
+    new ObjectItem({ code: "test4", value: "Супервайзеры (дев)" }),
+    new ObjectItem({ code: "test5", value: "Экперты по претензиям (4 линия)" }),
+  ];
+
+  return authors;
+}
+/** Получение исполнителей */
+async function getUsersInteraction(groups?: string[]): Promise<ObjectItem[]> {
+  await randomDelay();
+  const authors: ObjectItem[] = [
+    new ObjectItem({ code: "test", value: "Иванов Иван Иванович" }),
+    new ObjectItem({ code: "test1", value: "Петров Петр Петрович" }),
+    new ObjectItem({ code: "test2", value: "Сидоров Сидр Сидрович" }),
+    new ObjectItem({ code: "test3", value: "Васильев Василий Васильевич" }),
+    new ObjectItem({ code: "test4", value: "Иванов Олег Михайлович" }),
+    new ObjectItem({ code: "test5", value: "Петрова Ольга Ивановна" }),
+  ];
+  return authors;
+}
+
+/** Сохранить группу и пользователя */
+async function saveGroupExecutor(
+  interactionId: string | undefined,
+  group: ObjectItem | null,
+  employee?: ObjectItem | null
+): Promise<void> {
+  // TODO
+  await sleep(1000);
 }
 
 /** Получить количество взаимодействий */
@@ -606,11 +657,6 @@ function setNewInteractionsCountTask(count: number) {
   console.log("setNewInteractionsCountTask: ", count);
 }
 
-/** Обновить флажок Просмотрено у взаимодействия */
-async function updateIsInteractionViewed(interactionId: string): Promise<void> {
-  // TODO
-}
-
 /** Получение списка Линий */
 async function getLines(): Promise<{ code: string; name: string }[]> {
   await randomDelay();
@@ -631,27 +677,48 @@ function toggleSendEmail(taskId?: string) {
   alert("toggleSendEmail on: " + taskId);
 }
 
-/** Проверка возможности отрисовки кнопок по времени */
-function checkCanShowEditButtonByTime(createdAt: string) {
-  // Дата создания
-  const createDate = moment(createdAt, "DD.MM.YYYY HH:mm");
-  // Текущая дата
-  const currentDate = moment();
-
-  // Если текущая дата меньше или равна 60 минут после даты создания, то показать кнопки
-  return currentDate.isSameOrBefore(createDate.add(60, "minute"));
+/** Получение ссылки для перехода на страницу входящего email */
+function getIcomingEmailLink(): string {
+  return "";
 }
 
-/** Получить продолжительность таймера в минутах для сокрытия кнопок */
-function getHideButtonsTimerDuration(createdAt: string): number {
-  // Дата создания
-  const createDate = moment(createdAt, "DD.MM.YYYY HH:mm");
-  // Текущая дата
-  const currentDate = moment();
+/** Нажатие на кнопку "Взять в работу" */
+async function setStatusAtWork(interactionId: string | undefined) {
+  return;
+}
+/** Нажатие на кнопку "Закрыть" */
+async function setStatusProcessed(interactionId: string | undefined) {
+  return;
+}
 
-  const duration = createDate.add(60, "minute").diff(currentDate);
+/** Получить количество дублей взаимодействий */
+//Если дублей нет возращать просто return null, если есть то кол-во
+async function getInteractionsDublicateCount(data?: InteractionDetailsData) {
+  return null;
+}
 
-  return duration;
+/** Скачать файл из внешней системы */
+async function downloadFileBucket(
+  url: string,
+  fileName: string
+): Promise<{ arrayBuffer: ArrayBuffer; contentType: string }> {
+  // TODO
+  const file = await fetch(url);
+
+  return {
+    arrayBuffer: await file.arrayBuffer(),
+    contentType: file.headers.get("content-type") ?? "application/octet-stream",
+  };
+}
+
+async function isCurrentUserExecutor(interactionId: string): Promise<boolean> {
+  return true;
+}
+async function validateEmployeeForGroup(
+  groupId: string,
+  userId: string
+): Promise<boolean> {
+  return false;
 }
 
 export default {
@@ -664,10 +731,7 @@ export default {
   getRequestLink,
 
   getChannel,
-  getInteractionsComment,
-  getInteractionsEmail,
-  getInteractionsCall,
-  getInteractionsSms,
+  getInteractionsDetails,
 
   addCommentChannel,
   addCallInteraction,
@@ -681,7 +745,6 @@ export default {
   toggleSendSmsAnswer,
 
   setNewInteractionsCountRequest,
-  updateIsInteractionViewed,
   getLines,
 
   setChangeRequestCallbackITask,
@@ -691,6 +754,18 @@ export default {
   toggleBindInteraction,
   setUpdateInteractionCallback,
 
-  checkCanShowEditButtonByTime,
-  getHideButtonsTimerDuration,
+  getUserGroups,
+  getUsersInteraction,
+  saveGroupExecutor,
+
+  getIcomingEmailLink,
+
+  setStatusAtWork,
+  setStatusProcessed,
+
+  getInteractionsDublicateCount,
+
+  downloadFileBucket,
+  isCurrentUserExecutor,
+  validateEmployeeForGroup,
 };

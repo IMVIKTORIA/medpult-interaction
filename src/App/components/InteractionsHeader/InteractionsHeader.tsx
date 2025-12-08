@@ -94,11 +94,14 @@ function InteractionsHeader({
     if (channel === InteractionsChannel.outgoingSms) {
       setIsShowSmsOutModal(true);
     }
-    if (channel === InteractionsChannel.incomingEmail) {
-      setIsShowEmailInModal(true);
-    }
-    if (channel === InteractionsChannel.outgoingEmail) {
-      setIsShowEmailOutModal(true);
+    // if (channel === InteractionsChannel.incomingEmail) {
+    //   setIsShowEmailInModal(true);
+    // }
+    // if (channel === InteractionsChannel.outgoingEmail) {
+    //   setIsShowEmailOutModal(true);
+    // }
+    if (channel === InteractionsChannel.email) {
+      Scripts.toggleSendEmail(taskId);
     }
   };
 
@@ -113,16 +116,13 @@ function InteractionsHeader({
     setIsShowEmailOutModal(false);
   };
 
-  /** Открыть окно отправки email */
-  const toggleSendEmail = () => {
-    Scripts.toggleSendEmail(taskId);
-  };
-
   return (
     <div className={"custom-list-interaction__header"}>
       <div className="interaction-header">
         <div className="interaction-header__channel">
-          <label className="interaction-header__label">Канал поступления</label>
+          <label className="interaction-header__label">
+            Тип канала поступления:
+          </label>
 
           <CustomSelect
             getDataHandler={Scripts.getChannel}
@@ -133,27 +133,15 @@ function InteractionsHeader({
           />
         </div>
         <div className="interaction-header__buttons">
-          <CustomButton
-            title={"ОТПРАВИТЬ EMAIL"}
-            clickHandler={toggleSendEmail}
-            svg={icons.EmailBlue}
-            svgPosition="left"
-          />
-          <CustomButton
-            title={"ОБЪЕДИНИТЬ ОБРАЩЕНИЕ"}
-            clickHandler={""}
-            svg={icons.Сlip}
-            svgPosition="left"
-          />
           <div
             className="dropdown-container"
             style={{ position: "relative", display: "inline-block" }}
           >
             <CustomButton
               className={`button-custom ${isDropdownOpen ? "active" : ""}`}
-              title={"ДОБАВИТЬ"}
+              title={"Добавить"}
               clickHandler={handleAddChannel}
-              svg={icons.Triangle}
+              svg={icons.Triangle16}
               svgPosition="right"
             />
             {isDropdownOpen && (
@@ -169,8 +157,8 @@ function InteractionsHeader({
         isShowCallOutModal={isShowCallOutModal}
         isShowSmsInModal={isShowSmsInModal}
         isShowSmsOutModal={isShowSmsOutModal}
-        isShowEmailInModal={isShowEmailInModal}
-        isShowEmailOutModal={isShowEmailOutModal}
+        //isShowEmailInModal={isShowEmailInModal}
+        // isShowEmailOutModal={isShowEmailOutModal}
         closeModal={closeModal}
         taskId={taskId}
       />

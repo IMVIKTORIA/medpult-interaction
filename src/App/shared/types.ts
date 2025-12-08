@@ -152,42 +152,14 @@ export class GroupData {
   interactions?: InteractionsData[];
 }
 
-// /** Детальные данные Взаимодействия */
-// export class InteractionsData {
-//   /** Идентификатор взаимодействия */
-//   id: string;
-//   /** Канал поступления */
-//   channel: InputDataCategory;
-//   /** ФИО */
-//   fio: InputDataCategory;
-//   /** Тема */
-//   topic: InputDataCategory;
-//   /** Комментарий */
-//   comment: InputDataCategory;
-//   /** Номер задачи */
-//   numberTask: InputDataCategory;
-//   /** Дата создания */
-//   startDate: InputDataCategory;
-//   /** Просмотрено? */
-//   isViewed: boolean
-
-//   constructor() {
-//     this.channel = new InputDataCategory();
-//     this.fio = new InputDataCategory();
-//     this.topic = new InputDataCategory();
-//     this.comment = new InputDataCategory();
-//     this.numberTask = new InputDataCategory();
-//     this.startDate = new InputDataCategory();
-//     this.isViewed = false;
-//   }
-// }
-
 /** Детальные данные Взаимодействия */
 export class InteractionsData {
   /** Идентификатор взаимодействия */
   id: string;
   /** Канал поступления */
   channel: InteractionsChannel;
+  /** Статус взаимодействия */
+  status: ObjectItem;
   /** ФИО */
   fio: string;
   /** Тема */
@@ -218,6 +190,7 @@ export class InteractionsData {
   fioEdit?: string;
 
   constructor() {
+    (this.id = ""), (this.status = { value: "", code: InteractionsStatus.new });
     this.channel = InteractionsChannel.comment;
     this.fio = "";
     this.topic = "";
@@ -225,81 +198,6 @@ export class InteractionsData {
     this.createdAt = "";
     this.isViewed = false;
     this.isSystem = false;
-  }
-}
-
-/** Данные проекта письма */
-export class InteractionsEmailData {
-  /** Дата */
-  startDate: string;
-  /** От кого */
-  fioFrom: string;
-  /** Кому */
-  fioWhom: string;
-  /** Кто добавил взаимодействие */
-  createdBy?: string;
-  /** Отдел */
-  departament?: string;
-  /** email */
-  email?: string;
-  /** Копия */
-  copy: string;
-  /** Тема */
-  topic: string;
-  /** Вложения */
-  fileSrc: string[];
-  /** Текст письма */
-  text: string;
-
-  constructor() {
-    // this.startDate = "";
-    this.fioFrom = "";
-    this.fioWhom = "";
-    this.departament = "";
-    this.email = "";
-    this.copy = "";
-    this.topic = "";
-    this.fileSrc = [];
-    this.text = "";
-  }
-}
-
-/** Данные комментария */
-export class InteractionsCommentData {
-  /** Дата */
-  startDate: string;
-  /** От кого */
-  fio: string;
-  /** Текст*/
-  comment: string;
-
-  constructor() {
-    this.fio = "";
-    this.comment = "";
-  }
-}
-
-/** Данные Звонков */
-export class InteractionsCallData {
-  /** Дата */
-  startDate: string;
-  /** От кого */
-  fioFrom: string;
-  /** Отдел */
-  departament?: string;
-  /** Телефон */
-  phone?: string;
-  /** Кому */
-  fioWhom: string;
-  /** Текст */
-  comment: string;
-
-  constructor() {
-    this.fioFrom = "";
-    this.departament = "";
-    this.phone = "";
-    this.fioWhom = "";
-    this.comment = "";
   }
 }
 
@@ -323,6 +221,8 @@ export enum InteractionsChannel {
   incomingEmail = "incomingEmail",
   /** Email исходящий */
   outgoingEmail = "outgoingEmail",
+  /** Email  */
+  email = "email",
   /** Звонок входящий */
   incomingCall = "incomingCall",
   /** Звонок исходящий */
@@ -331,6 +231,20 @@ export enum InteractionsChannel {
   incomingSms = "incomingSms",
   /** СМС исходящее */
   outgoingSms = "outgoingSms",
+}
+
+/** Статус взаимодействия */
+export enum InteractionsStatus {
+  /** Новое*/
+  new = "new",
+  /**В очереди*/
+  queue = "queue",
+  /**В работе */
+  atWork = "atWork",
+  /** Обработано */
+  processed = "processed",
+  /** Пропущено */
+  missed = "missed",
 }
 
 /** Данные строки взаимодействий */
@@ -364,5 +278,73 @@ export class SmsStatusData {
     this.statusName = "";
     this.substatusCode = "";
     this.substatusName = "";
+  }
+}
+
+/** Данные вложений */
+export class FilesData {
+  /** Идентификатор файла */
+  id: string;
+  /** Ссылка на скачивание файла */
+  fileDownloadURL: string;
+  /** Название файла */
+  nameFiles: string;
+
+  constructor() {
+    this.id = "";
+    this.fileDownloadURL = "";
+    this.nameFiles = "";
+  }
+}
+
+/** Детальные данные  */
+export class InteractionDetailsData {
+  /** id */
+  id: string;
+  /** Дата */
+  number: string;
+  /** От кого */
+  fioFrom: string;
+  /** email */
+  email: string;
+  /** Кому */
+  fioWhom: string[];
+  /** Копия */
+  copy: string[];
+  /** Дата создания */
+  createdAt: string;
+  /** Статус взаимодействия */
+  status: ObjectItem;
+  /** Вложения */
+  fileSrc?: FilesData[];
+  /** Группа */
+  group?: ObjectItem;
+  /** Сотрудник */
+  employee?: ObjectItem;
+  /** Номер обращения */
+  request?: ObjectItem;
+  /** Номер задачи */
+  task?: ObjectItem;
+  /** Причина обращения */
+  reasonRequest: string;
+  /** Описание задачи */
+  descriptionTask: string;
+  /** Тема */
+  topic: string;
+  /** Текст письма */
+  text: string;
+
+  constructor() {
+    (this.id = ""), (this.number = "");
+    this.fioFrom = "";
+    this.email = "";
+    this.fioWhom = [];
+    this.copy = [];
+    this.createdAt = "";
+    this.status = { value: "", code: InteractionsStatus.new };
+    this.reasonRequest = "";
+    this.descriptionTask = "";
+    this.topic = "";
+    this.text = "";
   }
 }

@@ -1,30 +1,14 @@
-import React, {
-  ButtonHTMLAttributes,
-  ReactNode,
-  useEffect,
-  useReducer,
-  useRef,
-  useState,
-} from "react";
-import Loader from "../Loader/Loader";
+import React, { ReactNode, useRef, useState } from "react";
+import Loader from "../../../../../../Loader/Loader";
 
 interface ButtonData extends React.ComponentProps<"button"> {
   title: any;
   clickHandler: any;
   buttonType?: string;
-  svg?: any;
-  svgPosition?: string;
 }
 
-function CustomButton(props: ButtonData) {
-  const {
-    title,
-    buttonType,
-    clickHandler,
-    svg,
-    svgPosition = "left",
-    ...buttonProps
-  } = props;
+function ButtonModal(props: ButtonData) {
+  const { title, buttonType, clickHandler, ...buttonProps } = props;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [loader, setLoader] = useState<ReactNode>(
@@ -53,30 +37,16 @@ function CustomButton(props: ButtonData) {
   return (
     <button
       className={
-        buttonType
-          ? `button-custom button-custom_${buttonType}`
-          : `button-custom`
+        buttonType ? `button-modal button-modal_${buttonType}` : `button-modal`
       }
       disabled={isLoading}
       onClick={loadOnClick}
       ref={buttonRef}
       {...buttonProps}
     >
-      <div style={{ display: "flex", alignItems: "center" }}>
-        {svgPosition === "left" && svg && (
-          <div className="button-custom__svg" style={{ marginRight: "5px" }}>
-            {svg}
-          </div>
-        )}
-        {title}
-        {svgPosition === "right" && svg && (
-          <div className="button-custom__svg" style={{ marginLeft: "12px" }}>
-            {svg}
-          </div>
-        )}
-      </div>
+      {buttonContent}
     </button>
   );
 }
 
-export default CustomButton;
+export default ButtonModal;

@@ -6,17 +6,24 @@
   gap: 16px;
 
   &__channel {
-    display: flex;
-    align-items: center;
-    gap: 16px;
+    position: relative;
+    width: 100%;
   }
 
   &__label {
-    white-space: nowrap;
-    font-size: 14px;
-    color: #6b6c6f;
-    line-height: 18.2px;
+    position: absolute;
+    top: -8px;
+    left: 12px;
+    background: #ffffff;
+    padding: 0 4px;
+    pointer-events: none;
+    z-index: 2;
+
+    font-size: 12px;
     font-weight: 400;
+    color: #565a62;
+    line-height: 16px;
+    letter-spacing: 0.25px;
   }
 
   &__buttons {

@@ -23,16 +23,32 @@
       background-color: var(--medpult-hover-color);
     }
   }
-
-  &__counter {
-    background: #e9e9eb;
-    color: #444444;
-    width: 24px;
-    height: 24px;
-    justify-content: center;
+  &__group {
     display: flex;
+    flex-direction: row;
     align-items: center;
-    border-radius: 50px;
+    gap: 8px;
+    min-width: 20px;
+
+    &__counter {
+      background: #a4a7ae;
+      font-size: 14px;
+      font-weight: 600;
+      color: #ffffff;
+      width: 20px;
+      height: 20px;
+      min-width: 20px;
+      justify-content: center;
+      display: flex;
+      align-items: center;
+      border-radius: 50px;
+    }
+    &__text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-width: 0;
+    }
   }
 }
 .tooltip {

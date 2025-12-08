@@ -111,7 +111,7 @@ function CustomSelect(props: CustomSelectProps) {
     setListWidth(wrapper.getBoundingClientRect().width);
   }, [isOpen]);
 
-  const buttonSvg = icons.Triangle;
+  const buttonSvg = icons.Triangle24;
 
   const displayedValues = listValues
     .filter((item) => selectedValues.includes(item.data?.code))
