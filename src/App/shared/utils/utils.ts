@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { IInputData } from "../types";
+import { IInputData, InteractionsChannel } from "../types";
 import icons from "../icons";
 import Scripts from "./clientScripts";
 
@@ -180,4 +180,57 @@ export async function onClickDownloadFileByUrl(
   link.click();
   document.body.removeChild(link);
   URL.revokeObjectURL(link.href);
+}
+
+/** Получение title по каналу взаимодействия */
+export const getInteractionChannelTitle = (channel: InteractionsChannel) => {
+  switch (channel) {
+  case InteractionsChannel.comment:
+    return "Комментарий";
+  case InteractionsChannel.incomingEmail:
+    return "Входящий email";
+  case InteractionsChannel.outgoingEmail:
+    return "Исходящий email";
+  case InteractionsChannel.incomingCall:
+    return "Входящий звонок";
+  case InteractionsChannel.outgoingCall:
+    return "Исходящий звонок";
+  case InteractionsChannel.incomingSms:
+    return "Входящее СМС";
+  case InteractionsChannel.outgoingSms:
+    return "Исходящее СМС";
+  case InteractionsChannel.allChannel:
+    return "Все";
+  case InteractionsChannel.email:
+    return "Email";
+  default:
+    return "";
+  }
+};
+
+export function getChannelData(channel: InteractionsChannel): { value: string; data: { code: string } } {
+  const name = getInteractionChannelTitle(channel);
+
+  return {
+    value: name,
+    data: { code: channel }
+  }
+}
+
+/** Обработка нажатия вне элемента */
+export function useOutsideClickHandler(rootRef: React.RefObject<any>, handler: () => void) {
+  const originalHref = window.location.href;
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (rootRef.current && !rootRef.current.contains(event.target as Node)) {
+      handler();
+    }
+  };
+
+  useEffect(() => {
+    if(window.location.href != originalHref) document.removeEventListener("mousedown", handleClickOutside);
+    
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 }

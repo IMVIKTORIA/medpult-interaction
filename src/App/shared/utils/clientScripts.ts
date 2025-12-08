@@ -543,6 +543,51 @@ async function getChannel() {
       },
     },
     {
+      value: "Email входящее",
+      data: {
+        code: InteractionsChannel.email,
+      },
+    },
+    {
+      value: "СМС входящее",
+      data: {
+        code: InteractionsChannel.incomingSms,
+      },
+    },
+    {
+      value: "СМС исходящее",
+      data: {
+        code: InteractionsChannel.outgoingSms,
+      },
+    },
+  ];
+
+  await randomDelay();
+  return data;
+}
+
+/** Получение списка каналов для кнопки Добавить */
+async function getAddInteractionChannel() {
+  const data = [
+    {
+      value: "Комментарий",
+      data: {
+        code: InteractionsChannel.comment,
+      },
+    },
+    {
+      value: "Звонок входящий",
+      data: {
+        code: InteractionsChannel.incomingCall,
+      },
+    },
+    {
+      value: "Звонок исходящий",
+      data: {
+        code: InteractionsChannel.outgoingCall,
+      },
+    },
+    {
       value: "Email",
       data: {
         code: InteractionsChannel.email,
@@ -768,4 +813,6 @@ export default {
   downloadFileBucket,
   isCurrentUserExecutor,
   validateEmployeeForGroup,
+
+  getAddInteractionChannel,
 };

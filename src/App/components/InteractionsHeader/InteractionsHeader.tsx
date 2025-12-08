@@ -4,8 +4,9 @@ import Scripts from "../../shared/utils/clientScripts";
 import CustomButton from "../CustomButton/CustomButton";
 import icons from "../../shared/icons";
 import { InteractionsChannel } from "../../shared/types";
-import ChannelDropdown from "./ChannelDropdown/ChannelDropdown";
 import ModalManager from "../InteractionsModal/ModalManager";
+import { getChannelData } from "../../shared/utils/utils";
+import ChannelDropdown from "./ChannelDropdown/ChannelDropdown";
 
 interface InteractionsHeaderProps {
   modalStates: {
@@ -76,7 +77,6 @@ function InteractionsHeader({
     setDropdownOpen((prev) => !prev);
   };
 
-  // TODO логика для модального окна
   const handleSelectChannel = (channel: string) => {
     setDropdownOpen(false);
     if (channel === InteractionsChannel.comment) {
@@ -116,6 +116,20 @@ function InteractionsHeader({
     setIsShowEmailOutModal(false);
   };
 
+  
+  const channelsCodes = [
+    InteractionsChannel.allChannel,
+    InteractionsChannel.comment,
+    InteractionsChannel.incomingCall,
+    InteractionsChannel.outgoingCall,
+    InteractionsChannel.incomingEmail,
+    InteractionsChannel.outgoingEmail,
+    InteractionsChannel.incomingSms,
+    InteractionsChannel.outgoingSms,
+  ]
+
+  const getChannels = async () => channelsCodes.map(channel => getChannelData(channel))
+  
   return (
     <div className={"custom-list-interaction__header"}>
       <div className="interaction-header">
@@ -125,7 +139,7 @@ function InteractionsHeader({
           </label>
 
           <CustomSelect
-            getDataHandler={Scripts.getChannel}
+            getDataHandler={getChannels}
             inputHandler={handleInputChange}
             name="channel"
             values={formValues}
@@ -133,21 +147,7 @@ function InteractionsHeader({
           />
         </div>
         <div className="interaction-header__buttons">
-          <div
-            className="dropdown-container"
-            style={{ position: "relative", display: "inline-block" }}
-          >
-            <CustomButton
-              className={`button-custom ${isDropdownOpen ? "active" : ""}`}
-              title={"Добавить"}
-              clickHandler={handleAddChannel}
-              svg={icons.Triangle16}
-              svgPosition="right"
-            />
-            {isDropdownOpen && (
-              <ChannelDropdown onSelect={handleSelectChannel} />
-            )}
-          </div>
+          <ChannelDropdown handleSelectChannel={handleSelectChannel}/>
         </div>
       </div>
       {/* Модальные окна */}

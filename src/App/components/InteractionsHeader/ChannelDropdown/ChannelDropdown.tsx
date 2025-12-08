@@ -1,54 +1,44 @@
-import React, { useEffect, useState } from "react";
-import Scripts from "../../../shared/utils/clientScripts";
-import { InteractionsChannel } from "../../../shared/types";
-import Loader from "../../Loader/Loader";
+import React, { useEffect, useRef, useState } from "react";
+import ChannelDropdownList from "./ChannelDropdownList/ChannelDropdownList";
+import CustomButton from "../../CustomButton/CustomButton";
+import icons from "../../../shared/icons";
+import { useOutsideClickHandler } from "../../../shared/utils/utils";
 
-function ChannelDropdown({
-  onSelect,
-}: {
-  onSelect: (channel: string) => void;
-}) {
-  const [channels, setChannels] = useState<
-    { value: string; data: { code: string } }[]
-  >([]);
+type ChannelDropdownProps = {
+  /** Обработчик нажатия на канал в выпадающем списке */
+  handleSelectChannel: (channel: string) => void
+}
 
-  const [isLoading, setIsLoading] = useState(true);
-  // Загрузка данных
-  useEffect(() => {
-    Scripts.getChannel()
-      .then((data) => {
-        setChannels(data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("", error);
-        setIsLoading(false);
-      });
-  }, []);
+function ChannelDropdown({handleSelectChannel}: ChannelDropdownProps) {
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const handleAddClick = () => {
+    setDropdownOpen((prev) => !prev);
+  };
 
-  // Фильтруем каналы, исключая значение с кодом "allChannel"
-  const filteredChannels = channels.filter(
-    (channel) => channel.data.code !== InteractionsChannel.allChannel
-  );
+  const handleOptionClick = (channel: string) => {
+    setDropdownOpen(false);
+    handleSelectChannel(channel)
+  }
+
+  const handleOutsideClick = () => setDropdownOpen(false);
+
+  const rootRef = useRef<HTMLDivElement>(null)
+  useOutsideClickHandler(rootRef, handleOutsideClick);
 
   return (
-    <>
-      <div className="channel-dropdown">
-        {isLoading ? (
-          <Loader />
-        ) : (
-          filteredChannels.map((channel) => (
-            <div
-              key={channel.value}
-              className="channel-dropdown__item"
-              onClick={() => onSelect(channel.data.code)}
-            >
-              {channel.value}
-            </div>
-          ))
-        )}
-      </div>
-    </>
+    <div
+      className="dropdown-container"
+      ref={rootRef}
+    >
+      <CustomButton
+        className={`button-custom ${isDropdownOpen ? "active" : ""}`}
+        title={"Добавить"}
+        clickHandler={handleAddClick}
+        svg={icons.Triangle16}
+        svgPosition="right"
+      />
+      {isDropdownOpen && <ChannelDropdownList onSelect={handleOptionClick} />}
+    </div>
   );
 }
 
