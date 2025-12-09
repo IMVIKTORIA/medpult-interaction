@@ -3,11 +3,11 @@ import InteractionsHeader from "./InteractionsHeader/InteractionsHeader";
 import InteractionsContent from "./InteractionsContent/InteractionsContent";
 import InteractionsExecutor from "./InteractionsExecutor/InteractionsExecutor";
 import InteractionField from "./InteractionsField/InteractionField";
-import { InteractionDetailsData } from "../../../../shared/types";
+import { IInteractionDetailsData } from "../../../../shared/types";
 import Scripts from "../../../../shared/utils/clientScripts";
 
 interface InteractionsDetailsOpenProps {
-  data: InteractionDetailsData;
+  data: IInteractionDetailsData;
   /** id Взаимодействия */
   interactionId: string;
   /** Идентификатор задачи */

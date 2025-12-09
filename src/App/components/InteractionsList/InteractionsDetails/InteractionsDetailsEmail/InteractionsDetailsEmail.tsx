@@ -1,8 +1,4 @@
-import React, { useEffect, useState } from "react";
-import {
-  InteractionsData,
-  InteractionDetailsData,
-} from "../../../../shared/types";
+import React from "react";
 import Scripts from "../../../../shared/utils/clientScripts";
 import Loader from "../../../Loader/Loader";
 import InteractionsDetailsOpen from "../InteractionsDetailsOpen/InteractionsDetailsOpen";

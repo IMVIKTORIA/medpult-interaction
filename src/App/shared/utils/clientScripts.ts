@@ -3,7 +3,7 @@ import { ObjectItem } from "../../../UIKit/Filters/FiltersTypes";
 import {
   InputDataCategory,
   InteractionsData,
-  InteractionDetailsData,
+  IInteractionDetailsData,
   GetInteractionsResponse,
   InteractionsChannel,
   InteractionsStatus,
@@ -392,7 +392,7 @@ async function getInteractionsSms(
 /** Получение детальных данных взаимодействия */
 async function getInteractionsDetails(
   interactionId: string
-): Promise<InteractionDetailsData> {
+): Promise<IInteractionDetailsData> {
   return {
     id: "111",
     number: "VZ00000809/21",
@@ -438,6 +438,7 @@ async function getInteractionsDetails(
       " Информация о состоянии здоровья предоставляется пациенту лично",
     topic: "Fw: Запрос согласования",
     text: "Это электронное сообщение и любые документы, приложенные к нему, содержат конфиденциальную информацию. Настоящим уведомляем Вас о том, что если это сообщение не предназначено Вам, использование, копирование, распространение информации, содержащейся в настоящем сообщении, а также осуществление любых действий на основе этой информации, строго запрещено.",
+    isIncoming: false
   };
 }
 
@@ -779,7 +780,7 @@ async function setStatusProcessed(interactionId: string | undefined) {
 
 /** Получить количество дублей взаимодействий */
 //Если дублей нет возращать просто return null, если есть то кол-во
-async function getInteractionsDublicateCount(data?: InteractionDetailsData) {
+async function getInteractionsDublicateCount(data?: IInteractionDetailsData) {
   return null;
 }
 

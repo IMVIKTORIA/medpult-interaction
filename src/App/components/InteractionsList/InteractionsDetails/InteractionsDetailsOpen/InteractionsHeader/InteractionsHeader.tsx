@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import CustomButton from "../../../../CustomButton/CustomButton";
 import icons from "../../../../../shared/icons";
 import {
-  InteractionDetailsData,
+  IInteractionDetailsData,
   InteractionsStatus,
 } from "../../../../../shared/types";
 import Scripts from "../../../../../shared/utils/clientScripts";
 
 /** Пропсы */
 interface InteractionsHeaderProps {
-  data: InteractionDetailsData;
+  data: IInteractionDetailsData;
   onSave?: () => void;
   reloadData?: () => void;
   duplicateCount?: number;
@@ -87,57 +87,60 @@ function InteractionsHeader(props: InteractionsHeaderProps) {
           </span>
         </div>
       </div>
-      <div className="interactions-open-panel-header__button">
-        {data.request?.code != "" ? (
-          <CustomButton
-            title={`Изменить${duplicateCount ? ` (${duplicateCount})` : ""}`}
-            clickHandler={onEditClick}
-            svg={icons.Edit}
-            svgPosition="left"
-            disabled={data.status.code === InteractionsStatus.processed}
-          />
-        ) : (
-          <CustomButton
-            title={`Привязать${duplicateCount ? ` (${duplicateCount})` : ""}`}
-            clickHandler={onEditClick}
-            svg={icons.Bind}
-            svgPosition="left"
-            style={{
-              backgroundColor: "#21A038",
-              color: "#FDFDFD",
-              border: "none",
-            }}
-            disabled={data.status.code === InteractionsStatus.processed}
-          />
-        )}
+      {
+        data.isIncoming &&
+        <div className="interactions-open-panel-header__button">
+          {data.request?.code != "" ? (
+            <CustomButton
+              title={`Изменить${duplicateCount ? ` (${duplicateCount})` : ""}`}
+              clickHandler={onEditClick}
+              svg={icons.Edit}
+              svgPosition="left"
+              disabled={data.status.code === InteractionsStatus.processed}
+            />
+          ) : (
+            <CustomButton
+              title={`Привязать${duplicateCount ? ` (${duplicateCount})` : ""}`}
+              clickHandler={onEditClick}
+              svg={icons.Bind}
+              svgPosition="left"
+              style={{
+                backgroundColor: "#21A038",
+                color: "#FDFDFD",
+                border: "none",
+              }}
+              disabled={data.status.code === InteractionsStatus.processed}
+            />
+          )}
 
-        <CustomButton
-          title={`Сохранить${duplicateCount ? ` (${duplicateCount})` : ""}`}
-          clickHandler={onTakeSaveClick}
-          svg={icons.saveIcon}
-          svgPosition="left"
-          disabled={data.status.code === InteractionsStatus.processed}
-        />
-        {data.status.code === InteractionsStatus.atWork && (
           <CustomButton
-            buttonType="outline"
-            title={`Закрыть${duplicateCount ? ` (${duplicateCount})` : ""}`}
-            clickHandler={onTakeCloseClick}
-            svg={icons.Check}
+            title={`Сохранить${duplicateCount ? ` (${duplicateCount})` : ""}`}
+            clickHandler={onTakeSaveClick}
+            svg={icons.saveIcon}
             svgPosition="left"
+            disabled={data.status.code === InteractionsStatus.processed}
           />
-        )}
-        {(data.status.code === InteractionsStatus.new ||
-          data.status.code === InteractionsStatus.queue) && (
-          <CustomButton
-            title={`В работу${duplicateCount ? ` (${duplicateCount})` : ""}`}
-            buttonType="outline"
-            clickHandler={onTakeToWorkClick}
-            svg={icons.Next}
-            svgPosition="left"
-          />
-        )}
-      </div>
+          {data.status.code === InteractionsStatus.atWork && (
+            <CustomButton
+              buttonType="outline"
+              title={`Закрыть${duplicateCount ? ` (${duplicateCount})` : ""}`}
+              clickHandler={onTakeCloseClick}
+              svg={icons.Check}
+              svgPosition="left"
+            />
+          )}
+          {(data.status.code === InteractionsStatus.new ||
+            data.status.code === InteractionsStatus.queue) && (
+            <CustomButton
+              title={`В работу${duplicateCount ? ` (${duplicateCount})` : ""}`}
+              buttonType="outline"
+              clickHandler={onTakeToWorkClick}
+              svg={icons.Next}
+              svgPosition="left"
+            />
+          )}
+        </div>
+      }
     </div>
   );
 }

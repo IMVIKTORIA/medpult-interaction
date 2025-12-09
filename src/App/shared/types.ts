@@ -298,7 +298,7 @@ export class FilesData {
 }
 
 /** Детальные данные  */
-export class InteractionDetailsData {
+export interface IInteractionDetailsData {
   /** id */
   id: string;
   /** Дата */
@@ -333,18 +333,6 @@ export class InteractionDetailsData {
   topic: string;
   /** Текст письма */
   text: string;
-
-  constructor() {
-    (this.id = ""), (this.number = "");
-    this.fioFrom = "";
-    this.email = "";
-    this.fioWhom = [];
-    this.copy = [];
-    this.createdAt = "";
-    this.status = { value: "", code: InteractionsStatus.new };
-    this.reasonRequest = "";
-    this.descriptionTask = "";
-    this.topic = "";
-    this.text = "";
-  }
+  /** Входящее? */
+  isIncoming: boolean
 }

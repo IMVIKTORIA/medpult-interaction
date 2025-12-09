@@ -3,7 +3,7 @@ import CustomButton from "../../../../CustomButton/CustomButton";
 import InteractionField from "../InteractionsField/InteractionField";
 import icons from "../../../../../shared/icons";
 import {
-  InteractionDetailsData,
+  IInteractionDetailsData,
   InteractionsStatus,
 } from "../../../../../shared/types";
 import ModalExecutor from "./ModalExecutor/ModalExecutor";
@@ -12,7 +12,7 @@ import utils from "../../../../../shared/utils/utils";
 
 /** Пропсы */
 interface InteractionsExecutorProps {
-  data: InteractionDetailsData;
+  data: IInteractionDetailsData;
   onSave?: () => void;
   duplicateCount?: number;
   reloadData?: () => void;
