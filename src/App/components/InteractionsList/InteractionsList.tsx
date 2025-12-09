@@ -72,6 +72,7 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
       ...item,
       isViewed: item.isUser ? true : item.isViewed,
     }));
+    
     setHasMore(fetchData.hasMore);
 
     //setItems([...items, ...fetchData.data]);
