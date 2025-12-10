@@ -3,12 +3,13 @@ import { ObjectItem } from "../../../UIKit/Filters/FiltersTypes";
 import {
   InputDataCategory,
   InteractionsData,
-  InteractionDetailsData,
+  IInteractionDetailsData,
   GetInteractionsResponse,
   InteractionsChannel,
   InteractionsStatus,
   FilesData,
 } from "../types";
+import { IInteractionsCallData, IInteractionsCommentData } from "../../components/InteractionsList/InteractionsDetails/InteractionsDetailsTypes";
 //import { fileSrc } from "./constants";
 
 /** Заглушка ожидания ответа сервера */
@@ -348,10 +349,50 @@ function sleep(ms: number) {
   return new Promise((resolve) => window.setTimeout(resolve, ms));
 }
 
+/** Получение комментария */
+async function getInteractionsComment(
+  appealId: string
+): Promise<IInteractionsCommentData> {
+  return {
+    startDate: "10.03.2025 17:41",
+    fio: "Оператор 1",
+    comment:
+      "Это электронное сообщение и любые документы, приложенные к нему, содержат конфиденциальную информацию. Настоящим уведомляем Вас о том, что если это сообщение не предназначено Вам, использование, копирование, распространение информации, содержащейся в настоящем сообщении, а также осуществление любых действий на основе этой информации, строго запрещено.",
+  };
+}
+
+/** Получение звонка */
+async function getInteractionsCall(
+  appealId: string
+): Promise<IInteractionsCallData> {
+  return {
+    startDate: "06.06.2024 17:00",
+    fioFrom: "Оператор 2",
+    departament: "операторы(дев)",
+    //phone: "8 888 888 88 88",
+    fioWhom: "Медси",
+    comment:
+      "Это электронное сообщение и любые документы, приложенные к нему, содержат конфиденциальную информацию. Настоящим уведомляем Вас о том, что если это сообщение не предназначено Вам, использование, копирование, распространение информации, содержащейся в настоящем сообщении, а также осуществление любых действий на основе этой информации, строго запрещено.",
+  };
+}
+/** Получение смс */
+async function getInteractionsSms(
+  appealId: string
+): Promise<IInteractionsCallData> {
+  return {
+    startDate: "06.06.2024 17:00",
+    fioFrom: "Медси",
+    departament: "операторы(дев)",
+    phone: "8 888 888 88 88",
+    fioWhom: "Оператор 1",
+    comment:
+      "Это электронное сообщение и любые документы, приложенные к нему, содержат конфиденциальную информацию. Настоящим уведомляем Вас о том, что если это сообщение не предназначено Вам, использование, копирование, распространение информации, содержащейся в настоящем сообщении, а также осуществление любых действий на основе этой информации, строго запрещено.",
+  };
+}
 /** Получение детальных данных взаимодействия */
 async function getInteractionsDetails(
   interactionId: string
-): Promise<InteractionDetailsData> {
+): Promise<IInteractionDetailsData> {
   return {
     id: "111",
     number: "VZ00000809/21",
@@ -397,6 +438,7 @@ async function getInteractionsDetails(
       " Информация о состоянии здоровья предоставляется пациенту лично",
     topic: "Fw: Запрос согласования",
     text: "Это электронное сообщение и любые документы, приложенные к нему, содержат конфиденциальную информацию. Настоящим уведомляем Вас о том, что если это сообщение не предназначено Вам, использование, копирование, распространение информации, содержащейся в настоящем сообщении, а также осуществление любых действий на основе этой информации, строго запрещено.",
+    isIncoming: false
   };
 }
 
@@ -738,7 +780,7 @@ async function setStatusProcessed(interactionId: string | undefined) {
 
 /** Получить количество дублей взаимодействий */
 //Если дублей нет возращать просто return null, если есть то кол-во
-async function getInteractionsDublicateCount(data?: InteractionDetailsData) {
+async function getInteractionsDublicateCount(data?: IInteractionDetailsData) {
   return null;
 }
 
@@ -764,6 +806,31 @@ async function validateEmployeeForGroup(
   userId: string
 ): Promise<boolean> {
   return false;
+}
+
+
+
+/** Проверка возможности отрисовки кнопок по времени */
+function checkCanShowEditButtonByTime(createdAt: string) {
+  // Дата создания
+  const createDate = moment(createdAt, "DD.MM.YYYY HH:mm");
+  // Текущая дата
+  const currentDate = moment();
+
+  // Если текущая дата меньше или равна 60 минут после даты создания, то показать кнопки
+  return currentDate.isSameOrBefore(createDate.add(60, "minute"));
+}
+
+/** Получить продолжительность таймера в минутах для сокрытия кнопок */
+function getHideButtonsTimerDuration(createdAt: string): number {
+  // Дата создания
+  const createDate = moment(createdAt, "DD.MM.YYYY HH:mm");
+  // Текущая дата
+  const currentDate = moment();
+
+  const duration = createDate.add(60, "minute").diff(currentDate);
+
+  return duration;
 }
 
 export default {
@@ -815,4 +882,9 @@ export default {
   validateEmployeeForGroup,
 
   getAddInteractionChannel,
+  getInteractionsComment,
+  getInteractionsCall,
+  getInteractionsSms,
+  checkCanShowEditButtonByTime,
+  getHideButtonsTimerDuration,
 };

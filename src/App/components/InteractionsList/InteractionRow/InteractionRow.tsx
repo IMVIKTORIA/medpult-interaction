@@ -13,6 +13,7 @@ import icons from "../../../shared/icons";
 import utils from "../../../shared/utils/utils";
 import Scripts from "../../../shared/utils/clientScripts";
 import { localStorageDraftKey } from "../../../shared/utils/constants";
+import { ModalsState } from "../InteractionsListTypes";
 
 /** Пропсы */
 type InteractionRowProps = {
@@ -39,6 +40,7 @@ type InteractionRowProps = {
   isWrapperRow?: boolean;
   onClickHeader?: () => void;
   isOpen?: boolean;
+  modalStates: ModalsState
 };
 
 /** Строка со взаимодействием */
@@ -55,6 +57,7 @@ function InteractionRow({
   isWrapperRow,
   onClickHeader,
   isOpen,
+  modalStates,
 }: InteractionRowProps) {
   /** Фильтрация по каналам */
   if (
@@ -249,10 +252,8 @@ function InteractionRow({
         <InteractionsDetails
           reloadData={reloadData}
           data={data}
-          onClickRowHandler={toggleShowDetails}
-          items={items}
-          setItems={setItems}
           taskId={taskId}
+          modalStates={modalStates}
         />
       )}
     </>
