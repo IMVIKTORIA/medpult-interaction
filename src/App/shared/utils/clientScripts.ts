@@ -833,6 +833,16 @@ function getHideButtonsTimerDuration(createdAt: string): number {
   return duration;
 }
 
+// Для отладки в консоли
+// setLastUpdateDate(new Date())
+let lastUpdateDate: Date = new Date();
+(window as any)["setLastUpdateDate"] = (date: Date) => lastUpdateDate = date;
+
+// Получить дату последнего обновления взаимодействия из списка
+async function getLastUpdateDate(appealId: string, taskId?: string) {
+  return lastUpdateDate
+}
+
 export default {
   getInteractions,
   getInteractionsFulldata,
@@ -887,4 +897,6 @@ export default {
   getInteractionsSms,
   checkCanShowEditButtonByTime,
   getHideButtonsTimerDuration,
+
+  getLastUpdateDate,
 };

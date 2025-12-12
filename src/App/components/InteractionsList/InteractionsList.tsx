@@ -15,6 +15,37 @@ import moment from "moment";
 import { ModalsState } from "./InteractionsListTypes";
 import { useModalStates } from "./InteractionsListHooks";
 
+function useUpdateList(appealId: string, taskId?: string) {
+  // Дата последнего обновления взаимодействия из списка
+  const [lastUpdateDate, setLastUpdateDate] = useState(new Date());
+
+  async function updateList() {
+    const lastUpdateDate = await Scripts.getLastUpdateDate(appealId, taskId);
+    setLastUpdateDate(lastUpdateDate);
+  }
+
+  const interval = useRef<NodeJS.Timeout>();
+
+  // Для очистки интервала при переходе на другую страницу
+  const originalPath = window.location.pathname
+
+  // Интервал для проверки количества взаимодействий
+  useEffect(() => {
+    updateList();
+
+    interval.current = setInterval(() => {
+      const currentPath = window.location.pathname;
+      if(currentPath != originalPath) clearInterval(interval.current)
+
+      updateList();
+    }, 3000);
+
+    return () => clearInterval(interval.current);
+  }, []);
+
+  return {lastUpdateDate}
+}
+
 /** Пропсы  */
 type InteractionsListProps = {
   /** id обращения */
@@ -115,9 +146,11 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
     return () => clearInterval(interval);
   }, []);
 
+  const {lastUpdateDate} = useUpdateList();
+
   useEffect(() => {
     reloadData();
-  }, [elementsCount, appealId, taskId]);
+  }, [/* elementsCount */lastUpdateDate, appealId, taskId]);
 
   // Запись количества непросмотренных
   useEffect(() => {
