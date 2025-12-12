@@ -40,7 +40,7 @@ type InteractionRowProps = {
   isWrapperRow?: boolean;
   onClickHeader?: () => void;
   isOpen?: boolean;
-  modalStates: ModalsState
+  modalStates?: ModalsState
 };
 
 /** Строка со взаимодействием */
@@ -228,7 +228,7 @@ function InteractionRow({
       </InteractionListColumn>
       {/* Развернуть*/}
       {isExecutor && (
-        <InteractionListColumn fr={0.25}>
+        <InteractionListColumn fr={0.25} title={isShowDetails || isOpen ? "Свернуть" : "Развернуть"}>
           <div
             style={{
               transform:
@@ -253,7 +253,6 @@ function InteractionRow({
           reloadData={reloadData}
           data={data}
           taskId={taskId}
-          modalStates={modalStates}
         />
       )}
     </>
