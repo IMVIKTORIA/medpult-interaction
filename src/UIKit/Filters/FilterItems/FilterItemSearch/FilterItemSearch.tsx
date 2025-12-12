@@ -35,7 +35,6 @@ export default function FilterItemSearch(props: FilterItemSearchProps) {
 
 	/** Обработчик удаления элемента */
 	const deleteHandler = (code: string) => {
-		console.log(filterValue.values);
 		filterValue.values = filterValue.values.filter(item => item.code !== code);
 		setFilterValue(filterValue)
 	}

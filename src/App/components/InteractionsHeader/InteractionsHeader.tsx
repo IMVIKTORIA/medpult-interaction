@@ -47,7 +47,6 @@ function InteractionsHeader({
   });
 
   useEffect(() => {
-    console.log(setSelectedChannels);
     setSelectedChannels(formValues.channel ?? []);
   }, [formValues]);
 

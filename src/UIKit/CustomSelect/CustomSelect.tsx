@@ -28,7 +28,6 @@ function CustomSelect(props: CustomSelectProps) {
     // Показать данные
     setListValues([]);
     const values = await getDataHandler();
-    console.log(values);
     setListValues(values);
 
     // Скрыть лоадер

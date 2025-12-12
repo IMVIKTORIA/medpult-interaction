@@ -35,7 +35,6 @@ function InteractionsHeader(props: InteractionsHeaderProps) {
   /** Обработка нажатия на кнопку изменить */
   const onEditClick = async () => {
     const email = data.email;
-    console.log("testEmail", data.email);
     const link = Scripts.getIcomingEmailLink();
     const redirectUrl = new URL(window.location.origin + "/" + link);
     if (email) redirectUrl.searchParams.set("email", email);

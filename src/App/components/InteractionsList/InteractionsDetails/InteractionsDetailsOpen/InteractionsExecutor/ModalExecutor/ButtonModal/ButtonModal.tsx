@@ -21,7 +21,6 @@ function ButtonModal(props: ButtonData) {
     setIsLoading(true);
     const buttonWidth =
       (buttonRef.current?.getBoundingClientRect().width ?? 40) - 40;
-    console.log(buttonRef.current);
     const loaderElement = (
       <div style={{ width: buttonWidth + "px" }}>
         <Loader />

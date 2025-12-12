@@ -93,7 +93,6 @@ function InteractionRow({
       return;
     }
 
-    console.log("Click task with id: " + data.task?.code);
     const taskId = data.task?.code;
     if (!taskId) return;
     // Установка обращения
@@ -114,10 +113,6 @@ function InteractionRow({
     window.open(redirectUrl.toString(), "_blank");
   };
 
-  // const handleTaskClick = (ev: any) => {
-  //   ev.stopPropagation();
-  //   console.log("Click task with id: " + data.task?.code);
-  // };
   /** Получить текст из строки с HTML */
   const getTextFromHTMLString = (innerHTML: string) => {
     // Создание элемента

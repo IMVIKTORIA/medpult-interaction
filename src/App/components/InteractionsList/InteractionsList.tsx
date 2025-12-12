@@ -17,11 +17,11 @@ import { useModalStates } from "./InteractionsListHooks";
 
 function useUpdateList(appealId: string, taskId?: string) {
   // Дата последнего обновления взаимодействия из списка
-  const [lastUpdateDate, setLastUpdateDate] = useState(new Date());
+  const [lastUpdateDate, setLastUpdateDate] = useState(new Date().getTime());
 
   async function updateList() {
     const lastUpdateDate = await Scripts.getLastUpdateDate(appealId, taskId);
-    setLastUpdateDate(lastUpdateDate);
+    if(lastUpdateDate) setLastUpdateDate(lastUpdateDate.getTime());
   }
 
   const interval = useRef<NodeJS.Timeout>();
@@ -35,7 +35,10 @@ function useUpdateList(appealId: string, taskId?: string) {
 
     interval.current = setInterval(() => {
       const currentPath = window.location.pathname;
-      if(currentPath != originalPath) clearInterval(interval.current)
+      if(currentPath != originalPath) {
+        clearInterval(interval.current)
+        return;
+      }
 
       updateList();
     }, 3000);
@@ -146,7 +149,7 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
     return () => clearInterval(interval);
   }, []);
 
-  const {lastUpdateDate} = useUpdateList();
+  const {lastUpdateDate} = useUpdateList(appealId, taskId);
 
   useEffect(() => {
     reloadData();

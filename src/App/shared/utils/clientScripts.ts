@@ -735,13 +735,13 @@ async function toggleBindInteraction(interactionId: string) {
 /** Установить количество непросмотренных взаимодействий в обращении */
 function setNewInteractionsCountRequest(count: number) {
   // TODO
-  console.log("setNewInteractionsCountRequest: ", count);
+  // console.log("setNewInteractionsCountRequest: ", count);
 }
 
 /** Установить количество непросмотренных взаимодействий в задаче */
 function setNewInteractionsCountTask(count: number) {
   // TODO
-  console.log("setNewInteractionsCountTask: ", count);
+  // console.log("setNewInteractionsCountTask: ", count);
 }
 
 /** Получение списка Линий */
@@ -839,7 +839,7 @@ let lastUpdateDate: Date = new Date();
 (window as any)["setLastUpdateDate"] = (date: Date) => lastUpdateDate = date;
 
 // Получить дату последнего обновления взаимодействия из списка
-async function getLastUpdateDate(appealId: string, taskId?: string) {
+async function getLastUpdateDate(appealId: string, taskId?: string): Promise<Date | undefined> {
   return lastUpdateDate
 }
 

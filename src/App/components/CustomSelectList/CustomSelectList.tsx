@@ -22,9 +22,6 @@ function CustomSelectList({
     const handleClick = (event: MouseEvent) => {
       const { target } = event;
 
-      console.log(rootRef.current);
-      console.log(target);
-
       if (target instanceof Node && !rootRef.current?.contains(target)) {
         closeHandler();
       }
