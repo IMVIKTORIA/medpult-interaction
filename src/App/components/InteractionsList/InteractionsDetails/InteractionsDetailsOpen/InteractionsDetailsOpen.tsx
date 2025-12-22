@@ -5,6 +5,7 @@ import InteractionsExecutor from "./InteractionsExecutor/InteractionsExecutor";
 import InteractionField from "./InteractionsField/InteractionField";
 import { IInteractionDetailsData } from "../../../../shared/types";
 import Scripts from "../../../../shared/utils/clientScripts";
+import sanitizeHtml from "../../../../shared/utils/sanitizeHtml";
 
 interface InteractionsDetailsOpenProps {
   data: IInteractionDetailsData;
@@ -87,7 +88,11 @@ function InteractionsDetailsOpen({
         <span className="interactions-open-panel__value">{data.topic}</span>
       </InteractionField>
       <InteractionField label="Текст письма">
-        <span className="interactions-open-panel__value">{data.text}</span>
+        {/* <span className="interactions-open-panel__value">{data.text}</span> */}
+        <span
+          className="interactions-open-panel__value"
+          dangerouslySetInnerHTML={{ __html: sanitizeHtml(data.text) }}
+        ></span>
       </InteractionField>
     </div>
   );

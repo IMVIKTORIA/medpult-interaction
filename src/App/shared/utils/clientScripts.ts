@@ -9,7 +9,10 @@ import {
   InteractionsStatus,
   FilesData,
 } from "../types";
-import { IInteractionsCallData, IInteractionsCommentData } from "../../components/InteractionsList/InteractionsDetails/InteractionsDetailsTypes";
+import {
+  IInteractionsCallData,
+  IInteractionsCommentData,
+} from "../../components/InteractionsList/InteractionsDetails/InteractionsDetailsTypes";
 //import { fileSrc } from "./constants";
 
 /** Заглушка ожидания ответа сервера */
@@ -194,7 +197,7 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("11.04.2025 8:55").format("DD.MM.YYYY HH:mm"),
+    createdAt: moment("11.04.2026 8:55").format("DD.MM.YYYY HH:mm"),
     isViewed: false,
     isSystem: false,
   };
@@ -236,7 +239,7 @@ async function getInteractions(
     /** Номер задачи */
     task: { value: "TS01010201/12", code: "fasfas" },
     /** Дата  */
-    createdAt: moment("12.03.2025 10:30").format("DD.MM.YYYY HH:mm"),
+    createdAt: moment("12.12.2026 10:30").format("DD.MM.YYYY HH:mm"),
     isViewed: false,
     isSystem: true,
     isUser: true,
@@ -438,7 +441,7 @@ async function getInteractionsDetails(
       " Информация о состоянии здоровья предоставляется пациенту лично",
     topic: "Fw: Запрос согласования",
     text: "Это электронное сообщение и любые документы, приложенные к нему, содержат конфиденциальную информацию. Настоящим уведомляем Вас о том, что если это сообщение не предназначено Вам, использование, копирование, распространение информации, содержащейся в настоящем сообщении, а также осуществление любых действий на основе этой информации, строго запрещено.",
-    isIncoming: false
+    isIncoming: false,
   };
 }
 
@@ -808,8 +811,6 @@ async function validateEmployeeForGroup(
   return false;
 }
 
-
-
 /** Проверка возможности отрисовки кнопок по времени */
 function checkCanShowEditButtonByTime(createdAt: string) {
   // Дата создания
@@ -836,11 +837,14 @@ function getHideButtonsTimerDuration(createdAt: string): number {
 // Для отладки в консоли
 // setLastUpdateDate(new Date())
 let lastUpdateDate: Date = new Date();
-(window as any)["setLastUpdateDate"] = (date: Date) => lastUpdateDate = date;
+(window as any)["setLastUpdateDate"] = (date: Date) => (lastUpdateDate = date);
 
 // Получить дату последнего обновления взаимодействия из списка
-async function getLastUpdateDate(appealId: string, taskId?: string): Promise<Date | undefined> {
-  return lastUpdateDate
+async function getLastUpdateDate(
+  appealId: string,
+  taskId?: string
+): Promise<Date | undefined> {
+  return lastUpdateDate;
 }
 
 export default {

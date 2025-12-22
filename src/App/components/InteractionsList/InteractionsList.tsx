@@ -21,13 +21,13 @@ function useUpdateList(appealId: string, taskId?: string) {
 
   async function updateList() {
     const lastUpdateDate = await Scripts.getLastUpdateDate(appealId, taskId);
-    if(lastUpdateDate) setLastUpdateDate(lastUpdateDate.getTime());
+    if (lastUpdateDate) setLastUpdateDate(lastUpdateDate.getTime());
   }
 
   const interval = useRef<NodeJS.Timeout>();
 
   // Для очистки интервала при переходе на другую страницу
-  const originalPath = window.location.pathname
+  const originalPath = window.location.pathname;
 
   // Интервал для проверки количества взаимодействий
   useEffect(() => {
@@ -35,8 +35,8 @@ function useUpdateList(appealId: string, taskId?: string) {
 
     interval.current = setInterval(() => {
       const currentPath = window.location.pathname;
-      if(currentPath != originalPath) {
-        clearInterval(interval.current)
+      if (currentPath != originalPath) {
+        clearInterval(interval.current);
         return;
       }
 
@@ -46,7 +46,7 @@ function useUpdateList(appealId: string, taskId?: string) {
     return () => clearInterval(interval.current);
   }, []);
 
-  return {lastUpdateDate}
+  return { lastUpdateDate };
 }
 
 /** Пропсы  */
@@ -59,7 +59,7 @@ type InteractionsListProps = {
 
 /** Список согласований */
 function InteractionsList({ appealId, taskId }: InteractionsListProps) {
-  const {modalStates}= useModalStates();
+  const { modalStates } = useModalStates();
 
   // TODO: Убрать
   const [page, setPage] = useState<number>(0);
@@ -106,7 +106,7 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
       ...item,
       isViewed: item.isUser ? true : item.isViewed,
     }));
-    
+
     setHasMore(fetchData.hasMore);
 
     //setItems([...items, ...fetchData.data]);
@@ -149,11 +149,11 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
     return () => clearInterval(interval);
   }, []);
 
-  const {lastUpdateDate} = useUpdateList(appealId, taskId);
+  const { lastUpdateDate } = useUpdateList(appealId, taskId);
 
   useEffect(() => {
     reloadData();
-  }, [/* elementsCount */lastUpdateDate, appealId, taskId]);
+  }, [/* elementsCount */ lastUpdateDate, appealId, taskId]);
 
   // Запись количества непросмотренных
   useEffect(() => {
@@ -176,18 +176,18 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
     return data.sort((a, b) => {
       let dateA = a.interaction.createdAt;
       let dateB = b.interaction.createdAt;
-      
+
       // Если дата в формате "HH:mm", добавляем текущую дату перед временем
       if (!/\d{2}\.\d{2}\.\d{4}/.test(dateA)) {
-        dateA = `${currentDate.format('DD.MM.YYYY')} ${dateA}`;
+        dateA = `${currentDate.format("DD.MM.YYYY")} ${dateA}`;
       }
       if (!/\d{2}\.\d{2}\.\d{4}/.test(dateB)) {
-        dateB = `${currentDate.format('DD.MM.YYYY')} ${dateB}`;
+        dateB = `${currentDate.format("DD.MM.YYYY")} ${dateB}`;
       }
 
       // Преобразуем строки в моменты времени
-      const momentA = moment(dateA, 'DD.MM.YYYY HH:mm');
-      const momentB = moment(dateB, 'DD.MM.YYYY HH:mm');
+      const momentA = moment(dateA, "DD.MM.YYYY HH:mm");
+      const momentB = moment(dateB, "DD.MM.YYYY HH:mm");
 
       // Возвращаем разницу моментов времени
       return momentB.diff(momentA);
@@ -221,12 +221,25 @@ function InteractionsList({ appealId, taskId }: InteractionsListProps) {
 
     // Обработка сгруппированных писем
     emailGroups.forEach((emailGroup, sessionId) => {
+      // cамое свежее письмо в цепочке
+      const latestInteraction = emailGroup.reduce((latest, current) =>
+        moment(current.createdAt).isAfter(moment(latest.createdAt))
+          ? current
+          : latest
+      );
+
       const group = new GroupData();
-      group.interaction = emailGroup[emailGroup.length - 1];
+      group.interaction = latestInteraction;
       group.interactions = emailGroup;
       group.groupType = GroupType.email;
       group.sessionId = sessionId;
       groups.push(group);
+      // const group = new GroupData();
+      // group.interaction = emailGroup[emailGroup.length - 1];
+      // group.interactions = emailGroup;
+      // group.groupType = GroupType.email;
+      // group.sessionId = sessionId;
+      // groups.push(group);
     });
 
     // Обработка независимых элементов
