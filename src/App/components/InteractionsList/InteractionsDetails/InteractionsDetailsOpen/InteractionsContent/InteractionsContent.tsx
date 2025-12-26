@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import CustomButton from "../../../../CustomButton/CustomButton";
 import InteractionField from "../InteractionsField/InteractionField";
 import icons from "../../../../../shared/icons";
-import { IInteractionDetailsData, FilesData } from "../../../../../shared/types";
+import {
+  IInteractionDetailsData,
+  FilesData,
+} from "../../../../../shared/types";
 import { getIcon, getStatusLabel } from "../../../../../shared/utils/utils";
 import FilesDropdown from "./FilesDropdown/FilesDropdown";
 import Scripts from "../../../../../shared/utils/clientScripts";
@@ -26,6 +29,23 @@ function InteractionsContent({
 }: InteractionsContentProps) {
   /** Выпадающий список для файлов */
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!isDropdownOpen) return;
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isDropdownOpen]);
 
   /** Обработка нажатия на кнопку скачать файл */
   const handleSaveClick = async (file?: FilesData) => {
@@ -57,9 +77,11 @@ function InteractionsContent({
       <span
         className="interactions-open-panel-content__value"
         title={data.email}
-      >{data.email}</span>
+      >
+        {data.email}
+      </span>
     </>
-  )
+  );
 
   const systemLayout = (
     <span
@@ -70,7 +92,7 @@ function InteractionsContent({
     >
       {data.fioWhom}
     </span>
-  )
+  );
 
   return (
     <div className="interactions-open-panel-content">
@@ -80,12 +102,14 @@ function InteractionsContent({
           {data.isIncoming ? contractorLayout : systemLayout}
           <div className="interactions-open-panel-content__buttons">
             {/* Кнопка Ответить*/}
-            {data.isIncoming && <div
-              onClick={handleReplyClick}
-              className="interactions-open-panel-content__buttons_button"
-            >
-              {icons.reply}Ответить
-            </div>}
+            {data.isIncoming && (
+              <div
+                onClick={handleReplyClick}
+                className="interactions-open-panel-content__buttons_button"
+              >
+                {icons.reply}Ответить
+              </div>
+            )}
             {/* Кнопка Ответить всем*/}
             {data.isIncoming && data.copy[0] != "" && (
               <div
@@ -162,6 +186,7 @@ function InteractionsContent({
               </div>
               {/* Кнопка Показать Все*/}
               <div
+                ref={dropdownRef}
                 className="show-all-wrapper"
                 style={{ position: "relative", display: "inline-block" }}
               >

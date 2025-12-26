@@ -91,6 +91,7 @@ function InteractionsDetailsOpen({
         {/* <span className="interactions-open-panel__value">{data.text}</span> */}
         <span
           className="interactions-open-panel__value"
+          style={{ flexDirection: "column" }}
           dangerouslySetInnerHTML={{ __html: sanitizeHtml(data.text) }}
         ></span>
       </InteractionField>

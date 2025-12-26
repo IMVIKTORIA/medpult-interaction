@@ -333,6 +333,8 @@ export interface IInteractionDetailsData {
   topic: string;
   /** Текст письма */
   text: string;
+  /** Почты получателей дубликатов */
+  duplicateEmails: string[];
   /** Входящее? */
-  isIncoming: boolean
+  isIncoming: boolean;
 }

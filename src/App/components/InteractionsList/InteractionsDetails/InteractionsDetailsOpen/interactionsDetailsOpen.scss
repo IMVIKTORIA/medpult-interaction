@@ -20,12 +20,13 @@
 
   &__value {
     display: flex;
-    align-items: center;
+    //align-items: center;
     gap: 8px;
     font-size: 14px;
     font-weight: 400;
     line-height: 20px;
     color: #303337;
+    white-space: pre-wrap;
   }
   &__title {
     font-size: 14px;
